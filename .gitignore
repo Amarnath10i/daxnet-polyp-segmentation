@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+# third-party baseline clone (has its own .git) and the paper PDF
+repo_original/
+refs/*.pdf
+refs/*.txt
+# superseded first draft (known bugs: freeze logic, fp16 scan, circular import)
+bampolyp2/
+# generated
+kaggle/build/
+kaggle/results/**/*.pt
+runs/
+outputs/

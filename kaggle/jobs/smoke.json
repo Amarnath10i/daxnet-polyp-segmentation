@@ -1,0 +1,9 @@
+[
+ {"name": "smoke_dax_ours_kvasir",   "args": "--model daxnet --recipe ours --protocol bam --dataset kvasir --epochs 3"},
+ {"name": "smoke_bam_bam_kvasir",    "args": "--model bampolyp --recipe bam --protocol bam --dataset kvasir --epochs 2"},
+ {"name": "smoke_dax_ours_clinicdb", "args": "--model daxnet --recipe ours --protocol bam --dataset clinicdb --epochs 2"},
+ {"name": "smoke_dax_ours_colondb",  "args": "--model daxnet --recipe ours --protocol bam --dataset colondb --epochs 2"},
+ {"name": "smoke_dax_ours_polypgen", "args": "--model daxnet --recipe ours --protocol bam --dataset polypgen --epochs 1"},
+ {"name": "smoke_dax_ours_pranet",   "args": "--model daxnet --recipe ours --protocol pranet --size 352 --epochs 1"},
+ {"name": "smoke_bam_bam_polypgen",  "args": "--model bampolyp --recipe bam --protocol bam --dataset polypgen --epochs 1"}
+]
