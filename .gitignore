@@ -11,3 +11,4 @@ kaggle/build/
 kaggle/results/**/*.pt
 runs/
 outputs/
+kaggle/results/*/daxnet/
