@@ -160,8 +160,19 @@ def eval_collate(batch):
 class BamTrainSet(Dataset):
     """BAMPolyp's KvasirSEGDataset.__getitem__ (train branch), verbatim semantics."""
 
-    def __init__(self, pairs, size=256):
+    def __init__(self, pairs, size=256, max_side=640):
+        # Only deviation from BAMPolyp: images are decoded once and kept in RAM with the
+        # long side capped at `max_side` (their pipeline re-decodes full-HD JPEGs every
+        # step). The subsequent flip/rot/colour/resize-to-256 path is unchanged.
         self.pairs = pairs
+        self.cache = []
+        for ip, mp in pairs:
+            im, mk = Image.open(ip).convert('RGB'), Image.open(mp).convert('L')
+            r = max_side / max(im.size)
+            if r < 1:
+                sz = (round(im.size[0] * r), round(im.size[1] * r))
+                im, mk = im.resize(sz, Image.BILINEAR), mk.resize(sz, Image.NEAREST)
+            self.cache.append((np.asarray(im), np.asarray(mk)))
         self.transform = T.Compose([T.Resize((size, size)), T.ToTensor(),
                                     T.Normalize(MEAN.tolist(), STD.tolist())])
         self.target_transform = T.Compose([
@@ -171,9 +182,7 @@ class BamTrainSet(Dataset):
         return len(self.pairs)
 
     def __getitem__(self, i):
-        ip, mp = self.pairs[i]
-        image = Image.open(ip).convert('RGB')
-        mask = Image.open(mp).convert('L')
+        image, mask = (Image.fromarray(a) for a in self.cache[i])
         if random.random() > 0.5:
             image, mask = TF.hflip(image), TF.hflip(mask)
         if random.random() > 0.5:

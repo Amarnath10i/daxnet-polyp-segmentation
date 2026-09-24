@@ -1,0 +1,42 @@
+[
+ {
+  "name": "dax_ours_polypgen_s42",
+  "args": "--model daxnet --recipe ours --protocol bam --dataset polypgen"
+ },
+ {
+  "name": "bam_bam_kvasir_s42",
+  "args": "--model bampolyp --recipe bam --protocol bam --dataset kvasir"
+ },
+ {
+  "name": "bam_bam_clinicdb_s42",
+  "args": "--model bampolyp --recipe bam --protocol bam --dataset clinicdb"
+ },
+ {
+  "name": "dax_ours_kvasir_s42",
+  "args": "--model daxnet --recipe ours --protocol bam --dataset kvasir"
+ },
+ {
+  "name": "dax_ours_clinicdb_s42",
+  "args": "--model daxnet --recipe ours --protocol bam --dataset clinicdb"
+ },
+ {
+  "name": "bam_bam_colondb_s42",
+  "args": "--model bampolyp --recipe bam --protocol bam --dataset colondb"
+ },
+ {
+  "name": "dax_ours_colondb_s42",
+  "args": "--model daxnet --recipe ours --protocol bam --dataset colondb"
+ },
+ {
+  "name": "abl_noedge_kvasir_s42",
+  "args": "--model daxnet --recipe ours --protocol bam --dataset kvasir --cfg '{\"edge_aware\": false}'"
+ },
+ {
+  "name": "abl_causal_kvasir_s42",
+  "args": "--model daxnet --recipe ours --protocol bam --dataset kvasir --cfg '{\"bidirectional\": false}'"
+ },
+ {
+  "name": "abl_s32only_kvasir_s42",
+  "args": "--model daxnet --recipe ours --protocol bam --dataset kvasir --cfg '{\"axial_scales\": [\"s32\"]}'"
+ }
+]

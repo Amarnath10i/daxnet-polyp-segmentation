@@ -1,0 +1,22 @@
+[
+ {
+  "name": "bam_bam_polypgen_s42",
+  "args": "--model bampolyp --recipe bam --protocol bam --dataset polypgen"
+ },
+ {
+  "name": "x2_dax_bamrecipe_kvasir_s42",
+  "args": "--model daxnet --recipe bam --protocol bam --dataset kvasir"
+ },
+ {
+  "name": "x2_bam_oursrecipe_kvasir_s42",
+  "args": "--model bampolyp --recipe ours --protocol bam --dataset kvasir"
+ },
+ {
+  "name": "x2_dax_bamrecipe_clinicdb_s42",
+  "args": "--model daxnet --recipe bam --protocol bam --dataset clinicdb"
+ },
+ {
+  "name": "x2_bam_oursrecipe_clinicdb_s42",
+  "args": "--model bampolyp --recipe ours --protocol bam --dataset clinicdb"
+ }
+]
