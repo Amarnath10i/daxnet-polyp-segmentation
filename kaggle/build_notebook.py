@@ -92,7 +92,7 @@ def main():
         "!nvidia-smi -L\n"
         "import base64, io, tarfile, subprocess, sys\n"
         f"CODE_SHA = {sha!r}\n"
-        f"tarfile.open(fileobj=io.BytesIO(base64.b64decode({b64!r})), mode='r:gz').extractall('/kaggle/working')\n"
+        f"tarfile.open(fileobj=io.BytesIO(base64.b64decode({b64!r})), mode='r:gz').extractall('/kaggle/working', filter='data')\n"
         "subprocess.run([sys.executable, '-m', 'pip', 'install', '-q', 'einops'], check=False)\n"
         "import torch, torchvision; print('code', CODE_SHA, 'torch', torch.__version__, torchvision.__version__)\n"
         "from torchvision.models import efficientnet_b0, EfficientNet_B0_Weights\n"
