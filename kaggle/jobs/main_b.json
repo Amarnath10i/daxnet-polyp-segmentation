@@ -4,19 +4,43 @@
   "args": "--model bampolyp --recipe bam --protocol bam --dataset polypgen"
  },
  {
-  "name": "x2_dax_bamrecipe_kvasir_s42",
-  "args": "--model daxnet --recipe bam --protocol bam --dataset kvasir"
+  "name": "bam_bam_kvasir_s1",
+  "args": "--model bampolyp --recipe bam --protocol bam --dataset kvasir --seed 1"
  },
  {
-  "name": "x2_bam_oursrecipe_kvasir_s42",
-  "args": "--model bampolyp --recipe ours --protocol bam --dataset kvasir"
+  "name": "x2_dax_bamrecipe_kvasir_s42",
+  "args": "--model daxnet --recipe bam --protocol bam --dataset kvasir"
  },
  {
   "name": "x2_dax_bamrecipe_clinicdb_s42",
   "args": "--model daxnet --recipe bam --protocol bam --dataset clinicdb"
  },
  {
+  "name": "bam_bam_clinicdb_s1",
+  "args": "--model bampolyp --recipe bam --protocol bam --dataset clinicdb --seed 1"
+ },
+ {
+  "name": "x2_bam_oursrecipe_kvasir_s42",
+  "args": "--model bampolyp --recipe ours --protocol bam --dataset kvasir"
+ },
+ {
+  "name": "bam_bam_colondb_s1",
+  "args": "--model bampolyp --recipe bam --protocol bam --dataset colondb --seed 1"
+ },
+ {
+  "name": "dax_ours_kvasir_s1",
+  "args": "--model daxnet --recipe ours --protocol bam --dataset kvasir --seed 1"
+ },
+ {
   "name": "x2_bam_oursrecipe_clinicdb_s42",
   "args": "--model bampolyp --recipe ours --protocol bam --dataset clinicdb"
+ },
+ {
+  "name": "dax_ours_clinicdb_s1",
+  "args": "--model daxnet --recipe ours --protocol bam --dataset clinicdb --seed 1"
+ },
+ {
+  "name": "dax_ours_colondb_s1",
+  "args": "--model daxnet --recipe ours --protocol bam --dataset colondb --seed 1"
  }
 ]

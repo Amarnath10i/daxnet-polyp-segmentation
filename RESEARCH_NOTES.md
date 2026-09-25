@@ -55,3 +55,31 @@ Related work that must be cited and distinguished:
 ## 4. Experiment log
 
 See `kaggle/results/*/summary.json`. Kernel builder: `kaggle/build_notebook.py`.
+
+### main-a (2026-09-25, code 110dfc5d8ab2, seed 42, Protocol A split)
+
+Dice/IoU (`_net`). "val*" = best val epoch (Protocol A). "test@sel" = held-out 10% at that
+epoch (Protocol B). "last20" = mean test Dice over the final 20 epochs (stability).
+
+| run | val* | test@sel | last-epoch test | last20 | max test over epochs |
+|---|---|---|---|---|---|
+| BAM Kvasir (repro; paper .9380/.8881) | .9326/.8804 | .8989/.8420 | .9011/.8432 | .8948 | .9149 |
+| DAX Kvasir | .9191/.8655 | .9009/.8406 | .9037/.8444 | .9040 | .9048 |
+| BAM ClinicDB (paper .9437/.8939) | .9240/.8814 | .9155/.8709 | .9231/.8834 | .9219 | .9295 |
+| DAX ClinicDB | .9320/.8857 | .9278/.8808 | .9278/.8808 | .9273 | .9293 |
+| BAM ColonDB (paper .9255/.8659) | .9286/.8708 | .8908/.8277 | .8803/.8249 | .8807 | .9074 |
+| DAX ColonDB | .9081/.8525 | .8913/.8267 | .8907/.8261 | .8907 | .9005 |
+| DAX PolypGen (paper .8683/.8211) | .8469/.8024 | .8679/.8197 | .8702/.8218 | .8745 | .8818 |
+| abl no-edge Kvasir | .9278 | .8961 | .8974 | .8970 | |
+| abl causal Kvasir | .9249 | .8985 | .8950 | .8949 | |
+| abl s32-only Kvasir | .9268 | .8995 | .9036 | .9035 | |
+
+- Held-out test: DAX >= BAM on all three datasets with 0.51M fewer params and 2-3x less
+  training time, but paired Wilcoxon on per-image test Dice is not significant
+  (Kvasir p=.32, ClinicDB p=.66, ColonDB p=.84). Need seeds.
+- BAM test fluctuates a lot across epochs (ColonDB .880-.907); DAX is flat. Best-of-300 on val inflates BAM.
+- Under Protocol A, BAM's val* beats DAX on Kvasir/ColonDB: DAX val peaks early (ep 51-69) while its test keeps improving.
+- Ablations (last20): edge-aware +0.7, bidirectional +0.9 Dice; multi-scale placement adds nothing (.9035 vs .9040). Single seed.
+
+### main-b (pushed 2026-09-25, code 0b8aa3ae3221)
+BAM PolypGen; recipe cross-over (DAX w/ BAM recipe, BAM w/ our recipe) on Kvasir/ClinicDB; seed-1 replicates of BAM and DAX on Kvasir/ClinicDB/ColonDB.
