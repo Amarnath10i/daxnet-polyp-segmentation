@@ -83,3 +83,22 @@ epoch (Protocol B). "last20" = mean test Dice over the final 20 epochs (stabilit
 
 ### main-b (pushed 2026-09-25, code 0b8aa3ae3221)
 BAM PolypGen; recipe cross-over (DAX w/ BAM recipe, BAM w/ our recipe) on Kvasir/ClinicDB; seed-1 replicates of BAM and DAX on Kvasir/ClinicDB/ColonDB.
+
+### main-b results (2026-09-25)
+Skipped by the 9.5 h guard: dax_ours_{kvasir,clinicdb,colondb}_s1, x2_bam_oursrecipe_clinicdb_s42
+(BAM PolypGen alone took 10.0 h).
+
+| run | val* (Prot. A) | test@sel (Prot. B) | last20 test |
+|---|---|---|---|
+| BAM Kvasir s1 | .9286/.8787 | .8888/.8253 | .8886 |
+| BAM ClinicDB s1 | .9266/.8818 | .9208/.8774 | .9227 |
+| BAM ColonDB s1 | .9015/.8473 | .8980/.8366 | .8852 |
+| BAM PolypGen s42 | .8731/.8283 | .8825/.8379 | .8760 |
+| DAX w/ BAM recipe Kvasir | **.9331/.8839** | .8908/.8286 | .8890 |
+| DAX w/ BAM recipe ClinicDB | **.9305/.8833** | .9214/.8770 | .9273 |
+| BAM w/ our recipe Kvasir | NaN at ep 23 (fp16 + BAM's unstable scan, cf. F1); best before: .9100 / .8858 | | |
+
+- Test@sel, BAM 2-seed mean vs DAX s42: Kvasir .8939 vs .9009; ClinicDB .9182 vs .9278; ColonDB .8944 vs .8913.
+- PolypGen: BAM beats DAX significantly (test .8825 vs .8679, Wilcoxon p=6e-5, n=377). DAX's "ours" recipe underfits there?
+- With BAM's recipe DAX beats BAM's val* under Protocol A (Kvasir .9331 vs .9326/.9286; ClinicDB .9305 vs .9240/.9266), but test drops: our recipe is the better one for test.
+- TODO: rerun x2_bam_oursrecipe with --no-amp; the skipped DAX seed-1 runs.
