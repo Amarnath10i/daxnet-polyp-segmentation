@@ -8,7 +8,10 @@
 Selection never looks at test data: 'bam' protocol keeps the epoch with the best
 validation IoU (BAMPolyp's rule); 'pranet' protocol keeps the last epoch.
 Test metrics are logged every epoch only so that curves can be plotted.
-Outputs in --out: log.jsonl, best.pt, final.json, per_image_<split>.npz
+Models with a presence head are scored on their gated output; the ungated
+output is logged as '<split>_raw'. The selected checkpoint is also evaluated
+with flip test-time augmentation ('<split>_tta').
+Outputs in --out: log.jsonl, best.pt, final.json, per_image_<split>[_tta].npz
 """
 from __future__ import annotations
 
@@ -28,7 +31,7 @@ from torch.utils.data import DataLoader
 
 from .data import (BamTrainSet, EvalSet, OursTrainSet, bam_split, eval_collate, polypgen_c6_split,
                    pranet_split)
-from .losses import OursLoss, edge_loss
+from .losses import OursLoss, edge_loss, presence_loss
 from .metrics import Evaluator
 from .model import build_model
 
@@ -61,7 +64,10 @@ def run_model(model, name, x, train):
         return {'out': one(out), 'deep': [one(ds2), one(ds3), one(ds4)], 'edge': None,
                 'two': (out, ds2, ds3, ds4)}
     if not train:
-        return {'out': model(x)}
+        if getattr(model, 'presence_head', None) is None:
+            return {'out': model(x)}
+        o = model(x, return_aux=True)
+        return {'out': o['out'], 'presence': o['presence']}
     o = model(x, return_aux=True)
     two = lambda z: torch.cat([-z / 2, z / 2], 1)            # softmax == sigmoid(z)
     o['two'] = tuple(two(t) for t in [o['out']] + o['deep'])
@@ -102,16 +108,44 @@ def param_groups(model, lr, wd, enc_lr_mult):
              'weight_decay': 0.0 if no_wd else wd} for (enc, no_wd), ps in groups.items()]
 
 
+def _mean_logit(logits):
+    p = torch.stack([torch.sigmoid(t.float()) for t in logits]).mean(0)
+    return torch.logit(p.clamp(1e-6, 1 - 1e-6))
+
+
+def predict(model, name, x, tta=False):
+    """Foreground logits (B,1,H,W) and presence logits (B,1) or None.
+    `tta` averages probabilities over the identity, h-, v- and hv-flips."""
+    outs, pres = [], []
+    for f in (((), (3,), (2,), (2, 3)) if tta else ((),)):
+        o = run_model(model, name, x.flip(f) if f else x, train=False)
+        outs.append(o['out'].flip(f) if f else o['out'])
+        if o.get('presence') is not None:
+            pres.append(o['presence'])
+    return (outs[0] if len(outs) == 1 else _mean_logit(outs),
+            None if not pres else pres[0] if len(pres) == 1 else _mean_logit(pres))
+
+
 @torch.no_grad()
-def evaluate(model, name, loader, device, amp):
+def evaluate(model, name, loader, device, amp, tta=False):
+    """Returns (ev, ev_raw, presence_prob). For a model with a presence head, `ev`
+    scores the gated output (empty mask when P(polyp) < 0.5) and `ev_raw` the
+    ungated one; otherwise `ev_raw` and `presence_prob` are None."""
     model.eval()
-    ev = Evaluator()
+    ev, ev_raw, pres = Evaluator(), None, []
     for x, m_net, m_full, names in loader:
         x = x.to(device, non_blocking=True)
         with torch.autocast('cuda', dtype=torch.float16, enabled=amp):
-            logit = run_model(model, name, x, train=False)['out']
+            logit, p = predict(model, name, x, tta)
+        if p is not None:
+            if ev_raw is None:
+                ev_raw = Evaluator()
+            ev_raw.add(logit, m_net, m_full, names)
+            p = torch.sigmoid(p.float())
+            pres.append(p[:, 0].cpu().numpy())
+            logit = logit.masked_fill(p[:, :, None, None] < 0.5, -30.0)
         ev.add(logit, m_net, m_full, names)
-    return ev
+    return ev, ev_raw, (np.concatenate(pres) if pres else None)
 
 
 def main():
@@ -135,6 +169,7 @@ def main():
     ap.add_argument('--multiscale', type=int, default=1, help="ours recipe: 0.75/1/1.25 sizes")
     ap.add_argument('--enc-lr-mult', type=float, default=0.5)
     ap.add_argument('--edge-w', type=float, default=1.0)
+    ap.add_argument('--max-hours', type=float, default=0, help='stop cleanly (and finalize) before this wall time')
     args = ap.parse_args()
     R = dict(RECIPES[args.recipe])
     for k in ('epochs', 'bs', 'lr'):
@@ -197,7 +232,7 @@ def main():
 
     for ep in range(R['epochs']):
         model.train()
-        t0, tot, nb = time.time(), 0.0, 0
+        t0, tot, nb, n_bad = time.time(), 0.0, 0, 0
         for x, y in train_dl:
             x, y = x.to(device, non_blocking=True), y.to(device, non_blocking=True)
             if args.recipe == 'ours' and args.multiscale:
@@ -211,6 +246,8 @@ def main():
                     loss = crit(o['two'], y)
                     if o.get('edge') is not None:          # the edge head is part of DAXNet
                         loss = loss + args.edge_w * edge_loss(o['edge'].float(), y[:, None].float())
+                    if o.get('presence') is not None:
+                        loss = loss + 0.5 * presence_loss(o['presence'], y[:, None].float())
                 else:
                     loss = crit(o, y)
             opt.zero_grad(set_to_none=True)
@@ -222,13 +259,22 @@ def main():
             sched.step()
             if ema is not None:
                 ema.update(model)
-            tot += loss.item(); nb += 1
-        rec = {'epoch': ep + 1, 'loss': tot / max(nb, 1), 'lr': opt.param_groups[0]['lr'],
+            lv = loss.item()
+            if math.isfinite(lv):
+                tot += lv; nb += 1
+            else:
+                n_bad += 1
+        rec = {'epoch': ep + 1, 'loss': tot / nb if nb else float('nan'), 'lr': opt.param_groups[0]['lr'],
                'train_s': time.time() - t0}
+        if n_bad:
+            rec['nonfinite_batches'] = n_bad
         if (ep + 1) % args.eval_every == 0 or ep + 1 == R['epochs']:
             net = ema.m if ema is not None else model
             for k, dl in eval_dl.items():
-                rec[k] = evaluate(net, args.model, dl, device, amp).summary()
+                ev, ev_raw, _ = evaluate(net, args.model, dl, device, amp)
+                rec[k] = ev.summary()
+                if ev_raw is not None:
+                    rec[k + '_raw'] = ev_raw.summary()
             if 'val' in rec:
                 score = rec['val']['iou_net']            # BAMPolyp's selection rule
             else:
@@ -239,17 +285,39 @@ def main():
             rec['best_epoch'] = best_ep
         print(json.dumps(rec), flush=True)
         log.write(json.dumps(rec) + '\n'); log.flush()
+        el = time.time() - t_start
+        if n_bad > nb:                                   # diverged: most batches NaN/inf
+            stop = f'non-finite loss in {n_bad}/{n_bad + nb} batches at epoch {ep + 1}'
+        elif args.max_hours and ep + 1 < R['epochs'] and el * (ep + 2) / (ep + 1) > args.max_hours * 3600:
+            stop = f'time budget: {ep + 1}/{R["epochs"]} epochs in {el / 3600:.2f} h'
+            if 'val' not in eval_dl and best_ep != ep + 1:   # pranet protocol keeps the last epoch
+                net = ema.m if ema is not None else model
+                best_ep = ep + 1
+                torch.save(net.state_dict(), os.path.join(args.out, 'best.pt'))
+        else:
+            continue
+        print('STOP', stop, flush=True)
+        break
+    else:
+        stop = None
 
     # ---------------- final evaluation of the selected checkpoint ----------------
     net = ema.m if ema is not None else model
     net.load_state_dict(torch.load(os.path.join(args.out, 'best.pt'), map_location=device))
-    final = {'best_epoch': best_ep, 'params_M': n_params / 1e6,
+    final = {'best_epoch': best_ep, 'epochs_run': ep + 1, 'epochs_planned': R['epochs'], 'stopped': stop,
+             'params_M': n_params / 1e6,
              'train_hours': (time.time() - t_start) / 3600}
-    for k, dl in eval_dl.items():
-        ev = evaluate(net, args.model, dl, device, amp)
-        final[k] = ev.summary()
-        np.savez(os.path.join(args.out, f'per_image_{k}.npz'), names=np.array(ev.names),
-                 **{f'{m}_{s}': v for s in ('net', 'full') for m, v in ev.per_image(s).items()})
+    for tta in (False, True):
+        sfx = '_tta' if tta else ''
+        for k, dl in eval_dl.items():
+            ev, ev_raw, pres = evaluate(net, args.model, dl, device, amp, tta=tta)
+            final[k + sfx] = ev.summary()
+            arrs = {f'{m}_{s}': v for s in ('net', 'full') for m, v in ev.per_image(s).items()}
+            if ev_raw is not None:
+                final[k + sfx + '_raw'] = ev_raw.summary()
+                arrs.update({f'raw_{m}_{s}': v for s in ('net', 'full') for m, v in ev_raw.per_image(s).items()})
+                arrs['presence'] = pres
+            np.savez(os.path.join(args.out, f'per_image_{k}{sfx}.npz'), names=np.array(ev.names), **arrs)
     json.dump(final, open(os.path.join(args.out, 'final.json'), 'w'), indent=1)
     print('FINAL', json.dumps(final), flush=True)
 

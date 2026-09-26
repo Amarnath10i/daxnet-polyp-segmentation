@@ -1,0 +1,57 @@
+[
+ {
+  "name": "pb2_352_polypgen_s42",
+  "args": "--model daxnet --recipe ours --protocol bam --dataset polypgen --size 352 --epochs 100 --cfg '{\"encoder\": \"pvt_v2_b2\", \"presence\": true}'",
+  "est_h": 6.0
+ },
+ {
+  "name": "pb0_352_polypgen_s42",
+  "args": "--model daxnet --recipe ours --protocol bam --dataset polypgen --size 352 --epochs 100 --cfg '{\"encoder\": \"pvt_v2_b0\", \"presence\": true}'",
+  "est_h": 3.3
+ },
+ {
+  "name": "pb2_352_kvasir_s42",
+  "args": "--model daxnet --recipe ours --protocol bam --dataset kvasir --size 352 --cfg '{\"encoder\": \"pvt_v2_b2\", \"presence\": true}'",
+  "est_h": 3.5
+ },
+ {
+  "name": "pb2_352_clinicdb_s42",
+  "args": "--model daxnet --recipe ours --protocol bam --dataset clinicdb --size 352 --cfg '{\"encoder\": \"pvt_v2_b2\", \"presence\": true}'",
+  "est_h": 2.2
+ },
+ {
+  "name": "pb0_352_kvasir_s42",
+  "args": "--model daxnet --recipe ours --protocol bam --dataset kvasir --size 352 --cfg '{\"encoder\": \"pvt_v2_b0\", \"presence\": true}'",
+  "est_h": 1.8
+ },
+ {
+  "name": "pb2_352_colondb_s42",
+  "args": "--model daxnet --recipe ours --protocol bam --dataset colondb --size 352 --cfg '{\"encoder\": \"pvt_v2_b2\", \"presence\": true}'",
+  "est_h": 1.5
+ },
+ {
+  "name": "pb0_352_clinicdb_s42",
+  "args": "--model daxnet --recipe ours --protocol bam --dataset clinicdb --size 352 --cfg '{\"encoder\": \"pvt_v2_b0\", \"presence\": true}'",
+  "est_h": 1.2
+ },
+ {
+  "name": "pb0_352_colondb_s42",
+  "args": "--model daxnet --recipe ours --protocol bam --dataset colondb --size 352 --cfg '{\"encoder\": \"pvt_v2_b0\", \"presence\": true}'",
+  "est_h": 0.8
+ },
+ {
+  "name": "eff_352_clinicdb_s42",
+  "args": "--model daxnet --recipe ours --protocol bam --dataset clinicdb --size 352 --cfg '{\"presence\": true}'",
+  "est_h": 1.2
+ },
+ {
+  "name": "eff_352_colondb_s42",
+  "args": "--model daxnet --recipe ours --protocol bam --dataset colondb --size 352 --cfg '{\"presence\": true}'",
+  "est_h": 0.8
+ },
+ {
+  "name": "eff_352_kvasir_s42",
+  "args": "--model daxnet --recipe ours --protocol bam --dataset kvasir --size 352 --cfg '{\"presence\": true}'",
+  "est_h": 1.8
+ }
+]

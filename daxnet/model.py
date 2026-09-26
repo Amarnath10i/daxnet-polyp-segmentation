@@ -12,6 +12,11 @@ Changed:
   3. A light boundary head on encoder features predicts an edge map that sets
      the SSD decay (edge-aware geodesic distance) and is supervised with GT
      boundaries.
+  4. (optional) An image-level presence head on the globally mixed bottleneck
+     predicts whether the frame contains a polyp; at inference a frame judged
+     polyp-free gets an empty mask. ~19% of PolypGen frames have an empty GT
+     mask, and the per-image Dice scores those 1 or 0 on the presence of a
+     single false-positive pixel.
 Every change has a switch in `DAXConfig` for the ablations.
 """
 from __future__ import annotations
@@ -36,6 +41,7 @@ class DAXConfig:
     d_state: int = 32
     pretrained: bool = True
     encoder: str = 'effb0'                       # 'effb0' | 'pvt_v2_b0' | 'pvt_v2_b2'
+    presence: bool = False                       # image-level presence head (gates the mask)
 
     def to_dict(self):
         return asdict(self)
@@ -123,6 +129,8 @@ class DAXNet(nn.Module):
         self.ax8 = AxialGeoSSD(80, d_inner=96, headdim=16, **ax) if 's8' in cfg.axial_scales else None
 
         self.edge_head = EdgeHead(c2, c3) if cfg.edge_aware else None
+        self.presence_head = nn.Sequential(
+            nn.Linear(2 * 320, 64), nn.ReLU(inplace=True), nn.Linear(64, 1)) if cfg.presence else None
         self.final_conv = nn.Conv2d(24, num_classes, 1)
         self.deep_sup4 = nn.Conv2d(160, num_classes, 1)
         self.deep_sup3 = nn.Conv2d(80, num_classes, 1)
@@ -146,6 +154,8 @@ class DAXNet(nn.Module):
         for blk in self.bottleneck:
             b = blk(b, self._edge_at(edge, b))
         b = self.bottleneck_refine(b)
+        presence = (self.presence_head(torch.cat([b.mean((2, 3)), b.amax((2, 3))], 1))
+                    if self.presence_head is not None else None)
 
         d4 = self.decoder4(torch.cat([_up(self.upconv4(b), e4), e4], 1))
         if self.ax16 is not None:
@@ -162,7 +172,8 @@ class DAXNet(nn.Module):
         return {'out': out,
                 'deep': [_up(self.deep_sup2(d2), x), _up(self.deep_sup3(d3), x),
                          _up(self.deep_sup4(d4), x)],
-                'edge': edge_logit}
+                'edge': edge_logit,
+                'presence': presence}
 
 
 def build_model(name='daxnet', **kw):

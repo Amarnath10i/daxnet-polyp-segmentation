@@ -1,0 +1,77 @@
+[
+ {
+  "name": "dax256p_polypgen_s42",
+  "args": "--model daxnet --recipe ours --protocol bam --dataset polypgen --epochs 100 --cfg '{\"presence\": true}'",
+  "est_h": 1.75
+ },
+ {
+  "name": "bam_bam_kvasir_s2",
+  "args": "--model bampolyp --recipe bam --protocol bam --dataset kvasir --seed 2",
+  "est_h": 2.8
+ },
+ {
+  "name": "dax256p_kvasir_s42",
+  "args": "--model daxnet --recipe ours --protocol bam --dataset kvasir --cfg '{\"presence\": true}'",
+  "est_h": 0.95
+ },
+ {
+  "name": "dax256p_clinicdb_s42",
+  "args": "--model daxnet --recipe ours --protocol bam --dataset clinicdb --cfg '{\"presence\": true}'",
+  "est_h": 0.65
+ },
+ {
+  "name": "dax256p_colondb_s42",
+  "args": "--model daxnet --recipe ours --protocol bam --dataset colondb --cfg '{\"presence\": true}'",
+  "est_h": 0.45
+ },
+ {
+  "name": "dax256p_polypgen_s1",
+  "args": "--model daxnet --recipe ours --protocol bam --dataset polypgen --epochs 100 --seed 1 --cfg '{\"presence\": true}'",
+  "est_h": 1.75
+ },
+ {
+  "name": "bam_bam_clinicdb_s2",
+  "args": "--model bampolyp --recipe bam --protocol bam --dataset clinicdb --seed 2",
+  "est_h": 1.75
+ },
+ {
+  "name": "dax256p_kvasir_s1",
+  "args": "--model daxnet --recipe ours --protocol bam --dataset kvasir --seed 1 --cfg '{\"presence\": true}'",
+  "est_h": 0.95
+ },
+ {
+  "name": "dax256p_clinicdb_s1",
+  "args": "--model daxnet --recipe ours --protocol bam --dataset clinicdb --seed 1 --cfg '{\"presence\": true}'",
+  "est_h": 0.65
+ },
+ {
+  "name": "dax256p_colondb_s1",
+  "args": "--model daxnet --recipe ours --protocol bam --dataset colondb --seed 1 --cfg '{\"presence\": true}'",
+  "est_h": 0.45
+ },
+ {
+  "name": "bam_bam_colondb_s2",
+  "args": "--model bampolyp --recipe bam --protocol bam --dataset colondb --seed 2",
+  "est_h": 1.1
+ },
+ {
+  "name": "dax256p_polypgen_s2",
+  "args": "--model daxnet --recipe ours --protocol bam --dataset polypgen --epochs 100 --seed 2 --cfg '{\"presence\": true}'",
+  "est_h": 1.75
+ },
+ {
+  "name": "dax256p_kvasir_s2",
+  "args": "--model daxnet --recipe ours --protocol bam --dataset kvasir --seed 2 --cfg '{\"presence\": true}'",
+  "est_h": 0.95
+ },
+ {
+  "name": "dax256p_clinicdb_s2",
+  "args": "--model daxnet --recipe ours --protocol bam --dataset clinicdb --seed 2 --cfg '{\"presence\": true}'",
+  "est_h": 0.65
+ },
+ {
+  "name": "dax256p_colondb_s2",
+  "args": "--model daxnet --recipe ours --protocol bam --dataset colondb --seed 2 --cfg '{\"presence\": true}'",
+  "est_h": 0.45
+ }
+]

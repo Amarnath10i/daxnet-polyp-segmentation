@@ -10,11 +10,11 @@ while True:
     try:
         st = api.kernels_status(ref)
         s = str(getattr(st, 'status', st)).split('.')[-1].lower()
-    except Exception as e:
-        s = f'poll-error {e}'
+    except Exception as e:                  # transient API error, or kernel not pushed yet: keep polling
+        s = f'poll-failed {str(e)[:80]}'
     if s != last:
         print(time.strftime('%H:%M:%S'), slug, s, flush=True); last = s
-    if any(k in s for k in ('complete', 'error', 'cancel')):
+    if not s.startswith('poll-failed') and any(k in s for k in ('complete', 'error', 'cancel')):
         break
     time.sleep(every)
 out = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'results', slug)

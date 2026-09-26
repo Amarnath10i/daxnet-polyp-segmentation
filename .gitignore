@@ -12,3 +12,6 @@ kaggle/results/**/*.pt
 runs/
 outputs/
 kaggle/results/*/daxnet/
+
+# local copies of the Kaggle datasets (for CPU analysis)
+data/

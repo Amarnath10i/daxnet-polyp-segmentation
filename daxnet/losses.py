@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 """'ours' recipe loss: one set of weights for every dataset (no per-dataset tuning).
 
-  L = S(out) + sum_i w_i S(deep_i) + lambda_e * E(edge)
+  L = S(out) + sum_i w_i S(deep_i) + lambda_e * E(edge) + lambda_p * P(presence)
   S : structure loss (boundary-weighted BCE + weighted IoU, PraNet)
   E : BCE (positive-reweighted) + Dice on the boundary band at stride 4
+  P : BCE of the image-level presence logit against [mask is non-empty]
 """
 from __future__ import annotations
 
@@ -42,10 +43,16 @@ def edge_loss(edge_logit, mask):
     return bce + dice.mean()
 
 
+def presence_loss(presence_logit, mask):
+    """presence_logit: (B,1); mask: (B,1,H,W) float."""
+    return F.binary_cross_entropy_with_logits(presence_logit.float(),
+                                              (mask.flatten(1).amax(1, keepdim=True) > 0).float())
+
+
 class OursLoss(nn.Module):
-    def __init__(self, deep_w=(0.5, 0.3, 0.2), edge_w=1.0):
+    def __init__(self, deep_w=(0.5, 0.3, 0.2), edge_w=1.0, presence_w=0.5):
         super().__init__()
-        self.deep_w, self.edge_w = deep_w, edge_w
+        self.deep_w, self.edge_w, self.presence_w = deep_w, edge_w, presence_w
 
     def forward(self, outs, target):
         """outs: dict(out=(B,1,H,W), deep=[s4, s8, s16], edge=(B,1,h,w) or None);
@@ -56,4 +63,6 @@ class OursLoss(nn.Module):
             loss = loss + w * structure_loss(d, m)
         if outs.get('edge') is not None and self.edge_w > 0:
             loss = loss + self.edge_w * edge_loss(outs['edge'].float(), m)
+        if outs.get('presence') is not None and self.presence_w > 0:
+            loss = loss + self.presence_w * presence_loss(outs['presence'], m)
         return loss

@@ -16,6 +16,8 @@ Access). Original code: `repo_original/` (github.com/farhad324/BAMPolyp @ bebb67
 | F6 | The "T0=10" cosine warm-restart scheduler is stepped **per batch**, so restarts happen after 10, 30, 70, ... iterations, not epochs. | `bampolyp.py` L491-492 |
 | F7 | Complexity is under-counted: thop at 224×224 ignores the einsum/cumsum SSM ops (3.13 GFLOPs claimed). With `torch.utils.flop_counter` at the training size of 256: **3.67 GFLOPs, 6.66M params**. | `tests/profile_models.py` |
 | F8 | Table 3 compares in-domain ColonDB training (0.9255) against *zero-shot* ColonDB numbers of PraNet / Polyp-PVT etc. (0.709-0.825), which were trained on Kvasir+ClinicDB only. | Table 3 vs. PraNet protocol |
+| F9 | ~19% of PolypGen frames have an **empty GT mask** (71/376 val, 70/377 test). The per-image Dice scores such a frame 1 if the prediction is empty and 0 if it has a single foreground pixel, so ~19% of the PolypGen score is a polyp-presence test. DAX (main-a) has 13 false-positive empty frames on val vs BAM 5: that is 0.021 of its 0.026 val gap (and 0.013 of 0.015 on test). On frames with a polyp the two are equal (val .8539 vs .8600, median .955 vs .958). | per_image_*.npz: dice=0, recall=1, precision=0 |
+| F10 | Protocol A's best-of-300-epochs is dominated by epoch-to-epoch noise. Std of val Dice over the last 50 epochs: BAM .006-.015, DAX (EMA) .0003-.002. Mean val Dice in the last quarter of training is equal on PolypGen (DAX .8405, BAM .8394) though val* differs by .026; on ColonDB, BAM's val* is .9286 (s42) vs .9015 (s1). | log.jsonl curves, main-a/b |
 
 ## 2. Method: DAXNet
 
@@ -37,6 +39,13 @@ BAMPolyp, so differences isolate the operator.
   mirrors, with learned, input-selective distances.
 * **Multi-scale placement**: 2 blocks at stride 32 + 1 block at stride 16 and 8 (decoder).
 * Params 6.15M (< BAMPolyp 6.66M), 3.89 GFLOPs @256, 2.2× faster on CPU.
+* **Presence gate** (`--cfg '{"presence": true}'`, from main-c on): GAP+GMP of the mixed
+  bottleneck → MLP → P(polyp), BCE against [mask non-empty], weight 0.5. At inference a
+  frame with P < 0.5 gets an empty mask (fixed threshold, no tuning). Motivated by F9;
+  ungated metrics are logged as `<split>_raw` so the gate's effect is measured in every run.
+* **Encoders** (`"encoder"`): effb0 (BAMPolyp's), pvt_v2_b0, pvt_v2_b2 (timm). With presence
+  head: effb0 6.19M; pvt_v2_b0 **5.88M** (< BAMPolyp), 8.3 GFLOPs @352; pvt_v2_b2 28.6M, 25.8 GFLOPs @352.
+* Final evaluation also reports flip TTA (h, v, hv) as `<split>_tta`.
 
 Related work that must be cited and distinguished:
 - Hydra (NeurIPS'24): quasiseparable bidirectional SSM. Ours is a symmetric geodesic mask, applied axially.
@@ -102,3 +111,42 @@ Skipped by the 9.5 h guard: dax_ours_{kvasir,clinicdb,colondb}_s1, x2_bam_oursre
 - PolypGen: BAM beats DAX significantly (test .8825 vs .8679, Wilcoxon p=6e-5, n=377). DAX's "ours" recipe underfits there?
 - With BAM's recipe DAX beats BAM's val* under Protocol A (Kvasir .9331 vs .9326/.9286; ClinicDB .9305 vs .9240/.9266), but test drops: our recipe is the better one for test.
 - TODO: rerun x2_bam_oursrecipe with --no-amp; the skipped DAX seed-1 runs.
+- Paired Wilcoxon, DAX (BAM recipe) vs BAM on per-image Dice: every p > 0.17 (val and test, both BAM seeds).
+- The PolypGen "loss" is mostly F9 (false positives on empty frames), not segmentation quality.
+
+### main-c (pushed 2026-09-25 21:51, code 35b24ad10680)
+Goal: beat the paper's 8 numbers (Dice/IoU × 4 datasets, Protocol A) with a model that also wins
+on the held-out test (Protocol B). Pilot to choose the final encoder; every run is seed 42 with the
+final protocol, so it doubles as the seed-42 entry of the final table.
+PVTv2-b2 / PVTv2-b0 at 352 px + presence gate on all 4 datasets (PolypGen: 100 epochs, its training
+set is 3.8× Kvasir's); effb0 @352 (resolution-only control) if time is left.
+Runner now passes `--max-hours` so every job finalizes before Kaggle's 12 h limit, and skips jobs
+whose `est_h` does not fit. Report: `python kaggle/report.py`.
+
+### main-d (pushed 2026-09-25 22:27, runs alongside main-c, code f6ae5bd7e290 = same files as main-c)
+Controlled comparison in BAMPolyp's own setting (effb0 encoder, 256 px, same split): DAX + presence
+gate, seeds 42/1/2 on all 4 datasets (PolypGen 100 epochs), and BAMPolyp seed 2 on Kvasir/ClinicDB/ColonDB
+(→ 3 BAM seeds there). Independent of main-c's outcome. From this build on, the code sha is
+deterministic (content-only tar.gz); earlier shas include the gzip timestamp.
+
+### main-c / main-d results (2026-09-26)
+Protocol A (val*, Dice/IoU, net res.; native-res values agree to ±0.0015). Paper: Kvasir .9380/.8881,
+ClinicDB .9437/.8939, ColonDB .9255/.8659, PolypGen .8683/.8211.
+
+| config (params) | Kvasir | ClinicDB | ColonDB | PolypGen |
+|---|---|---|---|---|
+| DAX PVTv2-b2 @352 + gate, s42 (28.6M) | **.9474/.9076** | **.9524/.9111** | **.9353/.8814** | **.8851/.8420** |
+|   same, held-out test (Prot. B) | .9126/.8634 | .9467/.9093 | .9281/.8681 | .8849/.8403 |
+| DAX PVTv2-b0 @352 + gate, s42 (5.88M) | .9347/.8873 | .9357/.8914 | **.9313/.8740** | .8612/.8160 |
+| DAX effb0 @256 + gate, 3 seeds (6.19M) | .9215/.8682 | .9303/.8842 | **.9289/.8701** | .8646/.8186 |
+| BAM repro, 3 seeds (1 on PolypGen) (6.66M) | .9310/.8803 | .9259/.8822 | .9172/.8602 | .8731/.8283 |
+
+- PVTv2-b2 beats all 8 paper numbers (single seed) and BAM on held-out test by +2.0 / +2.7 / +3.7 / +0.2 Dice.
+- Same-setting comparison (effb0 @256, 3 seeds, test): DAX vs BAM Kvasir .8927 vs .8925, ClinicDB .9202 vs .9193,
+  ColonDB .8962 vs .8907, PolypGen .8767 vs .8825 (BAM 1 seed): on par.
+- Presence gate on PolypGen val: +0.5 (effb0), +0.5 (b0), +0.8 (b2) Dice; no effect on the other datasets.
+- PolypGen timings @352/100 ep: b2 5.7 h, b0 4.4 h. effb0 @352 controls were skipped (deadline).
+- NEXT: PVTv2-b2 seeds 1, 2 on all 4 datasets; operator ablation at that scale (no SSD / BAM bottleneck on PVTv2-b2).
+
+TODO (verify before claiming): ClinicDB (612 frames) and ColonDB (380 frames) are video frames;
+random frame splits then put neighbouring frames of the same video in train and val/test (cf. F4).
