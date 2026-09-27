@@ -148,5 +148,12 @@ ClinicDB .9437/.8939, ColonDB .9255/.8659, PolypGen .8683/.8211.
 - PolypGen timings @352/100 ep: b2 5.7 h, b0 4.4 h. effb0 @352 controls were skipped (deadline).
 - NEXT: PVTv2-b2 seeds 1, 2 on all 4 datasets; operator ablation at that scale (no SSD / BAM bottleneck on PVTv2-b2).
 
+### daxnet-sota-all-datasets notebook (2026-09-27): PVTv2-b2 @352 + gate, seeds 1 (+2 on K/C/Co)
+Combined with main-c s42 (mean ± std; PolypGen n=2, others n=3), Protocol A val / Protocol B test:
+Kvasir .9442±.0030/.9027±.0048, test .9182/.8680; ClinicDB .9487±.0032/.9052±.0050, test .9459/.9079;
+ColonDB .9326±.0041/.8773±.0060, test .9266/.8665; PolypGen .8858±.0010/.8425±.0006, test .8840/.8395.
+Every seed beats all 8 BAMPolyp numbers. Vs. best of BAMPolyp's Table 3 (other protocols): beaten except
+ClinicDB Dice (.9521 PVT-EMCAD-B2) and IoU (.9238 LGPS).
+
 TODO (verify before claiming): ClinicDB (612 frames) and ColonDB (380 frames) are video frames;
 random frame splits then put neighbouring frames of the same video in train and val/test (cf. F4).

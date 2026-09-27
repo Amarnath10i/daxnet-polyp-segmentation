@@ -19,5 +19,19 @@ while True:
     time.sleep(every)
 out = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'results', slug)
 os.makedirs(out, exist_ok=True)
-api.kernels_output(ref, path=out)
-print('downloaded to', out, flush=True)
+# everything except checkpoints (*.pt: up to ~115 MB each), all pages
+token, n = None, 0
+while True:
+    for attempt in range(5):
+        try:
+            files, token = api.kernels_output(ref, path=out, file_pattern=r'^(?!.*\.pt$).*', page_size=200,
+                                              page_token=token)
+            break
+        except Exception as e:
+            print('download retry', attempt, str(e)[:80], flush=True); time.sleep(30)
+    else:
+        sys.exit('download failed')
+    n += len(files)
+    if not token:
+        break
+print('downloaded', n, 'files to', out, flush=True)

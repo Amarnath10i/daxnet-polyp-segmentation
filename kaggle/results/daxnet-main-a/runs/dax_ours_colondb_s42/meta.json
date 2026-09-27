@@ -1,0 +1,47 @@
+{
+ "model": "daxnet",
+ "recipe": "ours",
+ "protocol": "bam",
+ "dataset": "colondb",
+ "data_root": "/kaggle/input",
+ "out": "/kaggle/working/runs/dax_ours_colondb_s42",
+ "cfg": "{}",
+ "size": 256,
+ "epochs": null,
+ "bs": null,
+ "lr": null,
+ "seed": 42,
+ "workers": 3,
+ "eval_every": 1,
+ "limit": 0,
+ "no_amp": false,
+ "multiscale": 1,
+ "enc_lr_mult": 0.5,
+ "edge_w": 1.0,
+ "recipe_params": {
+  "bs": 8,
+  "epochs": 200,
+  "lr": 0.0002,
+  "wd": 0.01
+ },
+ "params_M": 6.148618,
+ "splits": {
+  "train": 304,
+  "val": 38,
+  "test": 38
+ },
+ "model_cfg": {
+  "axial_scales": [
+   "s32",
+   "s16",
+   "s8"
+  ],
+  "n_bottleneck": 2,
+  "bidirectional": true,
+  "edge_aware": true,
+  "mode": "parallel",
+  "d_state": 32,
+  "pretrained": true,
+  "encoder": "effb0"
+ }
+}

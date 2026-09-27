@@ -1,0 +1,5 @@
+dataset,seeds,BAMPolyp paper Dice/IoU,DAXNet Dice (Prot. A),DAXNet IoU (Prot. A),Table-3 best Dice,vs best Dice,Table-3 best IoU,vs best IoU,DAXNet test Dice/IoU (Prot. B),test + TTA
+kvasir,2,0.9380 / 0.8881,0.9425 ✅,0.9003 ✅,0.9380 (BAMPolyp),✅,0.8910 (SwinE-Net),✅,0.9210 / 0.8702,0.9274 / 0.8811
+clinicdb,2,0.9437 / 0.8939,0.9469 ✅,0.9023 ✅,0.9521 (PVT-EMCAD-B2),❌,0.9238 (LGPS),❌,0.9455 / 0.9072,0.9481 / 0.9107
+colondb,2,0.9255 / 0.8659,0.9312 ✅,0.8753 ✅,0.9255 (BAMPolyp),✅,0.8659 (BAMPolyp),✅,0.9259 / 0.8657,0.9339 / 0.8778
+polypgen,1,0.8683 / 0.8211,0.8864 ✅,0.8429 ✅,0.8683 (BAMPolyp),✅,0.8211 (BAMPolyp),✅,0.8832 / 0.8388,0.8900 / 0.8476

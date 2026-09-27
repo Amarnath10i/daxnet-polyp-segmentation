@@ -1,0 +1,34 @@
+{
+ "model": "bampolyp",
+ "recipe": "bam",
+ "protocol": "bam",
+ "dataset": "kvasir",
+ "data_root": "/kaggle/input",
+ "out": "/kaggle/working/runs/bam_bam_kvasir_s1",
+ "cfg": "{}",
+ "size": 256,
+ "epochs": null,
+ "bs": null,
+ "lr": null,
+ "seed": 1,
+ "workers": 3,
+ "eval_every": 1,
+ "limit": 0,
+ "no_amp": false,
+ "multiscale": 1,
+ "enc_lr_mult": 0.5,
+ "edge_w": 1.0,
+ "recipe_params": {
+  "bs": 4,
+  "epochs": 300,
+  "lr": 0.0001,
+  "wd": 0.0001
+ },
+ "params_M": 6.6631,
+ "splits": {
+  "train": 800,
+  "val": 100,
+  "test": 100
+ },
+ "model_cfg": null
+}
