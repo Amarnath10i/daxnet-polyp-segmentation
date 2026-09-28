@@ -1,0 +1,57 @@
+[{"stream_name":"stderr","time":7.275048463,"data":"0.00s - Debugger warning: It seems that frozen modules are being used, which may\n"}
+,{"stream_name":"stderr","time":7.275121991,"data":"0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off\n"}
+,{"stream_name":"stderr","time":7.275127006,"data":"0.00s - to python to disable frozen modules.\n"}
+,{"stream_name":"stderr","time":7.275130206,"data":"0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.\n"}
+,{"stream_name":"stderr","time":7.891881088,"data":"0.00s - Debugger warning: It seems that frozen modules are being used, which may\n"}
+,{"stream_name":"stderr","time":7.891935168,"data":"0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off\n"}
+,{"stream_name":"stderr","time":7.891942136,"data":"0.00s - to python to disable frozen modules.\n"}
+,{"stream_name":"stderr","time":7.891946931,"data":"0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.\n"}
+,{"stream_name":"stdout","time":9.013061051,"data":"GPU 0: Tesla T4 (UUID: GPU-5fd8e034-4ffd-da46-f7ba-23c3dd2cf862)\r\n"}
+,{"stream_name":"stdout","time":9.013112679,"data":"GPU 1: Tesla T4 (UUID: GPU-3d34b2b2-3d75-5b8d-94e8-785cee64a78a)\r\n"}
+,{"stream_name":"stdout","time":28.677684654,"data":"torch 2.10.0+cu128 | timm 1.0.26 | GPUs 2\n"}
+,{"stream_name":"stdout","time":28.677719658,"data":"datasets: ['datasets']\n"}
+,{"stream_name":"stdout","time":28.699250626,"data":"Writing daxnet/__init__.py\n"}
+,{"stream_name":"stdout","time":28.715525328,"data":"Writing daxnet/ssd_axial.py\n"}
+,{"stream_name":"stdout","time":28.734147932,"data":"Writing daxnet/data.py\n"}
+,{"stream_name":"stdout","time":28.748249553,"data":"Writing daxnet/losses.py\n"}
+,{"stream_name":"stdout","time":28.763302987,"data":"Writing daxnet/metrics.py\n"}
+,{"stream_name":"stdout","time":28.7816577,"data":"Writing daxnet/model.py\n"}
+,{"stream_name":"stdout","time":28.804036172,"data":"Writing daxnet/train.py\n"}
+,{"stream_name":"stdout","time":28.877575917,"data":"dax_pvt_v2_b2_352_polypgen_s1            ~5.8 h\n"}
+,{"stream_name":"stdout","time":28.877609037,"data":"dax_pvt_v2_b2_352_kvasir_s1              ~3.0 h\n"}
+,{"stream_name":"stdout","time":28.877614599,"data":"dax_pvt_v2_b2_352_clinicdb_s1            ~1.9 h\n"}
+,{"stream_name":"stdout","time":28.877619069,"data":"dax_pvt_v2_b2_352_colondb_s1             ~1.7 h\n"}
+,{"stream_name":"stdout","time":28.877622517,"data":"dax_pvt_v2_b2_352_kvasir_s2              ~3.0 h\n"}
+,{"stream_name":"stdout","time":28.877625961,"data":"dax_pvt_v2_b2_352_clinicdb_s2            ~1.9 h\n"}
+,{"stream_name":"stdout","time":28.877629339,"data":"dax_pvt_v2_b2_352_colondb_s2             ~1.7 h\n"}
+,{"stream_name":"stderr","time":29.421261842,"data":"Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.\n"}
+,{"stream_name":"stderr","time":29.421287562,"data":"\n"}
+,{"stream_name":"stderr","time":29.421292582,"data":"Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.\n"}
+,{"stream_name":"stdout","time":32.193953577,"data":"[gpu0] START dax_pvt_v2_b2_352_polypgen_s1  (t = 0.00 h)\n"}
+,{"stream_name":"stdout","time":32.195283311,"data":"[gpu1] START dax_pvt_v2_b2_352_kvasir_s1  (t = 0.00 h)\n"}
+,{"stream_name":"stdout","time":6036.483408811,"data":"[gpu1] DONE  dax_pvt_v2_b2_352_kvasir_s1 rc=0 100 min  val 0.9415/0.8980  test 0.9249/0.8741  best epoch 65\n"}
+,{"stream_name":"stdout","time":6036.488363679,"data":"[gpu1] START dax_pvt_v2_b2_352_clinicdb_s1  (t = 1.67 h)\n"}
+,{"stream_name":"stdout","time":9858.136969939,"data":"[gpu1] DONE  dax_pvt_v2_b2_352_clinicdb_s1 rc=0 64 min  val 0.9465/0.9022  test 0.9468/0.9088  best epoch 131\n"}
+,{"stream_name":"stdout","time":9858.13792457,"data":"[gpu1] START dax_pvt_v2_b2_352_colondb_s1  (t = 2.73 h)\n"}
+,{"stream_name":"stdout","time":11353.009395079,"data":"[gpu0] DONE  dax_pvt_v2_b2_352_polypgen_s1 rc=0 189 min  val 0.8864/0.8429  test 0.8832/0.8388  best epoch 79\n"}
+,{"stream_name":"stdout","time":11353.010334384,"data":"[gpu0] START dax_pvt_v2_b2_352_kvasir_s2  (t = 3.14 h)\n"}
+,{"stream_name":"stdout","time":12373.318902733,"data":"[gpu1] DONE  dax_pvt_v2_b2_352_colondb_s1 rc=0 42 min  val 0.9346/0.8801  test 0.9270/0.8668  best epoch 144\n"}
+,{"stream_name":"stdout","time":12373.320631888,"data":"[gpu1] START dax_pvt_v2_b2_352_clinicdb_s2  (t = 3.43 h)\n"}
+,{"stream_name":"stdout","time":16165.191665105,"data":"[gpu1] DONE  dax_pvt_v2_b2_352_clinicdb_s2 rc=0 63 min  val 0.9472/0.9025  test 0.9442/0.9055  best epoch 101\n"}
+,{"stream_name":"stdout","time":16165.193077232,"data":"[gpu1] START dax_pvt_v2_b2_352_colondb_s2  (t = 4.48 h)\n"}
+,{"stream_name":"stdout","time":17426.459826106,"data":"[gpu0] DONE  dax_pvt_v2_b2_352_kvasir_s2 rc=0 101 min  val 0.9435/0.9026  test 0.9171/0.8664  best epoch 52\n"}
+,{"stream_name":"stdout","time":18527.361870457,"data":"[gpu1] DONE  dax_pvt_v2_b2_352_colondb_s2 rc=0 39 min  val 0.9278/0.8705  test 0.9247/0.8646  best epoch 155\n"}
+,{"stream_name":"stdout","time":18527.362972235,"data":"all jobs finished in 5.14 h\n"}
+,{"stream_name":"stdout","time":18528.575460794,"data":"Per run:\n"}
+,{"stream_name":"stdout","time":18528.592994806,"data":"Mean over seeds, compared with the paper (✅ = higher):\n"}
+,{"stream_name":"stderr","time":18534.117670342,"data":"/usr/local/lib/python3.12/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":18534.117719966,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":18534.309595309,"data":"/usr/local/lib/python3.12/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":18534.309630548,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":18534.963413809,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to notebook\n"}
+,{"stream_name":"stderr","time":18535.288292644,"data":"[NbConvertApp] Writing 219945 bytes to __notebook__.ipynb\n"}
+,{"stream_name":"stderr","time":18537.789612847,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to html\n"}
+,{"stream_name":"stderr","time":18538.90727653,"data":"[NbConvertApp] Support files will be in __results___files/\n"}
+,{"stream_name":"stderr","time":18538.907304745,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":18538.907560424,"data":"[NbConvertApp] Writing 628258 bytes to __results__.html\n"}
+]

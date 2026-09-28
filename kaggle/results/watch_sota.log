@@ -1,0 +1,5 @@
+19:39:11 daxnet-sota-all-datasets queued
+23:57:05 daxnet-sota-all-datasets poll-failed HTTPSConnectionPool(host='api.kaggle.com', port=443): Max retries exceeded with 
+01:05:59 daxnet-sota-all-datasets running
+12:41:28 daxnet-sota-all-datasets complete
+downloaded 75 files to D:\projects\poly-segenmention\kaggle\results\daxnet-sota-all-datasets
