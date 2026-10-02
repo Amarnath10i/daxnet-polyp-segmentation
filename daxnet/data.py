@@ -94,7 +94,10 @@ def polypgen_c6_split(data_root):
 
 
 def pranet_split(data_root):
-    tr_img = _find_dir(data_root, '**/TrainDataset/image')
+    try:
+        tr_img = _find_dir(data_root, '**/TrainDataset/image')
+    except FileNotFoundError:                     # some copies name the folder 'images'
+        tr_img = _find_dir(data_root, '**/TrainDataset/images')
     tr_msk = os.path.join(os.path.dirname(tr_img), 'masks')
     names = sorted(f for f in os.listdir(tr_img) if f.endswith(IMG_EXT))
     out = {'train': [(os.path.join(tr_img, f), os.path.join(tr_msk, f)) for f in names]}
