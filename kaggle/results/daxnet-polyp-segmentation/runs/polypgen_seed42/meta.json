@@ -1,0 +1,49 @@
+{
+ "model": "daxnet",
+ "recipe": "ours",
+ "protocol": "bam",
+ "dataset": "polypgen",
+ "data_root": "/kaggle/input",
+ "out": "/kaggle/working/runs/polypgen_seed42",
+ "cfg": "{\"encoder\": \"pvt_v2_b2\", \"presence\": true}",
+ "size": 352,
+ "epochs": 100,
+ "bs": null,
+ "lr": null,
+ "seed": 42,
+ "workers": 3,
+ "eval_every": 1,
+ "limit": 0,
+ "no_amp": false,
+ "multiscale": 1,
+ "enc_lr_mult": 0.5,
+ "edge_w": 1.0,
+ "max_hours": 11.35,
+ "recipe_params": {
+  "bs": 8,
+  "epochs": 100,
+  "lr": 0.0002,
+  "wd": 0.01
+ },
+ "params_M": 28.646543,
+ "splits": {
+  "train": 3009,
+  "val": 376,
+  "test": 377
+ },
+ "model_cfg": {
+  "axial_scales": [
+   "s32",
+   "s16",
+   "s8"
+  ],
+  "n_bottleneck": 2,
+  "bidirectional": true,
+  "edge_aware": true,
+  "mode": "parallel",
+  "d_state": 32,
+  "pretrained": true,
+  "encoder": "pvt_v2_b2",
+  "presence": true
+ }
+}

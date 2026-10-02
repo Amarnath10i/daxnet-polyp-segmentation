@@ -1,0 +1,24 @@
+{
+ "checkpoint": "daxnet_pvtv2b2_352_polypgen_seed1.pt",
+ "dataset": "polypgen",
+ "seed": 1,
+ "size": 352,
+ "model_cfg": {
+  "axial_scales": [
+   "s32",
+   "s16",
+   "s8"
+  ],
+  "n_bottleneck": 2,
+  "bidirectional": true,
+  "edge_aware": true,
+  "mode": "parallel",
+  "d_state": 32,
+  "pretrained": true,
+  "encoder": "pvt_v2_b2",
+  "presence": true
+ },
+ "best_epoch": 67,
+ "params_M": 28.646543,
+ "selected_on": "best validation IoU"
+}

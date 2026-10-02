@@ -1,0 +1,206 @@
+[{"stream_name":"stderr","time":8.269019037,"data":"0.00s - Debugger warning: It seems that frozen modules are being used, which may\n"}
+,{"stream_name":"stderr","time":8.269103821,"data":"0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off\n"}
+,{"stream_name":"stderr","time":8.269112293,"data":"0.00s - to python to disable frozen modules.\n"}
+,{"stream_name":"stderr","time":8.269116993,"data":"0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.\n"}
+,{"stream_name":"stderr","time":8.88069406,"data":"0.00s - Debugger warning: It seems that frozen modules are being used, which may\n"}
+,{"stream_name":"stderr","time":8.880732457,"data":"0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off\n"}
+,{"stream_name":"stderr","time":8.880738874,"data":"0.00s - to python to disable frozen modules.\n"}
+,{"stream_name":"stderr","time":8.880743757,"data":"0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.\n"}
+,{"stream_name":"stdout","time":10.046639739,"data":"GPU 0: Tesla T4 (UUID: GPU-34fb8849-42a9-9929-8b48-59d3f2eb764f)\r\n"}
+,{"stream_name":"stdout","time":10.04669403,"data":"GPU 1: Tesla T4 (UUID: GPU-d03355f9-520b-f50d-ea09-dcaa3ddb5660)\r\n"}
+,{"stream_name":"stdout","time":30.63606962,"data":"torch 2.10.0+cu128 | timm 1.0.26 | GPUs 2 ['Tesla T4', 'Tesla T4']\n"}
+,{"stream_name":"stdout","time":30.636130915,"data":"datasets: ['datasets']\n"}
+,{"stream_name":"stdout","time":30.657634868,"data":"Writing daxnet/__init__.py\n"}
+,{"stream_name":"stdout","time":30.675308812,"data":"Writing daxnet/ssd_axial.py\n"}
+,{"stream_name":"stdout","time":30.693658881,"data":"Writing daxnet/data.py\n"}
+,{"stream_name":"stdout","time":30.708539599,"data":"Writing daxnet/losses.py\n"}
+,{"stream_name":"stdout","time":30.723141021,"data":"Writing daxnet/metrics.py\n"}
+,{"stream_name":"stdout","time":30.740601415,"data":"Writing daxnet/model.py\n"}
+,{"stream_name":"stdout","time":30.760515619,"data":"Writing daxnet/train.py\n"}
+,{"stream_name":"stdout","time":30.835900858,"data":"12 training runs, ~21.4 GPU-hours on 2 GPU(s):\n"}
+,{"stream_name":"stdout","time":30.83595067,"data":"  polypgen_seed42    PolypGen      100 epochs  ~3.4 h\n"}
+,{"stream_name":"stdout","time":30.835958342,"data":"  kvasir_seed42      Kvasir-SEG    200 epochs  ~1.85 h\n"}
+,{"stream_name":"stdout","time":30.835963224,"data":"  clinicdb_seed42    CVC-ClinicDB  200 epochs  ~1.15 h\n"}
+,{"stream_name":"stdout","time":30.835967899,"data":"  colondb_seed42     CVC-ColonDB   200 epochs  ~0.75 h\n"}
+,{"stream_name":"stdout","time":30.835972016,"data":"  polypgen_seed1     PolypGen      100 epochs  ~3.4 h\n"}
+,{"stream_name":"stdout","time":30.835976597,"data":"  kvasir_seed1       Kvasir-SEG    200 epochs  ~1.85 h\n"}
+,{"stream_name":"stdout","time":30.835981277,"data":"  clinicdb_seed1     CVC-ClinicDB  200 epochs  ~1.15 h\n"}
+,{"stream_name":"stdout","time":30.835985844,"data":"  colondb_seed1      CVC-ColonDB   200 epochs  ~0.75 h\n"}
+,{"stream_name":"stdout","time":30.835990298,"data":"  polypgen_seed2     PolypGen      100 epochs  ~3.4 h\n"}
+,{"stream_name":"stdout","time":30.835994384,"data":"  kvasir_seed2       Kvasir-SEG    200 epochs  ~1.85 h\n"}
+,{"stream_name":"stdout","time":30.836014383,"data":"  clinicdb_seed2     CVC-ClinicDB  200 epochs  ~1.15 h\n"}
+,{"stream_name":"stdout","time":30.836019751,"data":"  colondb_seed2      CVC-ColonDB   200 epochs  ~0.75 h\n"}
+,{"stream_name":"stderr","time":31.439376172,"data":"Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.\n"}
+,{"stream_name":"stderr","time":31.439416832,"data":"\n"}
+,{"stream_name":"stderr","time":31.439423742,"data":"Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.\n"}
+,{"stream_name":"stdout","time":33.883089482,"data":"[gpu0] START polypgen_seed42    at 0h00m\n"}
+,{"stream_name":"stdout","time":33.883118045,"data":"[gpu1] START kvasir_seed42      at 0h00m\n"}
+,{"stream_name":"stdout","time":1833.897901782,"data":"[progress 0h30m]\n"}
+,{"stream_name":"stdout","time":1833.89797651,"data":"    polypgen_seed42    epoch  13/100  val Dice 0.8625  test Dice 0.8742  best epoch 13  (0h30m)\n"}
+,{"stream_name":"stdout","time":1833.897983623,"data":"    kvasir_seed42      epoch  52/200  val Dice 0.9388  test Dice 0.9209  best epoch 50  (0h30m)\n"}
+,{"stream_name":"stdout","time":3633.902769686,"data":"[progress 1h00m]\n"}
+,{"stream_name":"stdout","time":3633.902827812,"data":"    polypgen_seed42    epoch  30/100  val Dice 0.8723  test Dice 0.8772  best epoch 25  (1h00m)\n"}
+,{"stream_name":"stdout","time":3633.902834002,"data":"    kvasir_seed42      epoch 117/200  val Dice 0.9365  test Dice 0.9099  best epoch 69  (1h00m)\n"}
+,{"stream_name":"stdout","time":5433.917779747,"data":"[progress 1h30m]\n"}
+,{"stream_name":"stdout","time":5433.91781896,"data":"    polypgen_seed42    epoch  47/100  val Dice 0.8752  test Dice 0.8780  best epoch 35  (1h30m)\n"}
+,{"stream_name":"stdout","time":5433.917826497,"data":"    kvasir_seed42      epoch 183/200  val Dice 0.9363  test Dice 0.9199  best epoch 69  (1h30m)\n"}
+,{"stream_name":"stdout","time":5894.636344281,"data":"[gpu1] DONE  kvasir_seed42      in 1h37m  val Dice/IoU 0.9410/0.8978  test Dice/IoU 0.9175/0.8673  best epoch 69\n"}
+,{"stream_name":"stdout","time":5894.637223055,"data":"[gpu1] START clinicdb_seed42    at 1h37m\n"}
+,{"stream_name":"stdout","time":7233.922729863,"data":"[progress 2h00m]\n"}
+,{"stream_name":"stdout","time":7233.922792547,"data":"    polypgen_seed42    epoch  65/100  val Dice 0.8743  test Dice 0.8961  best epoch 52  (2h00m)\n"}
+,{"stream_name":"stdout","time":7233.922800385,"data":"    clinicdb_seed42    epoch  59/200  val Dice 0.9368  test Dice 0.9446  best epoch 53  (0h22m)\n"}
+,{"stream_name":"stdout","time":9033.940534598,"data":"[progress 2h30m]\n"}
+,{"stream_name":"stdout","time":9033.940574882,"data":"    polypgen_seed42    epoch  82/100  val Dice 0.8669  test Dice 0.8963  best epoch 52  (2h30m)\n"}
+,{"stream_name":"stdout","time":9033.940580807,"data":"    clinicdb_seed42    epoch 165/200  val Dice 0.9361  test Dice 0.9474  best epoch 73  (0h52m)\n"}
+,{"stream_name":"stdout","time":9620.084725933,"data":"[gpu1] DONE  clinicdb_seed42    in 1h02m  val Dice/IoU 0.9504/0.9077  test Dice/IoU 0.9438/0.9029  best epoch 73\n"}
+,{"stream_name":"stdout","time":9620.085383805,"data":"[gpu1] START colondb_seed42     at 2h39m\n"}
+,{"stream_name":"stdout","time":10833.949832403,"data":"[progress 3h00m]\n"}
+,{"stream_name":"stdout","time":10833.949883226,"data":"    polypgen_seed42    epoch  99/100  val Dice 0.8705  test Dice 0.8994  best epoch 52  (3h00m)\n"}
+,{"stream_name":"stdout","time":10833.949889966,"data":"    colondb_seed42     epoch  86/200  val Dice 0.9272  test Dice 0.9318  best epoch 80  (0h20m)\n"}
+,{"stream_name":"stdout","time":10884.560807011,"data":"[gpu0] DONE  polypgen_seed42    in 3h00m  val Dice/IoU 0.8865/0.8424  test Dice/IoU 0.8938/0.8483  best epoch 52\n"}
+,{"stream_name":"stdout","time":10884.561692433,"data":"[gpu0] START polypgen_seed1     at 3h00m\n"}
+,{"stream_name":"stdout","time":12044.527607785,"data":"[gpu1] DONE  colondb_seed42     in 0h40m  val Dice/IoU 0.9354/0.8813  test Dice/IoU 0.9285/0.8686  best epoch 141\n"}
+,{"stream_name":"stdout","time":12044.5285022,"data":"[gpu1] START kvasir_seed1       at 3h20m\n"}
+,{"stream_name":"stdout","time":12633.959735408,"data":"[progress 3h30m]\n"}
+,{"stream_name":"stdout","time":12633.959788934,"data":"    polypgen_seed1     epoch  13/100  val Dice 0.8665  test Dice 0.8640  best epoch 13  (0h29m)\n"}
+,{"stream_name":"stdout","time":12633.959796375,"data":"    kvasir_seed1       epoch  10/200  val Dice 0.9223  test Dice 0.8932  best epoch 10  (0h09m)\n"}
+,{"stream_name":"stdout","time":14433.957000945,"data":"[progress 4h00m]\n"}
+,{"stream_name":"stdout","time":14433.957121714,"data":"    polypgen_seed1     epoch  30/100  val Dice 0.8830  test Dice 0.8850  best epoch 30  (0h59m)\n"}
+,{"stream_name":"stdout","time":14433.957133281,"data":"    kvasir_seed1       epoch  75/200  val Dice 0.9360  test Dice 0.9189  best epoch 21  (0h39m)\n"}
+,{"stream_name":"stdout","time":16233.967341771,"data":"[progress 4h30m]\n"}
+,{"stream_name":"stdout","time":16233.967384563,"data":"    polypgen_seed1     epoch  47/100  val Dice 0.8750  test Dice 0.8813  best epoch 40  (1h29m)\n"}
+,{"stream_name":"stdout","time":16233.967390266,"data":"    kvasir_seed1       epoch 140/200  val Dice 0.9367  test Dice 0.9220  best epoch 21  (1h09m)\n"}
+,{"stream_name":"stdout","time":17903.332439451,"data":"[gpu1] DONE  kvasir_seed1       in 1h37m  val Dice/IoU 0.9396/0.8965  test Dice/IoU 0.9068/0.8497  best epoch 21\n"}
+,{"stream_name":"stdout","time":17903.33247903,"data":"[gpu1] START clinicdb_seed1     at 4h57m\n"}
+,{"stream_name":"stdout","time":18033.972831276,"data":"[progress 5h00m]\n"}
+,{"stream_name":"stdout","time":18033.972900713,"data":"    polypgen_seed1     epoch  65/100  val Dice 0.8826  test Dice 0.8855  best epoch 62  (1h59m)\n"}
+,{"stream_name":"stdout","time":19833.989040079,"data":"[progress 5h30m]\n"}
+,{"stream_name":"stdout","time":19833.98908841,"data":"    polypgen_seed1     epoch  82/100  val Dice 0.8792  test Dice 0.8783  best epoch 67  (2h29m)\n"}
+,{"stream_name":"stdout","time":19833.98909491,"data":"    clinicdb_seed1     epoch  97/200  val Dice 0.9503  test Dice 0.9450  best epoch 75  (0h32m)\n"}
+,{"stream_name":"stdout","time":21587.119838831,"data":"[gpu1] DONE  clinicdb_seed1     in 1h01m  val Dice/IoU 0.9513/0.9095  test Dice/IoU 0.9432/0.9036  best epoch 129\n"}
+,{"stream_name":"stdout","time":21587.120538758,"data":"[gpu1] START colondb_seed1      at 5h59m\n"}
+,{"stream_name":"stdout","time":21633.99045328,"data":"[progress 6h00m]\n"}
+,{"stream_name":"stdout","time":21633.990508704,"data":"    polypgen_seed1     epoch  99/100  val Dice 0.8808  test Dice 0.8841  best epoch 67  (2h59m)\n"}
+,{"stream_name":"stdout","time":21702.46169687,"data":"[gpu0] DONE  polypgen_seed1     in 3h00m  val Dice/IoU 0.8849/0.8413  test Dice/IoU 0.8880/0.8435  best epoch 67\n"}
+,{"stream_name":"stdout","time":21702.462603598,"data":"[gpu0] START polypgen_seed2     at 6h01m\n"}
+,{"stream_name":"stdout","time":23434.003486611,"data":"[progress 6h30m]\n"}
+,{"stream_name":"stdout","time":23434.004492239,"data":"    colondb_seed1      epoch 143/200  val Dice 0.9350  test Dice 0.9056  best epoch 98  (0h30m)\n"}
+,{"stream_name":"stdout","time":23434.004520576,"data":"    polypgen_seed2     epoch  13/100  val Dice 0.8851  test Dice 0.8627  best epoch 13  (0h28m)\n"}
+,{"stream_name":"stdout","time":24041.441932875,"data":"[gpu1] DONE  colondb_seed1      in 0h40m  val Dice/IoU 0.9359/0.8820  test Dice/IoU 0.9306/0.8727  best epoch 98\n"}
+,{"stream_name":"stdout","time":24041.443342051,"data":"[gpu1] START kvasir_seed2       at 6h40m\n"}
+,{"stream_name":"stdout","time":25234.005125483,"data":"[progress 7h00m]\n"}
+,{"stream_name":"stdout","time":25234.005164072,"data":"    polypgen_seed2     epoch  30/100  val Dice 0.8881  test Dice 0.8740  best epoch 30  (0h58m)\n"}
+,{"stream_name":"stdout","time":25234.005180521,"data":"    kvasir_seed2       epoch  32/200  val Dice 0.9367  test Dice 0.9074  best epoch 31  (0h19m)\n"}
+,{"stream_name":"stdout","time":27034.012553661,"data":"[progress 7h30m]\n"}
+,{"stream_name":"stdout","time":27034.012610126,"data":"    polypgen_seed2     epoch  47/100  val Dice 0.8746  test Dice 0.8749  best epoch 31  (1h28m)\n"}
+,{"stream_name":"stdout","time":27034.012661805,"data":"    kvasir_seed2       epoch  97/200  val Dice 0.9398  test Dice 0.9138  best epoch 69  (0h49m)\n"}
+,{"stream_name":"stdout","time":28834.028074805,"data":"[progress 8h00m]\n"}
+,{"stream_name":"stdout","time":28834.028112106,"data":"    polypgen_seed2     epoch  65/100  val Dice 0.1888  test Dice 0.1857  best epoch 31  (1h58m)\n"}
+,{"stream_name":"stdout","time":28834.028118592,"data":"    kvasir_seed2       epoch 162/200  val Dice 0.9348  test Dice 0.9189  best epoch 69  (1h19m)\n"}
+,{"stream_name":"stdout","time":29876.641573045,"data":"[gpu1] DONE  kvasir_seed2       in 1h37m  val Dice/IoU 0.9444/0.9030  test Dice/IoU 0.9242/0.8753  best epoch 69\n"}
+,{"stream_name":"stdout","time":29876.642739232,"data":"[gpu1] START clinicdb_seed2     at 8h17m\n"}
+,{"stream_name":"stdout","time":30634.033002955,"data":"[progress 8h30m]\n"}
+,{"stream_name":"stdout","time":30634.033080627,"data":"    polypgen_seed2     epoch  83/100  val Dice 0.1888  test Dice 0.1857  best epoch 31  (2h28m)\n"}
+,{"stream_name":"stdout","time":30634.033087023,"data":"    clinicdb_seed2     epoch  27/200  val Dice 0.9331  test Dice 0.9396  best epoch 27  (0h12m)\n"}
+,{"stream_name":"stdout","time":32088.85471442,"data":"[gpu0] DONE  polypgen_seed2     in 2h53m  val Dice/IoU 0.8878/0.8423  test Dice/IoU 0.8794/0.8322  best epoch 31\n"}
+,{"stream_name":"stdout","time":32088.855681299,"data":"[gpu0] START colondb_seed2      at 8h54m\n"}
+,{"stream_name":"stdout","time":32434.0679903,"data":"[progress 9h00m]\n"}
+,{"stream_name":"stdout","time":32434.068026708,"data":"    clinicdb_seed2     epoch 134/200  val Dice 0.9466  test Dice 0.9472  best epoch 85  (0h42m)\n"}
+,{"stream_name":"stdout","time":32434.068032349,"data":"    colondb_seed2      epoch   8/200  val Dice 0.8572  test Dice 0.8611  best epoch 8  (0h05m)\n"}
+,{"stream_name":"stdout","time":33560.977423301,"data":"[gpu1] DONE  clinicdb_seed2     in 1h01m  val Dice/IoU 0.9497/0.9066  test Dice/IoU 0.9473/0.9075  best epoch 85\n"}
+,{"stream_name":"stdout","time":34234.06431096,"data":"[progress 9h30m]\n"}
+,{"stream_name":"stdout","time":34234.064359576,"data":"    colondb_seed2      epoch 179/200  val Dice 0.9222  test Dice 0.9276  best epoch 121  (0h35m)\n"}
+,{"stream_name":"stdout","time":34445.589466051,"data":"[gpu0] DONE  colondb_seed2      in 0h39m  val Dice/IoU 0.9350/0.8807  test Dice/IoU 0.9326/0.8759  best epoch 121\n"}
+,{"stream_name":"stdout","time":34445.590331798,"data":"training finished in 9h33m\n"}
+,{"stream_name":"stdout","time":34445.782663509,"data":"checkpoint                                        size  best epoch\n"}
+,{"stream_name":"stdout","time":34445.782690786,"data":"daxnet_pvtv2b2_352_clinicdb_seed1.pt             109MB         129\n"}
+,{"stream_name":"stdout","time":34445.782696994,"data":"daxnet_pvtv2b2_352_clinicdb_seed2.pt             109MB          85\n"}
+,{"stream_name":"stdout","time":34446.054233385,"data":"daxnet_pvtv2b2_352_clinicdb_seed42.pt            109MB          73\n"}
+,{"stream_name":"stdout","time":34446.054261873,"data":"daxnet_pvtv2b2_352_colondb_seed1.pt              109MB          98\n"}
+,{"stream_name":"stdout","time":34446.054267845,"data":"daxnet_pvtv2b2_352_colondb_seed2.pt              109MB         121\n"}
+,{"stream_name":"stdout","time":34446.270343307,"data":"daxnet_pvtv2b2_352_colondb_seed42.pt             109MB         141\n"}
+,{"stream_name":"stdout","time":34446.270390335,"data":"daxnet_pvtv2b2_352_kvasir_seed1.pt               109MB          21\n"}
+,{"stream_name":"stdout","time":34446.270395925,"data":"daxnet_pvtv2b2_352_kvasir_seed2.pt               109MB          69\n"}
+,{"stream_name":"stdout","time":34446.854697862,"data":"daxnet_pvtv2b2_352_kvasir_seed42.pt              109MB          69\n"}
+,{"stream_name":"stdout","time":34446.854723059,"data":"daxnet_pvtv2b2_352_polypgen_seed1.pt             109MB          67\n"}
+,{"stream_name":"stdout","time":34446.854727953,"data":"daxnet_pvtv2b2_352_polypgen_seed2.pt             109MB          31\n"}
+,{"stream_name":"stdout","time":34447.23753213,"data":"daxnet_pvtv2b2_352_polypgen_seed42.pt            109MB          52\n"}
+,{"stream_name":"stdout","time":34447.237558635,"data":"12 checkpoints in /kaggle/working/checkpoints (each with a .json describing how to rebuild the model)\n"}
+,{"stream_name":"stdout","time":34447.437779939,"data":"checkpoint                                   val Dice/IoU    test Dice/IoU  test+TTA Dice/IoU  matches training log\n"}
+,{"stream_name":"stdout","time":34578.40393399,"data":"daxnet_pvtv2b2_352_clinicdb_seed1           0.9513/0.9095    0.9433/0.9036      0.9484/0.9120  yes\n"}
+,{"stream_name":"stdout","time":34626.757805899,"data":"daxnet_pvtv2b2_352_clinicdb_seed2           0.9497/0.9067    0.9473/0.9075      0.9508/0.9143  yes\n"}
+,{"stream_name":"stdout","time":34633.947678023,"data":"daxnet_pvtv2b2_352_clinicdb_seed42          0.9504/0.9077    0.9438/0.9029      0.9481/0.9104  yes\n"}
+,{"stream_name":"stdout","time":34641.270475214,"data":"daxnet_pvtv2b2_352_colondb_seed1            0.9359/0.8819    0.9306/0.8727      0.9336/0.8777  yes\n"}
+,{"stream_name":"stdout","time":34648.22984307,"data":"daxnet_pvtv2b2_352_colondb_seed2            0.9350/0.8807    0.9326/0.8759      0.9374/0.8838  yes\n"}
+,{"stream_name":"stdout","time":34656.655457279,"data":"daxnet_pvtv2b2_352_colondb_seed42           0.9354/0.8814    0.9285/0.8686      0.9343/0.8783  yes\n"}
+,{"stream_name":"stdout","time":34670.468681596,"data":"daxnet_pvtv2b2_352_kvasir_seed1             0.9395/0.8965    0.9068/0.8497      0.9165/0.8647  yes\n"}
+,{"stream_name":"stdout","time":34683.823885117,"data":"daxnet_pvtv2b2_352_kvasir_seed2             0.9444/0.9029    0.9242/0.8753      0.9310/0.8852  yes\n"}
+,{"stream_name":"stdout","time":34698.533210497,"data":"daxnet_pvtv2b2_352_kvasir_seed42            0.9410/0.8978    0.9175/0.8672      0.9316/0.8846  yes\n"}
+,{"stream_name":"stdout","time":34759.650204825,"data":"daxnet_pvtv2b2_352_polypgen_seed1           0.8849/0.8413    0.8880/0.8436      0.8820/0.8401  yes\n"}
+,{"stream_name":"stdout","time":34852.765283651,"data":"daxnet_pvtv2b2_352_polypgen_seed2           0.8878/0.8423    0.8794/0.8322      0.8795/0.8358  yes\n"}
+,{"stream_name":"stdout","time":34944.751443551,"data":"daxnet_pvtv2b2_352_polypgen_seed42          0.8866/0.8424    0.8938/0.8483      0.8938/0.8513  yes\n"}
+,{"stream_name":"stdout","time":34944.805273086,"data":"\n"}
+,{"stream_name":"stdout","time":34944.805306175,"data":"TABLE 1. Every trained model (tested from its saved checkpoint)\n"}
+,{"stream_name":"stdout","time":34944.805313133,"data":"+--------------+------+------------+----------+---------+-----------+----------+---------------+--------------+\n"}
+,{"stream_name":"stdout","time":34944.805319073,"data":"| Dataset      | Seed | Best epoch | Val Dice | Val IoU | Test Dice | Test IoU | Test+TTA Dice | Test+TTA IoU |\n"}
+,{"stream_name":"stdout","time":34944.805325276,"data":"+==============+======+============+==========+=========+===========+==========+===============+==============+\n"}
+,{"stream_name":"stdout","time":34944.805337883,"data":"| Kvasir-SEG   | 1    | 21         | 0.9395   | 0.8965  | 0.9068    | 0.8497   | 0.9165        | 0.8647       |\n"}
+,{"stream_name":"stdout","time":34944.805352751,"data":"| Kvasir-SEG   | 2    | 69         | 0.9444   | 0.9029  | 0.9242    | 0.8753   | 0.9310        | 0.8852       |\n"}
+,{"stream_name":"stdout","time":34944.805356096,"data":"| Kvasir-SEG   | 42   | 69         | 0.9410   | 0.8978  | 0.9175    | 0.8672   | 0.9316        | 0.8846       |\n"}
+,{"stream_name":"stdout","time":34944.805359144,"data":"| CVC-ClinicDB | 1    | 129        | 0.9513   | 0.9095  | 0.9433    | 0.9036   | 0.9484        | 0.9120       |\n"}
+,{"stream_name":"stdout","time":34944.805362181,"data":"| CVC-ClinicDB | 2    | 85         | 0.9497   | 0.9067  | 0.9473    | 0.9075   | 0.9508        | 0.9143       |\n"}
+,{"stream_name":"stdout","time":34944.805365132,"data":"| CVC-ClinicDB | 42   | 73         | 0.9504   | 0.9077  | 0.9438    | 0.9029   | 0.9481        | 0.9104       |\n"}
+,{"stream_name":"stdout","time":34944.805368064,"data":"| CVC-ColonDB  | 1    | 98         | 0.9359   | 0.8819  | 0.9306    | 0.8727   | 0.9336        | 0.8777       |\n"}
+,{"stream_name":"stdout","time":34944.805371008,"data":"| CVC-ColonDB  | 2    | 121        | 0.9350   | 0.8807  | 0.9326    | 0.8759   | 0.9374        | 0.8838       |\n"}
+,{"stream_name":"stdout","time":34944.805373988,"data":"| CVC-ColonDB  | 42   | 141        | 0.9354   | 0.8814  | 0.9285    | 0.8686   | 0.9343        | 0.8783       |\n"}
+,{"stream_name":"stdout","time":34944.805376992,"data":"| PolypGen     | 1    | 67         | 0.8849   | 0.8413  | 0.8880    | 0.8436   | 0.8820        | 0.8401       |\n"}
+,{"stream_name":"stdout","time":34944.805379903,"data":"| PolypGen     | 2    | 31         | 0.8878   | 0.8423  | 0.8794    | 0.8322   | 0.8795        | 0.8358       |\n"}
+,{"stream_name":"stdout","time":34944.805382824,"data":"| PolypGen     | 42   | 52         | 0.8866   | 0.8424  | 0.8938    | 0.8483   | 0.8938        | 0.8513       |\n"}
+,{"stream_name":"stdout","time":34944.805385755,"data":"+--------------+------+------------+----------+---------+-----------+----------+---------------+--------------+\n"}
+,{"stream_name":"stdout","time":34944.805388777,"data":"\n"}
+,{"stream_name":"stdout","time":34944.805399077,"data":"TABLE 2. DAXNet vs. the BAMPolyp paper (Protocol A = the paper's protocol, mean +- std over seeds)\n"}
+,{"stream_name":"stdout","time":34944.805403673,"data":"+--------------+-------+------------+------------------+---------+-----------+------------------+---------+------------------+\n"}
+,{"stream_name":"stdout","time":34944.805406708,"data":"| Dataset      | Seeds | Paper Dice | DAXNet Dice      | Diff    | Paper IoU | DAXNet IoU       | Diff    | Beats paper?     |\n"}
+,{"stream_name":"stdout","time":34944.805428372,"data":"+==============+=======+============+==================+=========+===========+==================+=========+==================+\n"}
+,{"stream_name":"stdout","time":34944.805433745,"data":"| Kvasir-SEG   | 3     | 0.9380     | 0.9416 +- 0.0025 | +0.0036 | 0.8881    | 0.8991 +- 0.0034 | +0.0110 | YES (every seed) |\n"}
+,{"stream_name":"stdout","time":34944.805438915,"data":"| CVC-ClinicDB | 3     | 0.9437     | 0.9505 +- 0.0008 | +0.0068 | 0.8939    | 0.9080 +- 0.0014 | +0.0141 | YES (every seed) |\n"}
+,{"stream_name":"stdout","time":34944.805443293,"data":"| CVC-ColonDB  | 3     | 0.9255     | 0.9354 +- 0.0004 | +0.0099 | 0.8659    | 0.8813 +- 0.0006 | +0.0154 | YES (every seed) |\n"}
+,{"stream_name":"stdout","time":34944.805448426,"data":"| PolypGen     | 3     | 0.8683     | 0.8864 +- 0.0014 | +0.0181 | 0.8211    | 0.8420 +- 0.0006 | +0.0209 | YES (every seed) |\n"}
+,{"stream_name":"stdout","time":34944.80545383,"data":"+--------------+-------+------------+------------------+---------+-----------+------------------+---------+------------------+\n"}
+,{"stream_name":"stdout","time":34944.805463266,"data":"\n"}
+,{"stream_name":"stdout","time":34944.805467595,"data":"TABLE 3. Held-out test split (Protocol B, never used for model selection), mean over seeds\n"}
+,{"stream_name":"stdout","time":34944.805471921,"data":"+--------------+-----------+----------+---------------+--------------+\n"}
+,{"stream_name":"stdout","time":34944.805476222,"data":"| Dataset      | Test Dice | Test IoU | Test+TTA Dice | Test+TTA IoU |\n"}
+,{"stream_name":"stdout","time":34944.805480535,"data":"+==============+===========+==========+===============+==============+\n"}
+,{"stream_name":"stdout","time":34944.805484762,"data":"| Kvasir-SEG   | 0.9161    | 0.8641   | 0.9264        | 0.8782       |\n"}
+,{"stream_name":"stdout","time":34944.805489092,"data":"| CVC-ClinicDB | 0.9448    | 0.9047   | 0.9491        | 0.9122       |\n"}
+,{"stream_name":"stdout","time":34944.805503985,"data":"| CVC-ColonDB  | 0.9306    | 0.8724   | 0.9351        | 0.8799       |\n"}
+,{"stream_name":"stdout","time":34944.8055279,"data":"| PolypGen     | 0.8871    | 0.8413   | 0.8851        | 0.8424       |\n"}
+,{"stream_name":"stdout","time":34944.805532828,"data":"+--------------+-----------+----------+---------------+--------------+\n"}
+,{"stream_name":"stdout","time":34944.805537622,"data":"\n"}
+,{"stream_name":"stdout","time":34944.805542137,"data":"TABLE 4. vs. the best value in BAMPolyp's Table 3 (Protocol A)\n"}
+,{"stream_name":"stdout","time":34944.805546338,"data":"+--------------+-----------------------+--------+---------+--------------------+--------+---------+\n"}
+,{"stream_name":"stdout","time":34944.805550939,"data":"| Dataset      | Best Dice (method)    | DAXNet | Higher? | Best IoU (method)  | DAXNet | Higher? |\n"}
+,{"stream_name":"stdout","time":34944.805555604,"data":"+==============+=======================+========+=========+====================+========+=========+\n"}
+,{"stream_name":"stdout","time":34944.8055608,"data":"| Kvasir-SEG   | 0.9380 (BAMPolyp)     | 0.9416 | YES     | 0.8910 (SwinE-Net) | 0.8991 | YES     |\n"}
+,{"stream_name":"stdout","time":34944.805565345,"data":"| CVC-ClinicDB | 0.9521 (PVT-EMCAD-B2) | 0.9505 | no      | 0.9238 (LGPS)      | 0.9080 | no      |\n"}
+,{"stream_name":"stdout","time":34944.805569953,"data":"| CVC-ColonDB  | 0.9255 (BAMPolyp)     | 0.9354 | YES     | 0.8659 (BAMPolyp)  | 0.8813 | YES     |\n"}
+,{"stream_name":"stdout","time":34944.805574344,"data":"| PolypGen     | 0.8683 (BAMPolyp)     | 0.8864 | YES     | 0.8211 (BAMPolyp)  | 0.8420 | YES     |\n"}
+,{"stream_name":"stdout","time":34944.80557872,"data":"+--------------+-----------------------+--------+---------+--------------------+--------+---------+\n"}
+,{"stream_name":"stdout","time":34944.805583587,"data":"Other methods in that table come from their own papers and may use other splits.\n"}
+,{"stream_name":"stdout","time":34944.805587904,"data":"\n"}
+,{"stream_name":"stdout","time":34944.805591747,"data":"VERDICT: DAXNet beats the BAMPolyp paper on Dice AND IoU on 4 of 4 datasets, on every seed.\n"}
+,{"stream_name":"stdout","time":34944.805596204,"data":"\n"}
+,{"stream_name":"stdout","time":34944.805599852,"data":"saved /kaggle/working/RESULTS.txt and /kaggle/working/results.json\n"}
+,{"stream_name":"stderr","time":34997.911423146,"data":"/usr/local/lib/python3.12/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":34997.911479801,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":34998.101716453,"data":"/usr/local/lib/python3.12/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":34998.101747121,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":34998.741890143,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to notebook\n"}
+,{"stream_name":"stderr","time":34999.08577904,"data":"[NbConvertApp] Writing 1660396 bytes to __notebook__.ipynb\n"}
+,{"stream_name":"stderr","time":35001.455295911,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to html\n"}
+,{"stream_name":"stderr","time":35002.560918593,"data":"[NbConvertApp] Support files will be in __results___files/\n"}
+,{"stream_name":"stderr","time":35002.560960504,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":35002.561412202,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":35002.562558501,"data":"[NbConvertApp] Writing 701028 bytes to __results__.html\n"}
+]
