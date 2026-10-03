@@ -28,6 +28,20 @@ def per_image_scores(pred, gt):
             dict(dice=dice, iou=iou, precision=prec, recall=rec).items()}
 
 
+def lss_soft_scores(p, gt, smooth=0.001):
+    """The Dice / IoU computed by the PraNet-lineage test scripts (e.g. LSSNet test.py):
+    the probability map is min-max normalised per image and NOT thresholded (soft
+    overlap). Reported as dice_lss / iou_lss for comparison with numbers from that code."""
+    p = p.double()
+    p = (p - p.min()) / (p.max() - p.min() + 1e-8)
+    g = gt.double()
+    inter = (p * g).sum()
+    s = p.sum() + g.sum()
+    dice = 2 * (inter + smooth) / (s + smooth)
+    iou = (inter + smooth) / (s - inter + smooth)
+    return {'dice_lss': np.array([dice.item()]), 'iou_lss': np.array([iou.item()])}
+
+
 class Evaluator:
     """Accumulates per-image metrics at network size ('net', BAMPolyp's metric)
     and at native mask size ('full'), plus MAE at native size."""
@@ -44,7 +58,9 @@ class Evaluator:
         for i, mf in enumerate(m_full_list):
             mf = mf.to(prob.device)
             p = F.interpolate(prob[i:i + 1], size=mf.shape, mode='bilinear', align_corners=False)[0, 0]
-            self.rows['full'].append(per_image_scores((p > 0.5)[None], mf[None]))
+            row = per_image_scores((p > 0.5)[None], mf[None])
+            row.update(lss_soft_scores(p, mf))
+            self.rows['full'].append(row)
             self.mae.append((p - mf.float()).abs().mean().item())
         self.names += list(names)
 

@@ -232,12 +232,18 @@ def table(title, header, rows, note=None):
 
 report = [f'DAXNet on the PraNet benchmark | 352 px | seeds {SEEDS} | last-epoch checkpoints']
 variants = [v[0] for v in VARIANTS if any(t['variant'] == v[0] for t in TESTED)]
-ours = {}
-for v in variants:
-    ts = [t for t in TESTED if t['variant'] == v]
-    for suffix, label in (('', ''), ('_tta', ' + flip TTA'), ('_ttams', ' + multi-scale TTA')):
-        ours[v + label] = [(float(np.mean([t[c + suffix]['dice_full'] for t in ts])),
-                                                   float(np.mean([t[c + suffix]['iou_full'] for t in ts]))) for c in COLS]
+METRICS = [('Dice/IoU at threshold 0.5 (standard)', 'dice_full', 'iou_full'),
+           ('soft Dice/IoU of min-max-normalised maps (same code as LSSNet test.py)', 'dice_lss_full', 'iou_lss_full')]
+METRICS = [m for m in METRICS if m[1] in TESTED[0][COLS[0]]]
+def mean_of(kd, ki):
+    out = {}
+    for v in variants:
+        ts = [t for t in TESTED if t['variant'] == v]
+        for suffix, label in (('', ''), ('_tta', ' + flip TTA'), ('_ttams', ' + multi-scale TTA')):
+            out[v + label] = [(float(np.mean([t[c + suffix][kd] for t in ts])),
+                               float(np.mean([t[c + suffix][ki] for t in ts]))) for c in COLS]
+    return out
+ours = mean_of('dice_full', 'iou_full')
 # 1. every checkpoint
 rows = [[t['variant'], t['seed'], f"{t['params_M']:.1f}M"] + [f"{t[c]['dice_full']:.4f}/{t[c]['iou_full']:.4f}" for c in COLS]
         for t in sorted(TESTED, key=lambda t: (variants.index(t['variant']), t['seed']))]
@@ -252,22 +258,26 @@ for v in variants:
 report.append(table('TABLE 2. Mean +- std over seeds (Dice / IoU)', ['Config', 'Seeds'] + [SHORT[c] for c in COLS], rows))
 # 3. comparison with every reference model
 best_ref = [(max(r[1][i][0] for r in REFERENCE[1:]), max(r[1][i][1] for r in REFERENCE[1:])) for i in range(len(COLS))]
-rows = [[name] + [f'{d:.4f} / {i:.4f}' for d, i in vals] for name, vals in REFERENCE]
-rows.append(['-' * 8] + [''] * len(COLS))
-rows.append(['Best of the models above (excl. benchmark)'] + [f'{d:.4f} / {i:.4f}' for d, i in best_ref])
-for name, vals in ours.items():
-    rows.append([f'DAXNet {name} (mean)'] + [f"{d:.4f}{'*' if d > bd else ' '} / {i:.4f}{'*' if i > bi else ' '}"
-                                             for (d, i), (bd, bi) in zip(vals, best_ref)])
-report.append(table('TABLE 3. Comparison (Dice / IoU); * = higher than the best of the other models',
-                    ['Model'] + [SHORT[c] for c in COLS], rows))
-# 4. verdict per configuration
-lines = ['', 'VERDICT (mean over seeds; without TTA, with flip TTA, with multi-scale + flip TTA):']
-for v in variants:
-    for name in (v, v + ' + flip TTA', v + ' + multi-scale TTA'):
-        vals = ours[name]
-        n_best = sum(d > bd for (d, _), (bd, _) in zip(vals, best_ref)) + sum(i > bi for (_, i), (_, bi) in zip(vals, best_ref))
-        n_bench = sum(d > bd for (d, _), (bd, _) in zip(vals, REFERENCE[0][1])) + sum(i > bi for (_, i), (_, bi) in zip(vals, REFERENCE[0][1]))
-        lines.append(f'  DAXNet {name:34s}: above the best other model on {n_best}/10 numbers, above CD-PolypNet on {n_bench}/10')
+lines = []
+for n, (mname, kd, ki) in enumerate(METRICS):
+    ours_m = mean_of(kd, ki)
+    rows = [[name] + [f'{d:.4f} / {i:.4f}' for d, i in vals] for name, vals in REFERENCE]
+    rows.append(['-' * 8] + [''] * len(COLS))
+    rows.append(['Best of the models above (excl. benchmark)'] + [f'{d:.4f} / {i:.4f}' for d, i in best_ref])
+    for name, vals in ours_m.items():
+        rows.append([f'DAXNet {name} (mean)'] + [f"{d:.4f}{'*' if d > bd else ' '} / {i:.4f}{'*' if i > bi else ' '}"
+                                                 for (d, i), (bd, bi) in zip(vals, best_ref)])
+    report.append(table(f'TABLE {3 + n}. Comparison, DAXNet scored with {mname}; * = higher than the best other model',
+                        ['Model'] + [SHORT[c] for c in COLS], rows,
+                        note='Other models: numbers as reported. LSSNet-lineage code selects the epoch with the best test Dice '
+                             '(train.py) and scores soft maps (test.py); DAXNet always uses its last epoch.'))
+    lines += ['', f'VERDICT, {mname} (mean over seeds):']
+    for v in variants:
+        for name in (v, v + ' + flip TTA', v + ' + multi-scale TTA'):
+            vals = ours_m[name]
+            n_best = sum(d > bd for (d, _), (bd, _) in zip(vals, best_ref)) + sum(i > bi for (_, i), (_, bi) in zip(vals, best_ref))
+            n_bench = sum(d > bd for (d, _), (bd, _) in zip(vals, REFERENCE[0][1])) + sum(i > bi for (_, i), (_, bi) in zip(vals, REFERENCE[0][1]))
+            lines.append(f'  DAXNet {name:34s}: above the best other model on {n_best}/10 numbers, above CD-PolypNet on {n_bench}/10')
 print('\\n'.join(lines)); report += lines
 txt = '\\n'.join(report)
 open(f'{WORK}/RESULTS.txt', 'w').write(txt + '\\n')
