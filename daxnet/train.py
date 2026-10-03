@@ -177,6 +177,9 @@ def main():
     ap.add_argument('--enc-lr-mult', type=float, default=0.5)
     ap.add_argument('--edge-w', type=float, default=1.0)
     ap.add_argument('--aug', default='base', choices=['base', 'strong'], help="'ours' recipe augmentation strength")
+    ap.add_argument('--select', default='last', choices=['last', 'test_lss'],
+                    help="pranet protocol: keep the last epoch, or (as LSSNet's train.py) the epoch with the best "
+                         "mean soft test Dice; the latter selects on test data and also reports '<set>_last'")
     ap.add_argument('--max-hours', type=float, default=0, help='stop cleanly (and finalize) before this wall time')
     args = ap.parse_args()
     R = dict(RECIPES[args.recipe])
@@ -286,6 +289,8 @@ def main():
                     rec[k + '_raw'] = ev_raw.summary()
             if 'val' in rec:
                 score = rec['val']['iou_net']            # BAMPolyp's selection rule
+            elif args.select == 'test_lss':              # LSSNet train.py rule: best test Dice (selects on test data)
+                score = float(np.mean([rec[k]['dice_lss_full'] for k in eval_dl]))
             else:
                 score = ep                               # keep the last epoch
             if score > best:
@@ -299,7 +304,7 @@ def main():
             stop = f'non-finite loss in {n_bad}/{n_bad + nb} batches at epoch {ep + 1}'
         elif args.max_hours and ep + 1 < R['epochs'] and el * (ep + 2) / (ep + 1) > args.max_hours * 3600:
             stop = f'time budget: {ep + 1}/{R["epochs"]} epochs in {el / 3600:.2f} h'
-            if 'val' not in eval_dl and best_ep != ep + 1:   # pranet protocol keeps the last epoch
+            if 'val' not in eval_dl and args.select == 'last' and best_ep != ep + 1:   # pranet keeps the last epoch
                 net = ema.m if ema is not None else model
                 best_ep = ep + 1
                 torch.save(net.state_dict(), os.path.join(args.out, 'best.pt'))
@@ -312,10 +317,14 @@ def main():
 
     # ---------------- final evaluation of the selected checkpoint ----------------
     net = ema.m if ema is not None else model
-    net.load_state_dict(torch.load(os.path.join(args.out, 'best.pt'), map_location=device))
     final = {'best_epoch': best_ep, 'epochs_run': ep + 1, 'epochs_planned': R['epochs'], 'stopped': stop,
-             'params_M': n_params / 1e6,
-             'train_hours': (time.time() - t_start) / 3600}
+             'params_M': n_params / 1e6, 'select': args.select if 'val' not in eval_dl else 'best_val_iou'}
+    if 'val' not in eval_dl and args.select == 'test_lss':   # also score the last epoch (no test-set selection)
+        torch.save(net.state_dict(), os.path.join(args.out, 'last.pt'))
+        for k, dl in eval_dl.items():
+            final[k + '_last'] = evaluate(net, args.model, dl, device, amp)[0].summary()
+    net.load_state_dict(torch.load(os.path.join(args.out, 'best.pt'), map_location=device))
+    final['train_hours'] = (time.time() - t_start) / 3600
     for tta, sfx in ((False, ''), (True, '_tta'), ('ms', '_ttams')):
         for k, dl in eval_dl.items():
             ev, ev_raw, pres = evaluate(net, args.model, dl, device, amp, tta=tta)

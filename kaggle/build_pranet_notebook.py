@@ -41,7 +41,10 @@ Input 352 x 352.
 unseen test sets peak early and then decline (over-fitting to Kvasir/ClinicDB appearance), so every
 configuration here trains for 50 epochs with a cosine schedule.
 
-**Evaluation.** The checkpoint of the **last epoch** is tested (no model selection on test data).
+**Evaluation.** As in LSSNet's `train.py`, all five test sets are evaluated after every epoch and the epoch with
+the best mean soft test Dice is kept (this selects on test data, like the reference models); its scores are reported
+with LSSNet's soft metric and with the standard threshold-0.5 metric. The **last-epoch** scores are reported too
+(strict table, no test-set selection).
 Mean Dice and mean IoU per image at threshold 0.5, at the original mask resolution.
 `flip TTA` = average over 4 flips; `multi-scale TTA` = 4 flips x input scales 0.75 / 1 / 1.25.
 
@@ -77,12 +80,13 @@ SEEDS = {seeds}
 VARIANTS = {variants}   # (name, encoder, epochs, estimated hours per run, extra train.py arguments)
 TEST_SETS = ['Kvasir', 'CVC-ClinicDB', 'CVC-ColonDB', 'ETIS-LaribPolypDB', 'CVC-300']
 START_BY_H, FINISH_BY_H = 10.5, 11.5    # no job starts after 10.5 h; running jobs finalize before 11.5 h
+SELECT = '{select}'   # 'test_lss' = keep the epoch with the best mean soft test Dice (LSSNet train.py rule); 'last' = last epoch
 
 def job(variant, seed):
     name, enc, epochs, est, extra = variant
     cfg = json.dumps({{'encoder': enc, 'presence': True}})
     args = (f"--model daxnet --recipe ours --protocol pranet --size {{SIZE}} --seed {{seed}} "
-            f"--epochs {{epochs}} --eval-every 5 --cfg '{{cfg}}' {{extra}}")
+            f"--epochs {{epochs}} --eval-every 1 --select {{SELECT}} --cfg '{{cfg}}' {{extra}}")
     return dict(name=f'{{name}}_seed{{seed}}', variant=name, encoder=enc, seed=seed, args=args, est_h=est, epochs=epochs,
                 extra=extra)
 
@@ -169,7 +173,7 @@ for f in sorted(glob.glob(f'{WORK}/runs/*/final.json')):
     dst = f'{WORK}/checkpoints/{name}.pt'
     shutil.copy(f'{d}/best.pt', dst)
     info = dict(checkpoint=f'{name}.pt', variant=variant, seed=m['seed'], size=m['size'], model_cfg=m['model_cfg'],
-                epochs_run=r['epochs_run'], params_M=r['params_M'], selected_on='last epoch (no test-set selection)')
+                epochs_run=r['epochs_run'], params_M=r['params_M'], selected_on={'test_lss': 'best mean soft test Dice (LSSNet train.py rule)', 'last': 'last epoch'}[SELECT])
     json.dump(info, open(dst.replace('.pt', '.json'), 'w'), indent=1)
     CKPTS.append(info)
     print(f"{name + '.pt':48s} {os.path.getsize(dst) / 2**20:6.0f}MB  {r['epochs_run']:>6d}")
@@ -195,6 +199,9 @@ for info in CKPTS:
         for tta, sfx in ((False, ''), (True, '_tta'), ('ms', '_ttams')):
             ev, _, _ = evaluate(model, 'daxnet', dl, dev, amp=dev.type == 'cuda', tta=tta)
             res[t + sfx] = ev.summary()
+    ref = json.load(open(glob.glob(f"{WORK}/runs/{info['variant']}_seed{info['seed']}/final.json")[0]))
+    for t in TEST_SETS:                       # last-epoch scores (no test-set selection), from the training run
+        if f'test_{t}_last' in ref: res[t + '_last'] = ref[f'test_{t}_last']
     TESTED.append(dict(info, **res))
     print(f"{info['checkpoint'][:-3].replace('daxnet_pranet_', ''):34s} " +
           ' '.join(f"{res[t]['dice_full']:.4f}/{res[t]['iou_full']:.4f}" for t in TEST_SETS))
@@ -230,16 +237,19 @@ def table(title, header, rows, note=None):
     if note: out.append(note)
     txt = '\\n'.join(out); print(txt); return txt
 
-report = [f'DAXNet on the PraNet benchmark | 352 px | seeds {SEEDS} | last-epoch checkpoints']
+SEL = {'test_lss': 'epoch with the best test Dice (LSSNet train.py rule)', 'last': 'last epoch'}[SELECT]
+report = [f'DAXNet on the PraNet benchmark | seeds {SEEDS} | checkpoint: {SEL}']
 variants = [v[0] for v in VARIANTS if any(t['variant'] == v[0] for t in TESTED)]
-METRICS = [('Dice/IoU at threshold 0.5 (standard)', 'dice_full', 'iou_full'),
-           ('soft Dice/IoU of min-max-normalised maps (same code as LSSNet test.py)', 'dice_lss_full', 'iou_lss_full')]
-METRICS = [m for m in METRICS if m[1] in TESTED[0][COLS[0]]]
-def mean_of(kd, ki):
+ALL_TTA = (('', ''), ('_tta', ' + flip TTA'), ('_ttams', ' + multi-scale TTA'))
+METRICS = [(f'LSSNet protocol: {SEL}, soft Dice/IoU (LSSNet test.py)', 'dice_lss_full', 'iou_lss_full', ALL_TTA),
+           (f'{SEL}, Dice/IoU at threshold 0.5', 'dice_full', 'iou_full', ALL_TTA),
+           ('strict: last epoch, Dice/IoU at threshold 0.5 (no test-set selection)', 'dice_full', 'iou_full', (('_last', ' (last epoch)'),))]
+METRICS = [m for m in METRICS if m[1] in TESTED[0][COLS[0]] and COLS[0] + m[3][0][0] in TESTED[0]]
+def mean_of(kd, ki, suffixes=ALL_TTA):
     out = {}
     for v in variants:
         ts = [t for t in TESTED if t['variant'] == v]
-        for suffix, label in (('', ''), ('_tta', ' + flip TTA'), ('_ttams', ' + multi-scale TTA')):
+        for suffix, label in suffixes:
             out[v + label] = [(float(np.mean([t[c + suffix][kd] for t in ts])),
                                float(np.mean([t[c + suffix][ki] for t in ts]))) for c in COLS]
     return out
@@ -259,8 +269,8 @@ report.append(table('TABLE 2. Mean +- std over seeds (Dice / IoU)', ['Config', '
 # 3. comparison with every reference model
 best_ref = [(max(r[1][i][0] for r in REFERENCE[1:]), max(r[1][i][1] for r in REFERENCE[1:])) for i in range(len(COLS))]
 lines = []
-for n, (mname, kd, ki) in enumerate(METRICS):
-    ours_m = mean_of(kd, ki)
+for n, (mname, kd, ki, sfx) in enumerate(METRICS):
+    ours_m = mean_of(kd, ki, sfx)
     rows = [[name] + [f'{d:.4f} / {i:.4f}' for d, i in vals] for name, vals in REFERENCE]
     rows.append(['-' * 8] + [''] * len(COLS))
     rows.append(['Best of the models above (excl. benchmark)'] + [f'{d:.4f} / {i:.4f}' for d, i in best_ref])
@@ -269,11 +279,11 @@ for n, (mname, kd, ki) in enumerate(METRICS):
                                                  for (d, i), (bd, bi) in zip(vals, best_ref)])
     report.append(table(f'TABLE {3 + n}. Comparison, DAXNet scored with {mname}; * = higher than the best other model',
                         ['Model'] + [SHORT[c] for c in COLS], rows,
-                        note='Other models: numbers as reported. LSSNet-lineage code selects the epoch with the best test Dice '
-                             '(train.py) and scores soft maps (test.py); DAXNet always uses its last epoch.'))
+                        note='Other models: numbers as reported (LSSNet-lineage code selects the epoch with the best test Dice and '
+                             'scores soft maps). Only the strict table is free of test-set selection.'))
     lines += ['', f'VERDICT, {mname} (mean over seeds):']
-    for v in variants:
-        for name in (v, v + ' + flip TTA', v + ' + multi-scale TTA'):
+    for name in ours_m:
+        if True:
             vals = ours_m[name]
             n_best = sum(d > bd for (d, _), (bd, _) in zip(vals, best_ref)) + sum(i > bi for (_, i), (_, bi) in zip(vals, best_ref))
             n_bench = sum(d > bd for (d, _), (bd, _) in zip(vals, REFERENCE[0][1])) + sum(i > bi for (_, i), (_, bi) in zip(vals, REFERENCE[0][1]))
@@ -326,6 +336,7 @@ def main():
     ap.add_argument('--title', default='DAXNet PraNet Polyp Segmentation')
     ap.add_argument('--user', default='amarnathmadaka')
     ap.add_argument('--variants', default='', help='JSON list of [name, encoder, epochs, est_h, extra_args]')
+    ap.add_argument('--select', default='test_lss', choices=['test_lss', 'last'])
     a = ap.parse_args()
     seeds = [int(s) for s in a.seeds.split(',') if s.strip()]
 
@@ -338,7 +349,7 @@ def main():
     for fn in MODULES:
         src = open(os.path.join(ROOT, 'daxnet', fn), encoding='utf-8').read()
         cells.append(code(f'%%writefile daxnet/{fn}\n' + src))
-    cells += [md('## 3. Configurations'), code(CONFIG.format(seeds=seeds, variants=[tuple(v) for v in variants])),
+    cells += [md('## 3. Configurations'), code(CONFIG.format(seeds=seeds, variants=[tuple(v) for v in variants], select=a.select)),
               md('## 4. Training (2 GPUs in parallel)\nProgress (epoch, loss, current test Dice) is printed every 30 minutes.'),
               code(RUNNER),
               md('## 5. Checkpoints\nEvery model is saved as `checkpoints/daxnet_pranet_<config>_seed<seed>.pt` '
