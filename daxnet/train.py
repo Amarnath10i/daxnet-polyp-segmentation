@@ -115,13 +115,20 @@ def _mean_logit(logits):
 
 def predict(model, name, x, tta=False):
     """Foreground logits (B,1,H,W) and presence logits (B,1) or None.
-    `tta` averages probabilities over the identity, h-, v- and hv-flips."""
+    `tta=True` averages probabilities over the identity, h-, v- and hv-flips;
+    `tta='ms'` also over input scales 0.75 / 1 / 1.25 (multiples of 32)."""
     outs, pres = [], []
-    for f in (((), (3,), (2,), (2, 3)) if tta else ((),)):
-        o = run_model(model, name, x.flip(f) if f else x, train=False)
-        outs.append(o['out'].flip(f) if f else o['out'])
-        if o.get('presence') is not None:
-            pres.append(o['presence'])
+    H, W = x.shape[2:]
+    scales = (0.75, 1.0, 1.25) if tta == 'ms' else (1.0,)
+    for s in scales:
+        hs, ws = (int(round(H * s / 32) * 32), int(round(W * s / 32) * 32)) if s != 1.0 else (H, W)
+        xs = x if s == 1.0 else F.interpolate(x, size=(hs, ws), mode='bilinear', align_corners=False)
+        for f in (((), (3,), (2,), (2, 3)) if tta else ((),)):
+            o = run_model(model, name, xs.flip(f) if f else xs, train=False)
+            out = o['out'].flip(f) if f else o['out']
+            outs.append(out if s == 1.0 else F.interpolate(out.float(), size=(H, W), mode='bilinear', align_corners=False))
+            if o.get('presence') is not None:
+                pres.append(o['presence'])
     return (outs[0] if len(outs) == 1 else _mean_logit(outs),
             None if not pres else pres[0] if len(pres) == 1 else _mean_logit(pres))
 
@@ -169,6 +176,7 @@ def main():
     ap.add_argument('--multiscale', type=int, default=1, help="ours recipe: 0.75/1/1.25 sizes")
     ap.add_argument('--enc-lr-mult', type=float, default=0.5)
     ap.add_argument('--edge-w', type=float, default=1.0)
+    ap.add_argument('--aug', default='base', choices=['base', 'strong'], help="'ours' recipe augmentation strength")
     ap.add_argument('--max-hours', type=float, default=0, help='stop cleanly (and finalize) before this wall time')
     args = ap.parse_args()
     R = dict(RECIPES[args.recipe])
@@ -193,7 +201,8 @@ def main():
     if args.limit:
         split = {k: v[:args.limit] for k, v in split.items()}
     TrainSet = BamTrainSet if args.recipe == 'bam' else OursTrainSet
-    train_ds = TrainSet(split['train'], size=args.size)
+    train_ds = (TrainSet(split['train'], size=args.size) if args.recipe == 'bam'
+                else TrainSet(split['train'], size=args.size, strong=args.aug == 'strong'))
     g = torch.Generator(); g.manual_seed(args.seed)
     train_dl = DataLoader(train_ds, batch_size=R['bs'], shuffle=True, drop_last=args.recipe == 'ours',
                           num_workers=args.workers, pin_memory=True, worker_init_fn=seed_worker,
@@ -307,8 +316,7 @@ def main():
     final = {'best_epoch': best_ep, 'epochs_run': ep + 1, 'epochs_planned': R['epochs'], 'stopped': stop,
              'params_M': n_params / 1e6,
              'train_hours': (time.time() - t_start) / 3600}
-    for tta in (False, True):
-        sfx = '_tta' if tta else ''
+    for tta, sfx in ((False, ''), (True, '_tta'), ('ms', '_ttams')):
         for k, dl in eval_dl.items():
             ev, ev_raw, pres = evaluate(net, args.model, dl, device, amp, tta=tta)
             final[k + sfx] = ev.summary()

@@ -20,8 +20,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 MODULES = ['__init__.py', 'ssd_axial.py', 'data.py', 'losses.py', 'metrics.py', 'model.py', 'train.py']
 DATASET_SOURCES = ["ruchiranalluri/polyp-segmentation-data"]
-# (name, timm encoder, epochs, estimated hours per run on one T4)
-VARIANTS = [('B2-50ep', 'pvt_v2_b2', 50, 0.8), ('B3-50ep', 'pvt_v2_b3', 50, 1.2), ('B4-50ep', 'pvt_v2_b4', 50, 1.5)]
+# (name, timm encoder, epochs, estimated hours per run on one T4, extra train.py arguments)
+VARIANTS = [('B2-50ep', 'pvt_v2_b2', 50, 0.8, ''), ('B3-50ep', 'pvt_v2_b3', 50, 1.2, ''), ('B4-50ep', 'pvt_v2_b4', 50, 1.5, '')]
 
 INTRO = """# DAXNet on the PraNet polyp-segmentation benchmark
 
@@ -42,7 +42,8 @@ unseen test sets peak early and then decline (over-fitting to Kvasir/ClinicDB ap
 configuration here trains for 50 epochs with a cosine schedule.
 
 **Evaluation.** The checkpoint of the **last epoch** is tested (no model selection on test data).
-Mean Dice and mean IoU per image at threshold 0.5, at the original mask resolution. `+TTA` = flip averaging.
+Mean Dice and mean IoU per image at threshold 0.5, at the original mask resolution.
+`flip TTA` = average over 4 flips; `multi-scale TTA` = 4 flips x input scales 0.75 / 1 / 1.25.
 
 | Section | What it does |
 |---|---|
@@ -73,20 +74,21 @@ print('datasets:', sorted(os.listdir(DATA)))
 CONFIG = """import json, time, glob
 SIZE = 352
 SEEDS = {seeds}
-VARIANTS = {variants}   # (name, encoder, epochs, estimated hours per run)
+VARIANTS = {variants}   # (name, encoder, epochs, estimated hours per run, extra train.py arguments)
 TEST_SETS = ['Kvasir', 'CVC-ClinicDB', 'CVC-ColonDB', 'ETIS-LaribPolypDB', 'CVC-300']
 START_BY_H, FINISH_BY_H = 10.5, 11.5    # no job starts after 10.5 h; running jobs finalize before 11.5 h
 
 def job(variant, seed):
-    name, enc, epochs, est = variant
+    name, enc, epochs, est, extra = variant
     cfg = json.dumps({{'encoder': enc, 'presence': True}})
     args = (f"--model daxnet --recipe ours --protocol pranet --size {{SIZE}} --seed {{seed}} "
-            f"--epochs {{epochs}} --eval-every 5 --cfg '{{cfg}}'")
-    return dict(name=f'{{name}}_seed{{seed}}', variant=name, encoder=enc, seed=seed, args=args, est_h=est, epochs=epochs)
+            f"--epochs {{epochs}} --eval-every 5 --cfg '{{cfg}}' {{extra}}")
+    return dict(name=f'{{name}}_seed{{seed}}', variant=name, encoder=enc, seed=seed, args=args, est_h=est, epochs=epochs,
+                extra=extra)
 
 JOBS = [job(v, s) for s in SEEDS for v in VARIANTS]
 print(f'{{len(JOBS)}} training runs, ~{{sum(j["est_h"] for j in JOBS):.1f}} GPU-hours on {{max(1, torch.cuda.device_count())}} GPU(s):')
-for j in JOBS: print(f"  {{j['name']:16s}} {{j['encoder']:10s}} {{j['epochs']}} epochs  ~{{j['est_h']}} h")
+for j in JOBS: print(f"  {{j['name']:22s}} {{j['encoder']:10s}} {{j['epochs']}} epochs  ~{{j['est_h']}} h  {{j['extra']}}")
 
 # download the ImageNet weights once, before the parallel workers start
 for v in VARIANTS:
@@ -144,7 +146,7 @@ def worker(gpu):
         if os.path.exists(f'{out}/final.json'):
             r = json.load(open(f'{out}/final.json'))
             msg = '  '.join(f"{k[5:]} {r[k]['dice_full']:.4f}/{r[k]['iou_full']:.4f}"
-                            for k in sorted(r) if k.startswith('test_') and not k.endswith(('_tta', '_raw')))
+                            for k in sorted(r) if k.startswith('test_') and not k.endswith(('_tta', '_raw', '_ttams')))
         else:
             msg = 'FAILED: ' + ' | '.join(open(f'{out}/stdout.txt').read().splitlines()[-3:])[:800]
         print(f"[gpu{gpu}] DONE  {j['name']:16s} in {hms(time.time() - t)}  {msg}", flush=True)
@@ -190,9 +192,9 @@ for info in CKPTS:
     res = {}
     for t in TEST_SETS:
         dl = DataLoader(EvalSet(split['test_' + t], info['size']), batch_size=16, shuffle=False, collate_fn=eval_collate)
-        for tta in (False, True):
+        for tta, sfx in ((False, ''), (True, '_tta'), ('ms', '_ttams')):
             ev, _, _ = evaluate(model, 'daxnet', dl, dev, amp=dev.type == 'cuda', tta=tta)
-            res[t + ('_tta' if tta else '')] = ev.summary()
+            res[t + sfx] = ev.summary()
     TESTED.append(dict(info, **res))
     print(f"{info['checkpoint'][:-3].replace('daxnet_pranet_', ''):34s} " +
           ' '.join(f"{res[t]['dice_full']:.4f}/{res[t]['iou_full']:.4f}" for t in TEST_SETS))
@@ -233,8 +235,8 @@ variants = [v[0] for v in VARIANTS if any(t['variant'] == v[0] for t in TESTED)]
 ours = {}
 for v in variants:
     ts = [t for t in TESTED if t['variant'] == v]
-    for suffix in ('', '_tta'):
-        ours[v + (' + TTA' if suffix else '')] = [(float(np.mean([t[c + suffix]['dice_full'] for t in ts])),
+    for suffix, label in (('', ''), ('_tta', ' + flip TTA'), ('_ttams', ' + multi-scale TTA')):
+        ours[v + label] = [(float(np.mean([t[c + suffix]['dice_full'] for t in ts])),
                                                    float(np.mean([t[c + suffix]['iou_full'] for t in ts]))) for c in COLS]
 # 1. every checkpoint
 rows = [[t['variant'], t['seed'], f"{t['params_M']:.1f}M"] + [f"{t[c]['dice_full']:.4f}/{t[c]['iou_full']:.4f}" for c in COLS]
@@ -259,13 +261,13 @@ for name, vals in ours.items():
 report.append(table('TABLE 3. Comparison (Dice / IoU); * = higher than the best of the other models',
                     ['Model'] + [SHORT[c] for c in COLS], rows))
 # 4. verdict per configuration
-lines = ['', 'VERDICT (mean over seeds, without TTA / with TTA):']
+lines = ['', 'VERDICT (mean over seeds; without TTA, with flip TTA, with multi-scale + flip TTA):']
 for v in variants:
-    for name in (v, v + ' + TTA'):
+    for name in (v, v + ' + flip TTA', v + ' + multi-scale TTA'):
         vals = ours[name]
         n_best = sum(d > bd for (d, _), (bd, _) in zip(vals, best_ref)) + sum(i > bi for (_, i), (_, bi) in zip(vals, best_ref))
         n_bench = sum(d > bd for (d, _), (bd, _) in zip(vals, REFERENCE[0][1])) + sum(i > bi for (_, i), (_, bi) in zip(vals, REFERENCE[0][1]))
-        lines.append(f'  DAXNet {name:16s}: above the best other model on {n_best}/10 numbers, above CD-PolypNet on {n_bench}/10')
+        lines.append(f'  DAXNet {name:34s}: above the best other model on {n_best}/10 numbers, above CD-PolypNet on {n_bench}/10')
 print('\\n'.join(lines)); report += lines
 txt = '\\n'.join(report)
 open(f'{WORK}/RESULTS.txt', 'w').write(txt + '\\n')
@@ -313,18 +315,20 @@ def main():
     ap.add_argument('--slug', default='daxnet-pranet-polyp-segmentation')
     ap.add_argument('--title', default='DAXNet PraNet Polyp Segmentation')
     ap.add_argument('--user', default='amarnathmadaka')
+    ap.add_argument('--variants', default='', help='JSON list of [name, encoder, epochs, est_h, extra_args]')
     a = ap.parse_args()
     seeds = [int(s) for s in a.seeds.split(',') if s.strip()]
 
     md = lambda s: dict(cell_type='markdown', metadata={}, source=s)
     code = lambda s: dict(cell_type='code', metadata={}, execution_count=None, outputs=[], source=s)
-    vtxt = ', '.join(f'{n} ({e}, {ep} epochs)' for n, e, ep, _ in VARIANTS)
+    variants = json.loads(a.variants) if a.variants else VARIANTS
+    vtxt = ', '.join(f'{n} ({e}, {ep} epochs{", " + x if x else ""})' for n, e, ep, _, x in variants)
     cells = [md(INTRO.format(variants=vtxt, seeds=seeds)), md('## 1. Setup'), code(SETUP),
              md('## 2. DAXNet source code\nWritten to `daxnet/` so the training script can run on both GPUs in parallel.')]
     for fn in MODULES:
         src = open(os.path.join(ROOT, 'daxnet', fn), encoding='utf-8').read()
         cells.append(code(f'%%writefile daxnet/{fn}\n' + src))
-    cells += [md('## 3. Configurations'), code(CONFIG.format(seeds=seeds, variants=VARIANTS)),
+    cells += [md('## 3. Configurations'), code(CONFIG.format(seeds=seeds, variants=[tuple(v) for v in variants])),
               md('## 4. Training (2 GPUs in parallel)\nProgress (epoch, loss, current test Dice) is printed every 30 minutes.'),
               code(RUNNER),
               md('## 5. Checkpoints\nEvery model is saved as `checkpoints/daxnet_pranet_<config>_seed<seed>.pt` '
@@ -347,7 +351,7 @@ def main():
                 machine_shape='NvidiaTeslaT4', dataset_sources=DATASET_SOURCES,
                 competition_sources=[], kernel_sources=[])
     json.dump(meta, open(os.path.join(out_dir, 'kernel-metadata.json'), 'w'), indent=1)
-    print(f'wrote {out_dir} ({len(cells)} cells, seeds {seeds}, variants {[v[0] for v in VARIANTS]})')
+    print(f'wrote {out_dir} ({len(cells)} cells, seeds {seeds}, variants {[v[0] for v in variants]})')
 
 
 if __name__ == '__main__':

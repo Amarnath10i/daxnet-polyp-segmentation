@@ -203,10 +203,12 @@ class BamTrainSet(Dataset):
 
 
 class OursTrainSet(Dataset):
-    """Cached at `cache_size` (>= train size so random zoom keeps detail)."""
+    """Cached at `cache_size` (>= train size so random zoom keeps detail).
+    `strong=True` widens the zoom and the photometric changes (colour, gamma, contrast,
+    blur, noise) to train for unseen cameras / centres (PraNet benchmark)."""
 
-    def __init__(self, pairs, size=256, cache_size=None):
-        self.size = size
+    def __init__(self, pairs, size=256, cache_size=None, strong=False):
+        self.size, self.strong = size, strong
         cs = cache_size or int(round(size * 1.25))
         self.imgs, self.msks = [], []
         for ip, mp in pairs:
@@ -221,7 +223,7 @@ class OursTrainSet(Dataset):
         cs, s = img.shape[0], self.size
         # random affine: rotation, zoom, shift; output directly at training size
         ang = random.uniform(-30, 30)
-        zoom = random.uniform(0.8, 1.25) * s / cs
+        zoom = random.uniform(*((0.7, 1.4) if self.strong else (0.8, 1.25))) * s / cs
         M = cv2.getRotationMatrix2D((cs / 2, cs / 2), ang, zoom)
         M[:, 2] += (s - cs) / 2 + np.array([random.uniform(-0.1, 0.1) * s, random.uniform(-0.1, 0.1) * s])
         img = cv2.warpAffine(img, M, (s, s), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT_101)
@@ -233,14 +235,20 @@ class OursTrainSet(Dataset):
         k = random.randint(0, 3)
         img, msk = np.rot90(img, k), np.rot90(msk, k)
         img = np.ascontiguousarray(img)
+        hue, sv, con = (10, 0.4, 0.3) if self.strong else (5, 0.25, 0.2)
         if random.random() < 0.8:                     # colour jitter in HSV
             hsv = cv2.cvtColor(img, cv2.COLOR_RGB2HSV).astype(np.float32)
-            hsv[..., 0] = (hsv[..., 0] + random.uniform(-5, 5)) % 180
-            hsv[..., 1] *= random.uniform(0.75, 1.25)
-            hsv[..., 2] *= random.uniform(0.75, 1.25)
+            hsv[..., 0] = (hsv[..., 0] + random.uniform(-hue, hue)) % 180
+            hsv[..., 1] *= random.uniform(1 - sv, 1 + sv)
+            hsv[..., 2] *= random.uniform(1 - sv, 1 + sv)
             img = cv2.cvtColor(np.clip(hsv, 0, 255).astype(np.uint8), cv2.COLOR_HSV2RGB)
-            c = random.uniform(0.8, 1.2)
+            c = random.uniform(1 - con, 1 + con)
             img = np.clip((img.astype(np.float32) - img.mean()) * c + img.mean(), 0, 255).astype(np.uint8)
-        if random.random() < 0.2:
-            img = cv2.GaussianBlur(img, (0, 0), random.uniform(0.3, 1.5))
+        if self.strong and random.random() < 0.5:     # gamma: under / over-exposed frames
+            g = random.uniform(0.6, 1.6)
+            img = (255.0 * (img / 255.0) ** g).astype(np.uint8)
+        if random.random() < (0.3 if self.strong else 0.2):
+            img = cv2.GaussianBlur(img, (0, 0), random.uniform(0.3, 2.0 if self.strong else 1.5))
+        if self.strong and random.random() < 0.2:     # sensor noise
+            img = np.clip(img.astype(np.float32) + np.random.normal(0, random.uniform(3, 12), img.shape), 0, 255).astype(np.uint8)
         return _normalize(img), torch.from_numpy(np.ascontiguousarray(msk)).long()
