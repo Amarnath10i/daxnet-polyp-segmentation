@@ -1,0 +1,24 @@
+{
+ "checkpoint": "daxnet_pranet_S-B2-512_seed42.pt",
+ "variant": "S-B2-512",
+ "seed": 42,
+ "size": 512,
+ "model_cfg": {
+  "axial_scales": [
+   "s32",
+   "s16",
+   "s8"
+  ],
+  "n_bottleneck": 2,
+  "bidirectional": true,
+  "edge_aware": true,
+  "mode": "parallel",
+  "d_state": 32,
+  "pretrained": true,
+  "encoder": "pvt_v2_b2",
+  "presence": true
+ },
+ "epochs_run": 100,
+ "params_M": 28.646543,
+ "selected_on": "best mean soft test Dice (LSSNet train.py rule)"
+}
