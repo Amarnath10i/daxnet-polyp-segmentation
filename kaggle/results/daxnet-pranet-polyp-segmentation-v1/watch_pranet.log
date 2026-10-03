@@ -1,0 +1,4 @@
+01:41:05 daxnet-pranet-polyp-segmentation running
+12:19:53 daxnet-pranet-polyp-segmentation poll-failed HTTPSConnectionPool(host='api.kaggle.com', port=443): Max retries exceeded with 
+12:49:54 daxnet-pranet-polyp-segmentation complete
+downloaded 65 files to D:\projects\poly-segenmention\kaggle\results\daxnet-pranet-polyp-segmentation

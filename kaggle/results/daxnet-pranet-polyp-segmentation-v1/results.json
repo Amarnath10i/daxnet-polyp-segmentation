@@ -1,0 +1,403 @@
+{
+ "per_checkpoint": [
+  {
+   "checkpoint": "daxnet_pvtv2b2_352_pranet_seed1.pt",
+   "seed": 1,
+   "size": 352,
+   "model_cfg": {
+    "axial_scales": [
+     "s32",
+     "s16",
+     "s8"
+    ],
+    "n_bottleneck": 2,
+    "bidirectional": true,
+    "edge_aware": true,
+    "mode": "parallel",
+    "d_state": 32,
+    "pretrained": true,
+    "encoder": "pvt_v2_b2",
+    "presence": true
+   },
+   "epochs_run": 200,
+   "params_M": 28.646543,
+   "selected_on": "last epoch (PraNet convention)",
+   "test_CVC-300": {
+    "dice_net": 0.8560446561022396,
+    "iou_net": 0.7749189176501466,
+    "precision_net": 0.7996826069570555,
+    "recall_net": 0.9581930769623779,
+    "dice_full": 0.8558861193891062,
+    "iou_full": 0.7746796264376616,
+    "precision_full": 0.7992647925934493,
+    "recall_full": 0.958598981017032,
+    "mae_full": 0.01237815316223229
+   },
+   "test_CVC-300_tta": {
+    "dice_net": 0.8705447721530999,
+    "iou_net": 0.7946154167282096,
+    "precision_net": 0.8207993350154769,
+    "recall_net": 0.9615966006769319,
+    "dice_full": 0.8701477968533469,
+    "iou_full": 0.7939236184711186,
+    "precision_full": 0.8199996476292365,
+    "recall_full": 0.9619784506486678,
+    "mae_full": 0.010864614377108712
+   },
+   "test_CVC-ClinicDB": {
+    "dice_net": 0.9195268101958042,
+    "iou_net": 0.8746069793577419,
+    "precision_net": 0.916040050039296,
+    "recall_net": 0.9383398553013784,
+    "dice_full": 0.9200029740617627,
+    "iou_full": 0.8755604902910565,
+    "precision_full": 0.9163576216961433,
+    "recall_full": 0.9389177620028308,
+    "mae_full": 0.007481124851056525
+   },
+   "test_CVC-ClinicDB_tta": {
+    "dice_net": 0.9199977412074872,
+    "iou_net": 0.876774945728289,
+    "precision_net": 0.9159555678348397,
+    "recall_net": 0.9402418999114743,
+    "dice_full": 0.9206911319280802,
+    "iou_full": 0.8779924082458249,
+    "precision_full": 0.9166332549790964,
+    "recall_full": 0.9409504088800349,
+    "mae_full": 0.008037798211819703
+   },
+   "test_CVC-ColonDB": {
+    "dice_net": 0.7728499803654311,
+    "iou_net": 0.6921639630699498,
+    "precision_net": 0.8076695588558175,
+    "recall_net": 0.8019156897923772,
+    "dice_full": 0.7729722180576891,
+    "iou_full": 0.6923634834635517,
+    "precision_full": 0.8076547931885787,
+    "recall_full": 0.8022648249383822,
+    "mae_full": 0.038209482458401715
+   },
+   "test_CVC-ColonDB_tta": {
+    "dice_net": 0.7756853650462914,
+    "iou_net": 0.6980244935379002,
+    "precision_net": 0.8163850283407663,
+    "recall_net": 0.7989398477178868,
+    "dice_full": 0.775680146514026,
+    "iou_full": 0.6980474944919951,
+    "precision_full": 0.8164207549855347,
+    "recall_full": 0.7991529865754677,
+    "mae_full": 0.03864510365620893
+   },
+   "test_ETIS-LaribPolypDB": {
+    "dice_net": 0.7653354552933573,
+    "iou_net": 0.6962905402899716,
+    "precision_net": 0.7458567538099782,
+    "recall_net": 0.8269077351088729,
+    "dice_full": 0.765179903089223,
+    "iou_full": 0.6960894780883355,
+    "precision_full": 0.7457962594742179,
+    "recall_full": 0.8267170267470499,
+    "mae_full": 0.017758939966704336
+   },
+   "test_ETIS-LaribPolypDB_tta": {
+    "dice_net": 0.773998746270441,
+    "iou_net": 0.7104067903726683,
+    "precision_net": 0.7631680954755724,
+    "recall_net": 0.8244906398631783,
+    "dice_full": 0.7738325656424156,
+    "iou_full": 0.7102913803419687,
+    "precision_full": 0.7633184339790627,
+    "recall_full": 0.8242649494658493,
+    "mae_full": 0.015579715910740671
+   },
+   "test_Kvasir": {
+    "dice_net": 0.9161670670109814,
+    "iou_net": 0.8645044755584489,
+    "precision_net": 0.9462127506255882,
+    "recall_net": 0.9033790895350136,
+    "dice_full": 0.9162649933718057,
+    "iou_full": 0.8647165572261192,
+    "precision_full": 0.9464933383300206,
+    "recall_full": 0.9032854261718888,
+    "mae_full": 0.0254585364961531
+   },
+   "test_Kvasir_tta": {
+    "dice_net": 0.9207833710208543,
+    "iou_net": 0.8689775592978936,
+    "precision_net": 0.9484336346057822,
+    "recall_net": 0.910633931095775,
+    "dice_full": 0.9209466595221824,
+    "iou_full": 0.8692713172774273,
+    "precision_full": 0.9487383995558567,
+    "recall_full": 0.9106346642775293,
+    "mae_full": 0.025967608459759504
+   }
+  },
+  {
+   "checkpoint": "daxnet_pvtv2b2_352_pranet_seed2.pt",
+   "seed": 2,
+   "size": 352,
+   "model_cfg": {
+    "axial_scales": [
+     "s32",
+     "s16",
+     "s8"
+    ],
+    "n_bottleneck": 2,
+    "bidirectional": true,
+    "edge_aware": true,
+    "mode": "parallel",
+    "d_state": 32,
+    "pretrained": true,
+    "encoder": "pvt_v2_b2",
+    "presence": true
+   },
+   "epochs_run": 200,
+   "params_M": 28.646543,
+   "selected_on": "last epoch (PraNet convention)",
+   "test_CVC-300": {
+    "dice_net": 0.835059615998609,
+    "iou_net": 0.7603196269744643,
+    "precision_net": 0.7852196881787358,
+    "recall_net": 0.9436432030651019,
+    "dice_full": 0.8350343489365193,
+    "iou_full": 0.7602618092580685,
+    "precision_full": 0.7849322153770562,
+    "recall_full": 0.9442803665467616,
+    "mae_full": 0.015921734254031133
+   },
+   "test_CVC-300_tta": {
+    "dice_net": 0.8521269711216439,
+    "iou_net": 0.7815357205175495,
+    "precision_net": 0.8061099284870041,
+    "recall_net": 0.9472954576162618,
+    "dice_full": 0.851940116239818,
+    "iou_full": 0.7811853923161617,
+    "precision_full": 0.8057083844910534,
+    "recall_full": 0.9476548423241955,
+    "mae_full": 0.013398022581047069
+   },
+   "test_CVC-ClinicDB": {
+    "dice_net": 0.9429400613370545,
+    "iou_net": 0.8952893393408333,
+    "precision_net": 0.9352910286677437,
+    "recall_net": 0.9540270860790397,
+    "dice_full": 0.9435874606163712,
+    "iou_full": 0.8964427230452414,
+    "precision_full": 0.9361234013725066,
+    "recall_full": 0.9544182000679248,
+    "mae_full": 0.006419895883394225
+   },
+   "test_CVC-ClinicDB_tta": {
+    "dice_net": 0.9429107006425675,
+    "iou_net": 0.8971048592277072,
+    "precision_net": 0.9363346749795383,
+    "recall_net": 0.9557058789756164,
+    "dice_full": 0.9431718081045563,
+    "iou_full": 0.8976457745511708,
+    "precision_full": 0.9364628122537236,
+    "recall_full": 0.9561188361977078,
+    "mae_full": 0.007340751028799963
+   },
+   "test_CVC-ColonDB": {
+    "dice_net": 0.7819843388752827,
+    "iou_net": 0.7018634770773917,
+    "precision_net": 0.8187183741739351,
+    "recall_net": 0.8115348730928157,
+    "dice_full": 0.7821571617206009,
+    "iou_full": 0.7021521564145264,
+    "precision_full": 0.8188006648766103,
+    "recall_full": 0.8118847211957162,
+    "mae_full": 0.03815395148504697
+   },
+   "test_CVC-ColonDB_tta": {
+    "dice_net": 0.7869164112070578,
+    "iou_net": 0.7082544231782596,
+    "precision_net": 0.8214679282152599,
+    "recall_net": 0.8106948506460657,
+    "dice_full": 0.7870075804311724,
+    "iou_full": 0.7084118946943411,
+    "precision_full": 0.8214385714991791,
+    "recall_full": 0.8109754778604781,
+    "mae_full": 0.037200968156685124
+   },
+   "test_ETIS-LaribPolypDB": {
+    "dice_net": 0.7501951554828368,
+    "iou_net": 0.6800980263114133,
+    "precision_net": 0.7269936085975739,
+    "recall_net": 0.8402443766804899,
+    "dice_full": 0.7501624697127266,
+    "iou_full": 0.6800823630959888,
+    "precision_full": 0.7271325349798663,
+    "recall_full": 0.8401165431505138,
+    "mae_full": 0.02287096900738329
+   },
+   "test_ETIS-LaribPolypDB_tta": {
+    "dice_net": 0.758387758032858,
+    "iou_net": 0.6932928732181195,
+    "precision_net": 0.7384565672141753,
+    "recall_net": 0.8360154332492779,
+    "dice_full": 0.7584956838074609,
+    "iou_full": 0.6935209999573145,
+    "precision_full": 0.7388298939475164,
+    "recall_full": 0.8359787203842357,
+    "mae_full": 0.023066330649141622
+   },
+   "test_Kvasir": {
+    "dice_net": 0.922817836455561,
+    "iou_net": 0.872334616170898,
+    "precision_net": 0.9428669107685635,
+    "recall_net": 0.9220554862593042,
+    "dice_full": 0.9229054821403002,
+    "iou_full": 0.872485383202976,
+    "precision_full": 0.9431356984365057,
+    "recall_full": 0.9219887478614074,
+    "mae_full": 0.02495842064032331
+   },
+   "test_Kvasir_tta": {
+    "dice_net": 0.9231753704119319,
+    "iou_net": 0.8731271897748186,
+    "precision_net": 0.9461103291833086,
+    "recall_net": 0.9194989519667489,
+    "dice_full": 0.9232812588411065,
+    "iou_full": 0.8733347040196634,
+    "precision_full": 0.9463774753776002,
+    "recall_full": 0.9194526219133308,
+    "mae_full": 0.024701604498550297
+   }
+  },
+  {
+   "checkpoint": "daxnet_pvtv2b2_352_pranet_seed42.pt",
+   "seed": 42,
+   "size": 352,
+   "model_cfg": {
+    "axial_scales": [
+     "s32",
+     "s16",
+     "s8"
+    ],
+    "n_bottleneck": 2,
+    "bidirectional": true,
+    "edge_aware": true,
+    "mode": "parallel",
+    "d_state": 32,
+    "pretrained": true,
+    "encoder": "pvt_v2_b2",
+    "presence": true
+   },
+   "epochs_run": 200,
+   "params_M": 28.646543,
+   "selected_on": "last epoch (PraNet convention)",
+   "test_CVC-300": {
+    "dice_net": 0.8536001956978122,
+    "iou_net": 0.7846421599126057,
+    "precision_net": 0.8111905410462221,
+    "recall_net": 0.9451799939602537,
+    "dice_full": 0.8533875112850976,
+    "iou_full": 0.7842943406650438,
+    "precision_full": 0.8107274604469694,
+    "recall_full": 0.9456239160722031,
+    "mae_full": 0.011483649769797922
+   },
+   "test_CVC-300_tta": {
+    "dice_net": 0.8661043099849663,
+    "iou_net": 0.8013686533691511,
+    "precision_net": 0.8296652241447294,
+    "recall_net": 0.9458320266039539,
+    "dice_full": 0.8659276262326346,
+    "iou_full": 0.8010771805722884,
+    "precision_full": 0.8291495426165646,
+    "recall_full": 0.9463677771826045,
+    "mae_full": 0.010662083473289386
+   },
+   "test_CVC-ClinicDB": {
+    "dice_net": 0.9211572508419921,
+    "iou_net": 0.8754299531244925,
+    "precision_net": 0.9074665785937356,
+    "recall_net": 0.9613923881473233,
+    "dice_full": 0.9216764881234257,
+    "iou_full": 0.8762951433709427,
+    "precision_full": 0.907799131927419,
+    "recall_full": 0.9620602519189462,
+    "mae_full": 0.00799526545902594
+   },
+   "test_CVC-ClinicDB_tta": {
+    "dice_net": 0.9188514223110335,
+    "iou_net": 0.8727430085644592,
+    "precision_net": 0.9049044534944178,
+    "recall_net": 0.9623125323739244,
+    "dice_full": 0.9192929585006102,
+    "iou_full": 0.8735079767966731,
+    "precision_full": 0.9053983820646266,
+    "recall_full": 0.962576258163597,
+    "mae_full": 0.009211606791077723
+   },
+   "test_CVC-ColonDB": {
+    "dice_net": 0.7972772349882726,
+    "iou_net": 0.7175563735902621,
+    "precision_net": 0.830415498771203,
+    "recall_net": 0.821649894489128,
+    "dice_full": 0.7973093469687429,
+    "iou_full": 0.7176256202186853,
+    "precision_full": 0.8303332968030841,
+    "recall_full": 0.8218478676669864,
+    "mae_full": 0.032598255351369614
+   },
+   "test_CVC-ColonDB_tta": {
+    "dice_net": 0.7952052106126509,
+    "iou_net": 0.716518558072324,
+    "precision_net": 0.8363938638447729,
+    "recall_net": 0.8146035397615519,
+    "dice_full": 0.7953522044295119,
+    "iou_full": 0.716782472648027,
+    "precision_full": 0.8364646579406413,
+    "recall_full": 0.8149644997386115,
+    "mae_full": 0.03465655584985047
+   },
+   "test_ETIS-LaribPolypDB": {
+    "dice_net": 0.7431424393629991,
+    "iou_net": 0.6706194545120198,
+    "precision_net": 0.7060286361607964,
+    "recall_net": 0.8318505611031303,
+    "dice_full": 0.7432948459144317,
+    "iou_full": 0.6708341063777008,
+    "precision_full": 0.70620824675851,
+    "recall_full": 0.831946759585217,
+    "mae_full": 0.022079396474398483
+   },
+   "test_ETIS-LaribPolypDB_tta": {
+    "dice_net": 0.7525793549741014,
+    "iou_net": 0.6811648861237349,
+    "precision_net": 0.7099723204401768,
+    "recall_net": 0.8458308252496602,
+    "dice_full": 0.7526147334096878,
+    "iou_full": 0.681233620364094,
+    "precision_full": 0.7100484597778565,
+    "recall_full": 0.8457994400155362,
+    "mae_full": 0.021761357485214534
+   },
+   "test_Kvasir": {
+    "dice_net": 0.9155641295811137,
+    "iou_net": 0.8625135890499639,
+    "precision_net": 0.9472167976022541,
+    "recall_net": 0.9064547605245743,
+    "dice_full": 0.9156714259844918,
+    "iou_full": 0.8627151481666675,
+    "precision_full": 0.9475072490792812,
+    "recall_full": 0.9063333974159187,
+    "mae_full": 0.0264617535402067
+   },
+   "test_Kvasir_tta": {
+    "dice_net": 0.924129492139965,
+    "iou_net": 0.8741575147549733,
+    "precision_net": 0.9548746708293436,
+    "recall_net": 0.9115686643460292,
+    "dice_full": 0.9241830488629647,
+    "iou_full": 0.8742659915177556,
+    "precision_full": 0.9551321077423276,
+    "recall_full": 0.9114212121526357,
+    "mae_full": 0.025229185105999932
+   }
+  }
+ ]
+}
