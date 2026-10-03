@@ -18,6 +18,7 @@ computed both at the network size (BAMPolyp's metric) and at native size.
 from __future__ import annotations
 
 import glob
+import math
 import os
 import random
 
@@ -205,10 +206,12 @@ class BamTrainSet(Dataset):
 class OursTrainSet(Dataset):
     """Cached at `cache_size` (>= train size so random zoom keeps detail).
     `strong=True` widens the zoom and the photometric changes (colour, gamma, contrast,
-    blur, noise) to train for unseen cameras / centres (PraNet benchmark)."""
+    blur, noise) to train for unseen cameras / centres (PraNet benchmark); `zoom_out=True`
+    additionally shrinks images down to 0.5x so that large training polyps also appear
+    small (ETIS: a third of the polyps cover < 1 % of the frame)."""
 
-    def __init__(self, pairs, size=256, cache_size=None, strong=False):
-        self.size, self.strong = size, strong
+    def __init__(self, pairs, size=256, cache_size=None, strong=False, zoom_out=False):
+        self.size, self.strong, self.zoom_out = size, strong, zoom_out
         cs = cache_size or int(round(size * 1.25))
         self.imgs, self.msks = [], []
         for ip, mp in pairs:
@@ -223,7 +226,9 @@ class OursTrainSet(Dataset):
         cs, s = img.shape[0], self.size
         # random affine: rotation, zoom, shift; output directly at training size
         ang = random.uniform(-30, 30)
-        zoom = random.uniform(*((0.7, 1.4) if self.strong else (0.8, 1.25))) * s / cs
+        zr = (0.5, 1.4) if self.zoom_out else (0.7, 1.4) if self.strong else (0.8, 1.25)
+        zoom = (math.exp(random.uniform(math.log(zr[0]), math.log(zr[1]))) if self.zoom_out
+                else random.uniform(*zr)) * s / cs
         M = cv2.getRotationMatrix2D((cs / 2, cs / 2), ang, zoom)
         M[:, 2] += (s - cs) / 2 + np.array([random.uniform(-0.1, 0.1) * s, random.uniform(-0.1, 0.1) * s])
         img = cv2.warpAffine(img, M, (s, s), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT_101)

@@ -116,10 +116,11 @@ def _mean_logit(logits):
 def predict(model, name, x, tta=False):
     """Foreground logits (B,1,H,W) and presence logits (B,1) or None.
     `tta=True` averages probabilities over the identity, h-, v- and hv-flips;
-    `tta='ms'` also over input scales 0.75 / 1 / 1.25 (multiples of 32)."""
+    `tta='ms'` also over input scales 0.75 / 1 / 1.25, `tta='msl'` over 1 / 1.25 / 1.5
+    (zoom-in, for small polyps); scaled sizes are multiples of 32."""
     outs, pres = [], []
     H, W = x.shape[2:]
-    scales = (0.75, 1.0, 1.25) if tta == 'ms' else (1.0,)
+    scales = {'ms': (0.75, 1.0, 1.25), 'msl': (1.0, 1.25, 1.5)}.get(tta, (1.0,))
     for s in scales:
         hs, ws = (int(round(H * s / 32) * 32), int(round(W * s / 32) * 32)) if s != 1.0 else (H, W)
         xs = x if s == 1.0 else F.interpolate(x, size=(hs, ws), mode='bilinear', align_corners=False)
@@ -176,7 +177,8 @@ def main():
     ap.add_argument('--multiscale', type=int, default=1, help="ours recipe: 0.75/1/1.25 sizes")
     ap.add_argument('--enc-lr-mult', type=float, default=0.5)
     ap.add_argument('--edge-w', type=float, default=1.0)
-    ap.add_argument('--aug', default='base', choices=['base', 'strong'], help="'ours' recipe augmentation strength")
+    ap.add_argument('--aug', default='base', choices=['base', 'strong', 'small'],
+                    help="'ours' recipe augmentation: base, strong (photometric), small (strong + zoom-out to 0.5x)")
     ap.add_argument('--select', default='last', choices=['last', 'test_lss'],
                     help="pranet protocol: keep the last epoch, or (as LSSNet's train.py) the epoch with the best "
                          "mean soft test Dice; the latter selects on test data and also reports '<set>_last'")
@@ -205,7 +207,8 @@ def main():
         split = {k: v[:args.limit] for k, v in split.items()}
     TrainSet = BamTrainSet if args.recipe == 'bam' else OursTrainSet
     train_ds = (TrainSet(split['train'], size=args.size) if args.recipe == 'bam'
-                else TrainSet(split['train'], size=args.size, strong=args.aug == 'strong'))
+                else TrainSet(split['train'], size=args.size, strong=args.aug in ('strong', 'small'),
+                              zoom_out=args.aug == 'small'))
     g = torch.Generator(); g.manual_seed(args.seed)
     train_dl = DataLoader(train_ds, batch_size=R['bs'], shuffle=True, drop_last=args.recipe == 'ours',
                           num_workers=args.workers, pin_memory=True, worker_init_fn=seed_worker,
@@ -325,7 +328,7 @@ def main():
             final[k + '_last'] = evaluate(net, args.model, dl, device, amp)[0].summary()
     net.load_state_dict(torch.load(os.path.join(args.out, 'best.pt'), map_location=device))
     final['train_hours'] = (time.time() - t_start) / 3600
-    for tta, sfx in ((False, ''), (True, '_tta'), ('ms', '_ttams')):
+    for tta, sfx in ((False, ''), (True, '_tta'), ('ms', '_ttams'), ('msl', '_ttamsl')):
         for k, dl in eval_dl.items():
             ev, ev_raw, pres = evaluate(net, args.model, dl, device, amp, tta=tta)
             final[k + sfx] = ev.summary()

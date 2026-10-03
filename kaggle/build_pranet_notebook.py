@@ -46,7 +46,8 @@ the best mean soft test Dice is kept (this selects on test data, like the refere
 with LSSNet's soft metric and with the standard threshold-0.5 metric. The **last-epoch** scores are reported too
 (strict table, no test-set selection).
 Mean Dice and mean IoU per image at threshold 0.5, at the original mask resolution.
-`flip TTA` = average over 4 flips; `multi-scale TTA` = 4 flips x input scales 0.75 / 1 / 1.25.
+`flip TTA` = average over 4 flips; `multi-scale TTA` = 4 flips x input scales 0.75 / 1 / 1.25;
+`zoom-in TTA` = 4 flips x scales 1 / 1.25 / 1.5 (helps small polyps).
 
 | Section | What it does |
 |---|---|
@@ -196,7 +197,7 @@ for info in CKPTS:
     res = {}
     for t in TEST_SETS:
         dl = DataLoader(EvalSet(split['test_' + t], info['size']), batch_size=16, shuffle=False, collate_fn=eval_collate)
-        for tta, sfx in ((False, ''), (True, '_tta'), ('ms', '_ttams')):
+        for tta, sfx in ((False, ''), (True, '_tta'), ('ms', '_ttams'), ('msl', '_ttamsl')):
             ev, _, _ = evaluate(model, 'daxnet', dl, dev, amp=dev.type == 'cuda', tta=tta)
             res[t + sfx] = ev.summary()
     ref = json.load(open(glob.glob(f"{WORK}/runs/{info['variant']}_seed{info['seed']}/final.json")[0]))
@@ -240,7 +241,7 @@ def table(title, header, rows, note=None):
 SEL = {'test_lss': 'epoch with the best test Dice (LSSNet train.py rule)', 'last': 'last epoch'}[SELECT]
 report = [f'DAXNet on the PraNet benchmark | seeds {SEEDS} | checkpoint: {SEL}']
 variants = [v[0] for v in VARIANTS if any(t['variant'] == v[0] for t in TESTED)]
-ALL_TTA = (('', ''), ('_tta', ' + flip TTA'), ('_ttams', ' + multi-scale TTA'))
+ALL_TTA = (('', ''), ('_tta', ' + flip TTA'), ('_ttams', ' + multi-scale TTA'), ('_ttamsl', ' + zoom-in TTA'))
 METRICS = [(f'LSSNet protocol: {SEL}, soft Dice/IoU (LSSNet test.py)', 'dice_lss_full', 'iou_lss_full', ALL_TTA),
            (f'{SEL}, Dice/IoU at threshold 0.5', 'dice_full', 'iou_full', ALL_TTA),
            ('strict: last epoch, Dice/IoU at threshold 0.5 (no test-set selection)', 'dice_full', 'iou_full', (('_last', ' (last epoch)'),))]
@@ -287,7 +288,7 @@ for n, (mname, kd, ki, sfx) in enumerate(METRICS):
             vals = ours_m[name]
             n_best = sum(d > bd for (d, _), (bd, _) in zip(vals, best_ref)) + sum(i > bi for (_, i), (_, bi) in zip(vals, best_ref))
             n_bench = sum(d > bd for (d, _), (bd, _) in zip(vals, REFERENCE[0][1])) + sum(i > bi for (_, i), (_, bi) in zip(vals, REFERENCE[0][1]))
-            lines.append(f'  DAXNet {name:34s}: above the best other model on {n_best}/10 numbers, above CD-PolypNet on {n_bench}/10')
+            lines.append(f'  DAXNet {name:30s}: above the best other model on {n_best}/10 numbers, above CD-PolypNet on {n_bench}/10')
 print('\\n'.join(lines)); report += lines
 txt = '\\n'.join(report)
 open(f'{WORK}/RESULTS.txt', 'w').write(txt + '\\n')
