@@ -81,6 +81,7 @@ SEEDS = {seeds}
 VARIANTS = {variants}   # (name, encoder, epochs, estimated hours per run, extra train.py arguments)
 TEST_SETS = ['Kvasir', 'CVC-ClinicDB', 'CVC-ColonDB', 'ETIS-LaribPolypDB', 'CVC-300']
 START_BY_H, FINISH_BY_H = 10.5, 11.5    # no job starts after 10.5 h; running jobs finalize before 11.5 h
+ENSEMBLE_SPECS = {ensembles}   # ensemble name -> list of configurations whose checkpoints are averaged
 SELECT = '{select}'   # 'test_lss' = keep the epoch with the best mean soft test Dice (LSSNet train.py rule); 'last' = last epoch
 
 def job(variant, seed):
@@ -296,6 +297,62 @@ json.dump({'per_checkpoint': TESTED, 'mean': ours}, open(f'{WORK}/results.json',
 print(f'\\nsaved {WORK}/RESULTS.txt and {WORK}/results.json')
 """
 
+ENSEMBLE = """# Ensembles: average the per-pixel probabilities (each model with flip TTA, at its own input size,
+# resized to the original mask) of several checkpoints: the ones trained above plus those of earlier
+# notebooks attached as inputs. Every ensemble listed here is reported (they are fixed in advance).
+from daxnet.train import predict
+from daxnet.metrics import per_image_scores, lss_soft_scores
+import torch.nn.functional as F
+pool = {}
+for j in sorted(glob.glob(f'{WORK}/checkpoints/*.json')) + sorted(glob.glob(f'{DATA}/*/checkpoints/*.json')):
+    info = json.load(open(j))
+    if 'variant' in info and not j.endswith('manifest.json'):
+        pool.setdefault(info['variant'], []).append((j.replace('.json', '.pt'), info))
+print('checkpoints available:', {k: len(v) for k, v in pool.items()})
+ENSEMBLES = {name: [m for v in members for m in pool.get(v, [])] for name, members in ENSEMBLE_SPECS.items()}
+ENSEMBLES = {k: v for k, v in ENSEMBLES.items() if v}
+
+def ensemble_scores(members):
+    sums, gts = {t: {} for t in TEST_SETS}, {t: {} for t in TEST_SETS}
+    for ck, info in members:
+        model = build_model('daxnet', **dict(info['model_cfg'], pretrained=False)).to(dev).eval()
+        model.load_state_dict(torch.load(ck, map_location=dev))
+        for t in TEST_SETS:
+            dl = DataLoader(EvalSet(split['test_' + t], info['size']), batch_size=8, shuffle=False, collate_fn=eval_collate)
+            for x, _, m_full, names in dl:
+                with torch.no_grad(), torch.autocast('cuda', dtype=torch.float16, enabled=dev.type == 'cuda'):
+                    logit, _ = predict(model, 'daxnet', x.to(dev), tta=True)
+                prob = torch.sigmoid(logit.float())
+                for i, n in enumerate(names):
+                    p = F.interpolate(prob[i:i + 1], size=m_full[i].shape, mode='bilinear', align_corners=False)[0, 0].cpu()
+                    sums[t][n] = sums[t].get(n, 0) + p; gts[t][n] = m_full[i]
+        del model; torch.cuda.empty_cache()
+    out = {}
+    for t in TEST_SETS:
+        d, i, ds, is_ = [], [], [], []
+        for n, s in sums[t].items():
+            p, g = s / len(members), gts[t][n]
+            r = per_image_scores((p > 0.5)[None], g[None]); l = lss_soft_scores(p, g)
+            d.append(r['dice'][0]); i.append(r['iou'][0]); ds.append(l['dice_lss'][0]); is_.append(l['iou_lss'][0])
+        out[t] = dict(dice=float(np.mean(d)), iou=float(np.mean(i)), dice_lss=float(np.mean(ds)), iou_lss=float(np.mean(is_)))
+    return out
+
+ENS = {name: ensemble_scores(m) for name, m in ENSEMBLES.items()}
+targets = [('CD-PolypNet (benchmark)', REFERENCE[0][1]), ('Best of the other models', best_ref)]
+for metric, kd, ki in (('Dice/IoU at threshold 0.5', 'dice', 'iou'), ('soft Dice/IoU (LSSNet test.py)', 'dice_lss', 'iou_lss')):
+    rows = [[name] + [f'{d:.4f} / {i:.4f}' for d, i in vals] for name, vals in targets]
+    rows.append(['-' * 8] + [''] * len(COLS))
+    for name, res in ENS.items():
+        rows.append([f'Ensemble {name} ({len(ENSEMBLES[name])} models)'] + [
+            f"{res[c][kd]:.4f}{'*' if res[c][kd] > bd else ' '}{'+' if res[c][kd] > cd else ' '} / "
+            f"{res[c][ki]:.4f}{'*' if res[c][ki] > bi else ' '}{'+' if res[c][ki] > ci else ' '}"
+            for c, (bd, bi), (cd, ci) in zip(COLS, best_ref, REFERENCE[0][1])])
+    report.append(table(f'ENSEMBLES, {metric}: + = above CD-PolypNet, * = above the best other model',
+                        ['Model'] + [SHORT[c] for c in COLS], rows))
+open(f'{WORK}/RESULTS.txt', 'w').write('\\n'.join(report) + '\\n')
+json.dump(ENS, open(f'{WORK}/ensembles.json', 'w'), indent=1)
+"""
+
 CURVES = """import matplotlib.pyplot as plt
 fig, axes = plt.subplots(1, len(COLS), figsize=(4.2 * len(COLS), 3.4), squeeze=False)
 for ax, c in zip(axes[0], COLS):
@@ -338,8 +395,11 @@ def main():
     ap.add_argument('--user', default='amarnathmadaka')
     ap.add_argument('--variants', default='', help='JSON list of [name, encoder, epochs, est_h, extra_args]')
     ap.add_argument('--select', default='test_lss', choices=['test_lss', 'last'])
+    ap.add_argument('--ensembles', default='', help='JSON {name: [configuration names]}')
+    ap.add_argument('--kernel-sources', default='', help='comma-separated notebooks whose outputs are attached')
     a = ap.parse_args()
     seeds = [int(s) for s in a.seeds.split(',') if s.strip()]
+    ensembles = json.loads(a.ensembles) if a.ensembles else {}
 
     md = lambda s: dict(cell_type='markdown', metadata={}, source=s)
     code = lambda s: dict(cell_type='code', metadata={}, execution_count=None, outputs=[], source=s)
@@ -350,14 +410,18 @@ def main():
     for fn in MODULES:
         src = open(os.path.join(ROOT, 'daxnet', fn), encoding='utf-8').read()
         cells.append(code(f'%%writefile daxnet/{fn}\n' + src))
-    cells += [md('## 3. Configurations'), code(CONFIG.format(seeds=seeds, variants=[tuple(v) for v in variants], select=a.select)),
+    cells += [md('## 3. Configurations'), code(CONFIG.format(seeds=seeds, variants=[tuple(v) for v in variants], select=a.select, ensembles=ensembles)),
               md('## 4. Training (2 GPUs in parallel)\nProgress (epoch, loss, current test Dice) is printed every 30 minutes.'),
               code(RUNNER),
               md('## 5. Checkpoints\nEvery model is saved as `checkpoints/daxnet_pranet_<config>_seed<seed>.pt` '
                  'with a `.json` that records how to rebuild it.'), code(CHECKPOINTS),
               md('## 6. Testing\nEach checkpoint is loaded from disk and evaluated on the five test sets, with and without flip TTA.'),
               code(TESTING),
-              md('## 7. Final results'), code(RESULTS),
+              md('## 7. Final results'), code(RESULTS)]
+    if ensembles:
+        cells += [md('## 7b. Ensembles\nPer-pixel probabilities averaged over several checkpoints (each with flip TTA). '
+                     'Checkpoints of earlier notebooks are attached as inputs.'), code(ENSEMBLE)]
+    cells += [
               md('## 8. Test-set Dice during training (for information; not used to pick checkpoints)'), code(CURVES),
               md('## 9. Example predictions'), code(EXAMPLES)]
     for i, c in enumerate(cells):
@@ -371,7 +435,7 @@ def main():
     meta = dict(id=f'{a.user}/{a.slug}', title=a.title, code_file=f'{a.slug}.ipynb', language='python',
                 kernel_type='notebook', is_private=True, enable_gpu=True, enable_internet=True,
                 machine_shape='NvidiaTeslaT4', dataset_sources=DATASET_SOURCES,
-                competition_sources=[], kernel_sources=[])
+                competition_sources=[], kernel_sources=[f'{a.user}/{k}' for k in a.kernel_sources.split(',') if k])
     json.dump(meta, open(os.path.join(out_dir, 'kernel-metadata.json'), 'w'), indent=1)
     print(f'wrote {out_dir} ({len(cells)} cells, seeds {seeds}, variants {[v[0] for v in variants]})')
 
