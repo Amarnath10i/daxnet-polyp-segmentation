@@ -147,7 +147,8 @@ def worker(gpu):
         print(f"[gpu{gpu}] START {j['name']:16s} at {hms(time.time() - T0)}", flush=True)
         with open(f'{out}/stdout.txt', 'w') as f:
             rc = subprocess.run(cmd, cwd=WORK, stdout=f, stderr=subprocess.STDOUT,
-                                env=dict(os.environ, CUDA_VISIBLE_DEVICES=str(gpu), PYTHONWARNINGS='ignore')).returncode
+                                env=dict(os.environ, CUDA_VISIBLE_DEVICES=str(gpu), PYTHONWARNINGS='ignore',
+                                         PYTORCH_CUDA_ALLOC_CONF='expandable_segments:True')).returncode
         RUNNING.pop(j['name'], None)
         if os.path.exists(f'{out}/final.json'):
             r = json.load(open(f'{out}/final.json'))
@@ -241,56 +242,60 @@ def table(title, header, rows, note=None):
 
 SEL = {'test_lss': 'epoch with the best test Dice (LSSNet train.py rule)', 'last': 'last epoch'}[SELECT]
 report = [f'DAXNet on the PraNet benchmark | seeds {SEEDS} | checkpoint: {SEL}']
-variants = [v[0] for v in VARIANTS if any(t['variant'] == v[0] for t in TESTED)]
-ALL_TTA = (('', ''), ('_tta', ' + flip TTA'), ('_ttams', ' + multi-scale TTA'), ('_ttamsl', ' + zoom-in TTA'))
-METRICS = [(f'LSSNet protocol: {SEL}, soft Dice/IoU (LSSNet test.py)', 'dice_lss_full', 'iou_lss_full', ALL_TTA),
-           (f'{SEL}, Dice/IoU at threshold 0.5', 'dice_full', 'iou_full', ALL_TTA),
-           ('strict: last epoch, Dice/IoU at threshold 0.5 (no test-set selection)', 'dice_full', 'iou_full', (('_last', ' (last epoch)'),))]
-METRICS = [m for m in METRICS if m[1] in TESTED[0][COLS[0]] and COLS[0] + m[3][0][0] in TESTED[0]]
-def mean_of(kd, ki, suffixes=ALL_TTA):
-    out = {}
+ours = {}
+best_ref = [(max(r[1][i][0] for r in REFERENCE[1:]), max(r[1][i][1] for r in REFERENCE[1:])) for i in range(len(COLS))]
+if TESTED:
+    variants = [v[0] for v in VARIANTS if any(t['variant'] == v[0] for t in TESTED)]
+    ALL_TTA = (('', ''), ('_tta', ' + flip TTA'), ('_ttams', ' + multi-scale TTA'), ('_ttamsl', ' + zoom-in TTA'))
+    METRICS = [(f'LSSNet protocol: {SEL}, soft Dice/IoU (LSSNet test.py)', 'dice_lss_full', 'iou_lss_full', ALL_TTA),
+               (f'{SEL}, Dice/IoU at threshold 0.5', 'dice_full', 'iou_full', ALL_TTA),
+               ('strict: last epoch, Dice/IoU at threshold 0.5 (no test-set selection)', 'dice_full', 'iou_full', (('_last', ' (last epoch)'),))]
+    METRICS = [m for m in METRICS if m[1] in TESTED[0][COLS[0]] and COLS[0] + m[3][0][0] in TESTED[0]]
+    def mean_of(kd, ki, suffixes=ALL_TTA):
+        out = {}
+        for v in variants:
+            ts = [t for t in TESTED if t['variant'] == v]
+            for suffix, label in suffixes:
+                out[v + label] = [(float(np.mean([t[c + suffix][kd] for t in ts])),
+                                   float(np.mean([t[c + suffix][ki] for t in ts]))) for c in COLS]
+        return out
+    ours = mean_of('dice_full', 'iou_full')
+    # 1. every checkpoint
+    rows = [[t['variant'], t['seed'], f"{t['params_M']:.1f}M"] + [f"{t[c]['dice_full']:.4f}/{t[c]['iou_full']:.4f}" for c in COLS]
+            for t in sorted(TESTED, key=lambda t: (variants.index(t['variant']), t['seed']))]
+    report.append(table('TABLE 1. Every trained model (Dice/IoU)', ['Config', 'Seed', 'Params'] + [SHORT[c] for c in COLS], rows))
+    # 2. mean +- std per configuration
+    rows = []
     for v in variants:
         ts = [t for t in TESTED if t['variant'] == v]
-        for suffix, label in suffixes:
-            out[v + label] = [(float(np.mean([t[c + suffix][kd] for t in ts])),
-                               float(np.mean([t[c + suffix][ki] for t in ts]))) for c in COLS]
-    return out
-ours = mean_of('dice_full', 'iou_full')
-# 1. every checkpoint
-rows = [[t['variant'], t['seed'], f"{t['params_M']:.1f}M"] + [f"{t[c]['dice_full']:.4f}/{t[c]['iou_full']:.4f}" for c in COLS]
-        for t in sorted(TESTED, key=lambda t: (variants.index(t['variant']), t['seed']))]
-report.append(table('TABLE 1. Every trained model (Dice/IoU)', ['Config', 'Seed', 'Params'] + [SHORT[c] for c in COLS], rows))
-# 2. mean +- std per configuration
-rows = []
-for v in variants:
-    ts = [t for t in TESTED if t['variant'] == v]
-    sd = lambda k, c: np.std([t[c][k] for t in ts], ddof=1) if len(ts) > 1 else 0.0
-    rows.append([v, len(ts)] + [f"{np.mean([t[c]['dice_full'] for t in ts]):.4f}+-{sd('dice_full', c):.3f} / "
-                                f"{np.mean([t[c]['iou_full'] for t in ts]):.4f}+-{sd('iou_full', c):.3f}" for c in COLS])
-report.append(table('TABLE 2. Mean +- std over seeds (Dice / IoU)', ['Config', 'Seeds'] + [SHORT[c] for c in COLS], rows))
-# 3. comparison with every reference model
-best_ref = [(max(r[1][i][0] for r in REFERENCE[1:]), max(r[1][i][1] for r in REFERENCE[1:])) for i in range(len(COLS))]
-lines = []
-for n, (mname, kd, ki, sfx) in enumerate(METRICS):
-    ours_m = mean_of(kd, ki, sfx)
-    rows = [[name] + [f'{d:.4f} / {i:.4f}' for d, i in vals] for name, vals in REFERENCE]
-    rows.append(['-' * 8] + [''] * len(COLS))
-    rows.append(['Best of the models above (excl. benchmark)'] + [f'{d:.4f} / {i:.4f}' for d, i in best_ref])
-    for name, vals in ours_m.items():
-        rows.append([f'DAXNet {name} (mean)'] + [f"{d:.4f}{'*' if d > bd else ' '} / {i:.4f}{'*' if i > bi else ' '}"
-                                                 for (d, i), (bd, bi) in zip(vals, best_ref)])
-    report.append(table(f'TABLE {3 + n}. Comparison, DAXNet scored with {mname}; * = higher than the best other model',
-                        ['Model'] + [SHORT[c] for c in COLS], rows,
-                        note='Other models: numbers as reported (LSSNet-lineage code selects the epoch with the best test Dice and '
-                             'scores soft maps). Only the strict table is free of test-set selection.'))
-    lines += ['', f'VERDICT, {mname} (mean over seeds):']
-    for name in ours_m:
-        if True:
-            vals = ours_m[name]
-            n_best = sum(d > bd for (d, _), (bd, _) in zip(vals, best_ref)) + sum(i > bi for (_, i), (_, bi) in zip(vals, best_ref))
-            n_bench = sum(d > bd for (d, _), (bd, _) in zip(vals, REFERENCE[0][1])) + sum(i > bi for (_, i), (_, bi) in zip(vals, REFERENCE[0][1]))
-            lines.append(f'  DAXNet {name:30s}: above the best other model on {n_best}/10 numbers, above CD-PolypNet on {n_bench}/10')
-print('\\n'.join(lines)); report += lines
+        sd = lambda k, c: np.std([t[c][k] for t in ts], ddof=1) if len(ts) > 1 else 0.0
+        rows.append([v, len(ts)] + [f"{np.mean([t[c]['dice_full'] for t in ts]):.4f}+-{sd('dice_full', c):.3f} / "
+                                    f"{np.mean([t[c]['iou_full'] for t in ts]):.4f}+-{sd('iou_full', c):.3f}" for c in COLS])
+    report.append(table('TABLE 2. Mean +- std over seeds (Dice / IoU)', ['Config', 'Seeds'] + [SHORT[c] for c in COLS], rows))
+    # 3. comparison with every reference model
+    lines = []
+    for n, (mname, kd, ki, sfx) in enumerate(METRICS):
+        ours_m = mean_of(kd, ki, sfx)
+        rows = [[name] + [f'{d:.4f} / {i:.4f}' for d, i in vals] for name, vals in REFERENCE]
+        rows.append(['-' * 8] + [''] * len(COLS))
+        rows.append(['Best of the models above (excl. benchmark)'] + [f'{d:.4f} / {i:.4f}' for d, i in best_ref])
+        for name, vals in ours_m.items():
+            rows.append([f'DAXNet {name} (mean)'] + [f"{d:.4f}{'*' if d > bd else ' '} / {i:.4f}{'*' if i > bi else ' '}"
+                                                     for (d, i), (bd, bi) in zip(vals, best_ref)])
+        report.append(table(f'TABLE {3 + n}. Comparison, DAXNet scored with {mname}; * = higher than the best other model',
+                            ['Model'] + [SHORT[c] for c in COLS], rows,
+                            note='Other models: numbers as reported (LSSNet-lineage code selects the epoch with the best test Dice and '
+                                 'scores soft maps). Only the strict table is free of test-set selection.'))
+        lines += ['', f'VERDICT, {mname} (mean over seeds):']
+        for name in ours_m:
+            if True:
+                vals = ours_m[name]
+                n_best = sum(d > bd for (d, _), (bd, _) in zip(vals, best_ref)) + sum(i > bi for (_, i), (_, bi) in zip(vals, best_ref))
+                n_bench = sum(d > bd for (d, _), (bd, _) in zip(vals, REFERENCE[0][1])) + sum(i > bi for (_, i), (_, bi) in zip(vals, REFERENCE[0][1]))
+                lines.append(f'  DAXNet {name:30s}: above the best other model on {n_best}/10 numbers, above CD-PolypNet on {n_bench}/10')
+    print('\\n'.join(lines)); report += lines
+else:
+    print('No model trained in this notebook finished; see the FAILED lines above. Ensembles below still use earlier checkpoints.')
 txt = '\\n'.join(report)
 open(f'{WORK}/RESULTS.txt', 'w').write(txt + '\\n')
 json.dump({'per_checkpoint': TESTED, 'mean': ours}, open(f'{WORK}/results.json', 'w'), indent=1)
@@ -365,25 +370,26 @@ axes[0][0].legend(fontsize=6); plt.tight_layout(); plt.savefig(f'{WORK}/curves.p
 
 EXAMPLES = """from daxnet.train import predict
 MEAN_V, STD_V = np.array([0.485, 0.456, 0.406]), np.array([0.229, 0.224, 0.225])
-info = CKPTS[0]
-model = build_model('daxnet', **dict(info['model_cfg'], pretrained=False)).to(dev).eval()
-model.load_state_dict(torch.load(f"{WORK}/checkpoints/{info['checkpoint']}", map_location=dev))
-fig, axes = plt.subplots(len(COLS), 4, figsize=(12, 2.7 * len(COLS)), squeeze=False)
-for row, c in zip(axes, COLS):
-    x, m, _, names = next(iter(DataLoader(EvalSet(split['test_' + c][:2], info['size']), batch_size=2, collate_fn=eval_collate)))
-    with torch.no_grad():
-        logit, pres = predict(model, 'daxnet', x.to(dev))
-        pred = (torch.sigmoid(logit.float())[:, 0] > 0.5).cpu().numpy()
-        if pres is not None: pred &= (torch.sigmoid(pres.float()) >= 0.5).cpu().numpy()[:, :, None]
-    for i in range(2):
-        img = np.clip(x[i].permute(1, 2, 0).numpy() * STD_V + MEAN_V, 0, 1)
-        row[2 * i].imshow(img); row[2 * i].set_title(f'{SHORT[c]}: {names[i][:18]}', fontsize=7)
-        ov = img.copy(); ov[m[i].numpy() > 0] = ov[m[i].numpy() > 0] * .5 + np.array([0, 1, 0]) * .5
-        ov[pred[i]] = ov[pred[i]] * .5 + np.array([1, 0, 0]) * .5
-        row[2 * i + 1].imshow(ov); row[2 * i + 1].set_title('green = truth, red = DAXNet', fontsize=7)
-    for a in row: a.axis('off')
-del model
-plt.tight_layout(); plt.savefig(f'{WORK}/examples.png', dpi=100); plt.show()
+if CKPTS:
+    info = CKPTS[0]
+    model = build_model('daxnet', **dict(info['model_cfg'], pretrained=False)).to(dev).eval()
+    model.load_state_dict(torch.load(f"{WORK}/checkpoints/{info['checkpoint']}", map_location=dev))
+    fig, axes = plt.subplots(len(COLS), 4, figsize=(12, 2.7 * len(COLS)), squeeze=False)
+    for row, c in zip(axes, COLS):
+        x, m, _, names = next(iter(DataLoader(EvalSet(split['test_' + c][:2], info['size']), batch_size=2, collate_fn=eval_collate)))
+        with torch.no_grad():
+            logit, pres = predict(model, 'daxnet', x.to(dev))
+            pred = (torch.sigmoid(logit.float())[:, 0] > 0.5).cpu().numpy()
+            if pres is not None: pred &= (torch.sigmoid(pres.float()) >= 0.5).cpu().numpy()[:, :, None]
+        for i in range(2):
+            img = np.clip(x[i].permute(1, 2, 0).numpy() * STD_V + MEAN_V, 0, 1)
+            row[2 * i].imshow(img); row[2 * i].set_title(f'{SHORT[c]}: {names[i][:18]}', fontsize=7)
+            ov = img.copy(); ov[m[i].numpy() > 0] = ov[m[i].numpy() > 0] * .5 + np.array([0, 1, 0]) * .5
+            ov[pred[i]] = ov[pred[i]] * .5 + np.array([1, 0, 0]) * .5
+            row[2 * i + 1].imshow(ov); row[2 * i + 1].set_title('green = truth, red = DAXNet', fontsize=7)
+        for a in row: a.axis('off')
+    del model
+    plt.tight_layout(); plt.savefig(f'{WORK}/examples.png', dpi=100); plt.show()
 """
 
 
