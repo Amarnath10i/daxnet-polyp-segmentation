@@ -295,7 +295,8 @@ if TESTED:
                 lines.append(f'  DAXNet {name:30s}: above the best other model on {n_best}/10 numbers, above CD-PolypNet on {n_bench}/10')
     print('\\n'.join(lines)); report += lines
 else:
-    print('No model trained in this notebook finished; see the FAILED lines above. Ensembles below still use earlier checkpoints.')
+    print('No model was trained in this notebook (evaluation only).' if not JOBS else
+          'No model trained in this notebook finished; see the FAILED lines above. Ensembles below still use earlier checkpoints.')
 txt = '\\n'.join(report)
 open(f'{WORK}/RESULTS.txt', 'w').write(txt + '\\n')
 json.dump({'per_checkpoint': TESTED, 'mean': ours}, open(f'{WORK}/results.json', 'w'), indent=1)
@@ -308,20 +309,24 @@ ENSEMBLE = """# Ensembles: average the per-pixel probabilities (each model with 
 from daxnet.train import predict
 from daxnet.metrics import per_image_scores, lss_soft_scores
 import torch.nn.functional as F
-pool = {}
-for j in sorted(glob.glob(f'{WORK}/checkpoints/*.json')) + sorted(glob.glob(f'{DATA}/*/checkpoints/*.json')):
+pool, seen = {}, set()
+# attached notebooks are mounted somewhere under /kaggle/input (e.g. /kaggle/input/notebooks/<owner>/<slug>/)
+for j in sorted(glob.glob(f'{WORK}/checkpoints/*.json')) + sorted(glob.glob(f'{DATA}/**/checkpoints/*.json', recursive=True)):
     info = json.load(open(j))
-    if 'variant' in info and not j.endswith('manifest.json'):
+    if 'variant' in info and not j.endswith('manifest.json') and os.path.basename(j) not in seen \\
+            and os.path.exists(j.replace('.json', '.pt')):
+        seen.add(os.path.basename(j))
         pool.setdefault(info['variant'], []).append((j.replace('.json', '.pt'), info))
 print('checkpoints available:', {k: len(v) for k, v in pool.items()})
 ENSEMBLES = {name: [m for v in members for m in pool.get(v, [])] for name, members in ENSEMBLE_SPECS.items()}
 ENSEMBLES = {k: v for k, v in ENSEMBLES.items() if v}
 
-def ensemble_scores(members):
-    sums, gts = {t: {} for t in TEST_SETS}, {t: {} for t in TEST_SETS}
-    for ck, info in members:
+PRED, GTS = {}, {t: {} for t in TEST_SETS}      # each checkpoint is run once; its maps are reused by every ensemble
+def predictions(ck, info):
+    if ck not in PRED:
         model = build_model('daxnet', **dict(info['model_cfg'], pretrained=False)).to(dev).eval()
         model.load_state_dict(torch.load(ck, map_location=dev))
+        PRED[ck] = {t: {} for t in TEST_SETS}
         for t in TEST_SETS:
             dl = DataLoader(EvalSet(split['test_' + t], info['size']), batch_size=8, shuffle=False, collate_fn=eval_collate)
             for x, _, m_full, names in dl:
@@ -329,9 +334,19 @@ def ensemble_scores(members):
                     logit, _ = predict(model, 'daxnet', x.to(dev), tta=True)
                 prob = torch.sigmoid(logit.float())
                 for i, n in enumerate(names):
-                    p = F.interpolate(prob[i:i + 1], size=m_full[i].shape, mode='bilinear', align_corners=False)[0, 0].cpu()
-                    sums[t][n] = sums[t].get(n, 0) + p; gts[t][n] = m_full[i]
+                    p = F.interpolate(prob[i:i + 1], size=m_full[i].shape, mode='bilinear', align_corners=False)[0, 0]
+                    PRED[ck][t][n] = p.half().cpu(); GTS[t][n] = m_full[i]
         del model; torch.cuda.empty_cache()
+        print('  predicted', os.path.basename(ck), flush=True)
+    return PRED[ck]
+
+def ensemble_scores(members):
+    sums, gts = {t: {} for t in TEST_SETS}, GTS
+    for ck, info in members:
+        pr = predictions(ck, info)
+        for t in TEST_SETS:
+            for n, p in pr[t].items():
+                sums[t][n] = sums[t].get(n, 0) + p.float()
     out = {}
     for t in TEST_SETS:
         d, i, ds, is_ = [], [], [], []

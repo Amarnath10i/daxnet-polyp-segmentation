@@ -1,0 +1,235 @@
+[{"stream_name":"stderr","time":9.11800339,"data":"0.00s - Debugger warning: It seems that frozen modules are being used, which may\n"}
+,{"stream_name":"stderr","time":9.118050259,"data":"0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off\n"}
+,{"stream_name":"stderr","time":9.11805714,"data":"0.00s - to python to disable frozen modules.\n"}
+,{"stream_name":"stderr","time":9.11806154,"data":"0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.\n"}
+,{"stream_name":"stderr","time":9.880836661,"data":"0.00s - Debugger warning: It seems that frozen modules are being used, which may\n"}
+,{"stream_name":"stderr","time":9.880870599,"data":"0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off\n"}
+,{"stream_name":"stderr","time":9.880876569,"data":"0.00s - to python to disable frozen modules.\n"}
+,{"stream_name":"stderr","time":9.880899325,"data":"0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.\n"}
+,{"stream_name":"stdout","time":11.31457938,"data":"GPU 0: Tesla T4 (UUID: GPU-8097f48c-2bf3-7887-9c32-ca0495ba4945)\r\n"}
+,{"stream_name":"stdout","time":11.314618489,"data":"GPU 1: Tesla T4 (UUID: GPU-42f9ca66-3c51-f062-0e25-812e16510722)\r\n"}
+,{"stream_name":"stdout","time":37.002120262,"data":"torch 2.11.0+cu128 | timm 1.0.29 | GPUs 2 ['Tesla T4', 'Tesla T4']\n"}
+,{"stream_name":"stdout","time":37.002153942,"data":"datasets: ['datasets', 'notebooks']\n"}
+,{"stream_name":"stdout","time":37.024740057,"data":"Writing daxnet/__init__.py\n"}
+,{"stream_name":"stdout","time":37.043021358,"data":"Writing daxnet/ssd_axial.py\n"}
+,{"stream_name":"stdout","time":37.063581932,"data":"Writing daxnet/data.py\n"}
+,{"stream_name":"stdout","time":37.080028927,"data":"Writing daxnet/losses.py\n"}
+,{"stream_name":"stdout","time":37.096592354,"data":"Writing daxnet/metrics.py\n"}
+,{"stream_name":"stdout","time":37.115819263,"data":"Writing daxnet/model.py\n"}
+,{"stream_name":"stdout","time":37.138481898,"data":"Writing daxnet/train.py\n"}
+,{"stream_name":"stdout","time":37.202096898,"data":"3 training runs, ~14.4 GPU-hours on 2 GPU(s):\n"}
+,{"stream_name":"stdout","time":37.202130357,"data":"  B4-512_seed42          pvt_v2_b4  80 epochs  ~4.8 h  --size 512 --aug small --bs 4 --lr 1e-4\n"}
+,{"stream_name":"stdout","time":37.202136214,"data":"  B4-512_seed1           pvt_v2_b4  80 epochs  ~4.8 h  --size 512 --aug small --bs 4 --lr 1e-4\n"}
+,{"stream_name":"stdout","time":37.202140743,"data":"  B4-512_seed2           pvt_v2_b4  80 epochs  ~4.8 h  --size 512 --aug small --bs 4 --lr 1e-4\n"}
+,{"stream_name":"stderr","time":38.832750606,"data":"Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.\n"}
+,{"stream_name":"stderr","time":38.832780385,"data":"\n"}
+,{"stream_name":"stderr","time":38.83278667,"data":"Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.\n"}
+,{"stream_name":"stdout","time":43.959988626,"data":"[gpu0] START B4-512_seed42    at 0h00m\n"}
+,{"stream_name":"stdout","time":43.963205068,"data":"[gpu1] START B4-512_seed1     at 0h00m\n"}
+,{"stream_name":"stdout","time":1843.977488604,"data":"[progress 0h30m]\n"}
+,{"stream_name":"stdout","time":1843.977577369,"data":"    B4-512_seed42    epoch   7/80  loss 2.555  300 0.852  300_raw 0.852  ClinicDB 0.881  ClinicDB_raw 0.881  ColonDB 0.774  ColonDB_raw 0.774  LaribPolypDB 0.775  LaribPolypDB_raw 0.775  Kvasir 0.927  Kvasir_raw 0.927  (0h29m)\n"}
+,{"stream_name":"stdout","time":1843.977586867,"data":"    B4-512_seed1     epoch   7/80  loss 2.565  300 0.863  300_raw 0.863  ClinicDB 0.884  ClinicDB_raw 0.884  ColonDB 0.774  ColonDB_raw 0.774  LaribPolypDB 0.784  LaribPolypDB_raw 0.784  Kvasir 0.926  Kvasir_raw 0.926  (0h29m)\n"}
+,{"stream_name":"stdout","time":3643.977751765,"data":"[progress 1h00m]\n"}
+,{"stream_name":"stdout","time":3643.977824258,"data":"    B4-512_seed42    epoch  16/80  loss 1.700  300 0.885  300_raw 0.885  ClinicDB 0.904  ClinicDB_raw 0.904  ColonDB 0.805  ColonDB_raw 0.805  LaribPolypDB 0.811  LaribPolypDB_raw 0.811  Kvasir 0.924  Kvasir_raw 0.924  (1h00m)\n"}
+,{"stream_name":"stdout","time":3643.977838382,"data":"    B4-512_seed1     epoch  16/80  loss 1.688  300 0.876  300_raw 0.876  ClinicDB 0.910  ClinicDB_raw 0.910  ColonDB 0.812  ColonDB_raw 0.812  LaribPolypDB 0.808  LaribPolypDB_raw 0.808  Kvasir 0.920  Kvasir_raw 0.920  (1h00m)\n"}
+,{"stream_name":"stdout","time":5443.992657823,"data":"[progress 1h30m]\n"}
+,{"stream_name":"stdout","time":5443.992809107,"data":"    B4-512_seed42    epoch  25/80  loss 1.483  300 0.876  300_raw 0.876  ClinicDB 0.931  ClinicDB_raw 0.931  ColonDB 0.815  ColonDB_raw 0.815  LaribPolypDB 0.833  LaribPolypDB_raw 0.833  Kvasir 0.926  Kvasir_raw 0.926  (1h30m)\n"}
+,{"stream_name":"stdout","time":5443.992821326,"data":"    B4-512_seed1     epoch  25/80  loss 1.485  300 0.890  300_raw 0.890  ClinicDB 0.931  ClinicDB_raw 0.931  ColonDB 0.819  ColonDB_raw 0.819  LaribPolypDB 0.834  LaribPolypDB_raw 0.834  Kvasir 0.919  Kvasir_raw 0.919  (1h30m)\n"}
+,{"stream_name":"stdout","time":7244.004724944,"data":"[progress 2h00m]\n"}
+,{"stream_name":"stdout","time":7244.00476186,"data":"    B4-512_seed42    epoch  34/80  loss 1.352  300 0.881  300_raw 0.881  ClinicDB 0.933  ClinicDB_raw 0.933  ColonDB 0.814  ColonDB_raw 0.814  LaribPolypDB 0.843  LaribPolypDB_raw 0.843  Kvasir 0.925  Kvasir_raw 0.925  (2h00m)\n"}
+,{"stream_name":"stdout","time":7244.00477599,"data":"    B4-512_seed1     epoch  34/80  loss 1.331  300 0.883  300_raw 0.883  ClinicDB 0.941  ClinicDB_raw 0.941  ColonDB 0.814  ColonDB_raw 0.814  LaribPolypDB 0.835  LaribPolypDB_raw 0.835  Kvasir 0.926  Kvasir_raw 0.926  (2h00m)\n"}
+,{"stream_name":"stdout","time":9044.016987889,"data":"[progress 2h30m]\n"}
+,{"stream_name":"stdout","time":9044.017053932,"data":"    B4-512_seed42    epoch  43/80  loss 1.268  300 0.879  300_raw 0.879  ClinicDB 0.933  ClinicDB_raw 0.933  ColonDB 0.806  ColonDB_raw 0.806  LaribPolypDB 0.834  LaribPolypDB_raw 0.834  Kvasir 0.927  Kvasir_raw 0.927  (2h30m)\n"}
+,{"stream_name":"stdout","time":9044.017064323,"data":"    B4-512_seed1     epoch  43/80  loss 1.236  300 0.889  300_raw 0.889  ClinicDB 0.944  ClinicDB_raw 0.944  ColonDB 0.818  ColonDB_raw 0.818  LaribPolypDB 0.814  LaribPolypDB_raw 0.814  Kvasir 0.927  Kvasir_raw 0.927  (2h30m)\n"}
+,{"stream_name":"stdout","time":10844.041558455,"data":"[progress 3h00m]\n"}
+,{"stream_name":"stdout","time":10844.041596985,"data":"    B4-512_seed42    epoch  52/80  loss 1.191  300 0.876  300_raw 0.876  ClinicDB 0.940  ClinicDB_raw 0.940  ColonDB 0.809  ColonDB_raw 0.809  LaribPolypDB 0.845  LaribPolypDB_raw 0.845  Kvasir 0.931  Kvasir_raw 0.931  (3h00m)\n"}
+,{"stream_name":"stdout","time":10844.041605731,"data":"    B4-512_seed1     epoch  51/80  loss 1.169  300 0.888  300_raw 0.888  ClinicDB 0.928  ClinicDB_raw 0.928  ColonDB 0.820  ColonDB_raw 0.820  LaribPolypDB 0.806  LaribPolypDB_raw 0.806  Kvasir 0.929  Kvasir_raw 0.929  (3h00m)\n"}
+,{"stream_name":"stdout","time":12644.058326774,"data":"[progress 3h30m]\n"}
+,{"stream_name":"stdout","time":12644.058397696,"data":"    B4-512_seed42    epoch  62/80  loss 1.113  300 0.878  300_raw 0.878  ClinicDB 0.943  ClinicDB_raw 0.943  ColonDB 0.820  ColonDB_raw 0.820  LaribPolypDB 0.847  LaribPolypDB_raw 0.847  Kvasir 0.923  Kvasir_raw 0.923  (3h30m)\n"}
+,{"stream_name":"stdout","time":12644.058406062,"data":"    B4-512_seed1     epoch  60/80  loss 1.134  300 0.894  300_raw 0.894  ClinicDB 0.928  ClinicDB_raw 0.928  ColonDB 0.827  ColonDB_raw 0.827  LaribPolypDB 0.821  LaribPolypDB_raw 0.821  Kvasir 0.932  Kvasir_raw 0.932  (3h30m)\n"}
+,{"stream_name":"stdout","time":14444.084286373,"data":"[progress 4h00m]\n"}
+,{"stream_name":"stdout","time":14444.084362423,"data":"    B4-512_seed42    epoch  71/80  loss 1.092  300 0.873  300_raw 0.873  ClinicDB 0.942  ClinicDB_raw 0.942  ColonDB 0.817  ColonDB_raw 0.817  LaribPolypDB 0.843  LaribPolypDB_raw 0.843  Kvasir 0.922  Kvasir_raw 0.922  (4h00m)\n"}
+,{"stream_name":"stdout","time":14444.084372019,"data":"    B4-512_seed1     epoch  69/80  loss 1.092  300 0.894  300_raw 0.894  ClinicDB 0.930  ClinicDB_raw 0.930  ColonDB 0.819  ColonDB_raw 0.819  LaribPolypDB 0.822  LaribPolypDB_raw 0.822  Kvasir 0.930  Kvasir_raw 0.930  (4h00m)\n"}
+,{"stream_name":"stdout","time":16244.112066052,"data":"[progress 4h30m]\n"}
+,{"stream_name":"stdout","time":16244.112132271,"data":"    B4-512_seed42    epoch  80/80  loss 1.079  300 0.874  300_raw 0.874  ClinicDB 0.941  ClinicDB_raw 0.941  ColonDB 0.816  ColonDB_raw 0.816  LaribPolypDB 0.844  LaribPolypDB_raw 0.844  Kvasir 0.920  Kvasir_raw 0.920  (4h30m)\n"}
+,{"stream_name":"stdout","time":16244.112143215,"data":"    B4-512_seed1     epoch  78/80  loss 1.081  300 0.894  300_raw 0.894  ClinicDB 0.929  ClinicDB_raw 0.929  ColonDB 0.818  ColonDB_raw 0.818  LaribPolypDB 0.826  LaribPolypDB_raw 0.826  Kvasir 0.927  Kvasir_raw 0.927  (4h30m)\n"}
+,{"stream_name":"stdout","time":17146.005623362,"data":"[gpu0] DONE  B4-512_seed42    in 4h45m  CVC-300 0.8795/0.8065  CVC-300_last 0.8737/0.7996  CVC-300_ttamsl 0.8865/0.8156  CVC-ClinicDB 0.9434/0.8980  CVC-ClinicDB_last 0.9411/0.8947  CVC-ClinicDB_ttamsl 0.9470/0.9034  CVC-ColonDB 0.8198/0.7393  CVC-ColonDB_last 0.8161/0.7359  CVC-ColonDB_ttamsl 0.8217/0.7404  ETIS-LaribPolypDB 0.8488/0.7790  ETIS-LaribPolypDB_last 0.8443/0.7738  ETIS-LaribPolypDB_ttamsl 0.8597/0.7907  Kvasir 0.9314/0.8834  Kvasir_last 0.9204/0.8700  Kvasir_ttamsl 0.9219/0.8742\n"}
+,{"stream_name":"stdout","time":17146.006808475,"data":"[gpu0] START B4-512_seed2     at 4h45m\n"}
+,{"stream_name":"stdout","time":17538.215376779,"data":"[gpu1] DONE  B4-512_seed1     in 4h51m  CVC-300 0.8950/0.8274  CVC-300_last 0.8943/0.8281  CVC-300_ttamsl 0.8874/0.8181  CVC-ClinicDB 0.9290/0.8838  CVC-ClinicDB_last 0.9287/0.8831  CVC-ClinicDB_ttamsl 0.9271/0.8836  CVC-ColonDB 0.8212/0.7435  CVC-ColonDB_last 0.8175/0.7390  CVC-ColonDB_ttamsl 0.8253/0.7458  ETIS-LaribPolypDB 0.8265/0.7550  ETIS-LaribPolypDB_last 0.8262/0.7545  ETIS-LaribPolypDB_ttamsl 0.8428/0.7723  Kvasir 0.9308/0.8836  Kvasir_last 0.9267/0.8769  Kvasir_ttamsl 0.9318/0.8860\n"}
+,{"stream_name":"stdout","time":18044.112321798,"data":"[progress 5h00m]\n"}
+,{"stream_name":"stdout","time":18044.112403361,"data":"    B4-512_seed2     epoch   2/80  loss 3.860  300 0.858  300_raw 0.858  ClinicDB 0.808  ClinicDB_raw 0.808  ColonDB 0.739  ColonDB_raw 0.739  LaribPolypDB 0.736  LaribPolypDB_raw 0.736  Kvasir 0.876  Kvasir_raw 0.876  (0h14m)\n"}
+,{"stream_name":"stdout","time":19844.116128246,"data":"[progress 5h30m]\n"}
+,{"stream_name":"stdout","time":19844.116167792,"data":"    B4-512_seed2     epoch  12/80  loss 1.934  300 0.856  300_raw 0.856  ClinicDB 0.898  ClinicDB_raw 0.898  ColonDB 0.791  ColonDB_raw 0.791  LaribPolypDB 0.806  LaribPolypDB_raw 0.806  Kvasir 0.933  Kvasir_raw 0.933  (0h44m)\n"}
+,{"stream_name":"stdout","time":21644.117481,"data":"[progress 6h00m]\n"}
+,{"stream_name":"stdout","time":21644.117520087,"data":"    B4-512_seed2     epoch  21/80  loss 1.542  300 0.886  300_raw 0.886  ClinicDB 0.916  ClinicDB_raw 0.916  ColonDB 0.818  ColonDB_raw 0.818  LaribPolypDB 0.827  LaribPolypDB_raw 0.827  Kvasir 0.935  Kvasir_raw 0.935  (1h14m)\n"}
+,{"stream_name":"stdout","time":23444.126486307,"data":"[progress 6h30m]\n"}
+,{"stream_name":"stdout","time":23444.126540029,"data":"    B4-512_seed2     epoch  31/80  loss 1.351  300 0.898  300_raw 0.898  ClinicDB 0.919  ClinicDB_raw 0.919  ColonDB 0.826  ColonDB_raw 0.826  LaribPolypDB 0.828  LaribPolypDB_raw 0.828  Kvasir 0.927  Kvasir_raw 0.927  (1h44m)\n"}
+,{"stream_name":"stdout","time":25244.131649908,"data":"[progress 7h00m]\n"}
+,{"stream_name":"stdout","time":25244.13169234,"data":"    B4-512_seed2     epoch  41/80  loss 1.287  300 0.887  300_raw 0.887  ClinicDB 0.938  ClinicDB_raw 0.938  ColonDB 0.823  ColonDB_raw 0.823  LaribPolypDB 0.844  LaribPolypDB_raw 0.844  Kvasir 0.922  Kvasir_raw 0.922  (2h14m)\n"}
+,{"stream_name":"stdout","time":27044.138051203,"data":"[progress 7h30m]\n"}
+,{"stream_name":"stdout","time":27044.138104257,"data":"    B4-512_seed2     epoch  51/80  loss 1.167  300 0.886  300_raw 0.886  ClinicDB 0.927  ClinicDB_raw 0.927  ColonDB 0.810  ColonDB_raw 0.810  LaribPolypDB 0.841  LaribPolypDB_raw 0.841  Kvasir 0.923  Kvasir_raw 0.923  (2h44m)\n"}
+,{"stream_name":"stdout","time":28844.149622309,"data":"[progress 8h00m]\n"}
+,{"stream_name":"stdout","time":28844.149678633,"data":"    B4-512_seed2     epoch  61/80  loss 1.113  300 0.899  300_raw 0.899  ClinicDB 0.938  ClinicDB_raw 0.938  ColonDB 0.816  ColonDB_raw 0.816  LaribPolypDB 0.844  LaribPolypDB_raw 0.844  Kvasir 0.922  Kvasir_raw 0.922  (3h14m)\n"}
+,{"stream_name":"stdout","time":30644.159163384,"data":"[progress 8h30m]\n"}
+,{"stream_name":"stdout","time":30644.159216008,"data":"    B4-512_seed2     epoch  71/80  loss 1.083  300 0.899  300_raw 0.899  ClinicDB 0.932  ClinicDB_raw 0.932  ColonDB 0.816  ColonDB_raw 0.816  LaribPolypDB 0.841  LaribPolypDB_raw 0.841  Kvasir 0.924  Kvasir_raw 0.924  (3h44m)\n"}
+,{"stream_name":"stdout","time":32444.167033223,"data":"[progress 9h00m]\n"}
+,{"stream_name":"stdout","time":32444.16707543,"data":"    B4-512_seed2     epoch  80/80  loss 1.095  300 0.899  300_raw 0.899  ClinicDB 0.931  ClinicDB_raw 0.931  ColonDB 0.818  ColonDB_raw 0.818  LaribPolypDB 0.842  LaribPolypDB_raw 0.842  Kvasir 0.923  Kvasir_raw 0.923  (4h14m)\n"}
+,{"stream_name":"stdout","time":33165.129451051,"data":"[gpu0] DONE  B4-512_seed2     in 4h26m  CVC-300 0.9002/0.8280  CVC-300_last 0.8987/0.8268  CVC-300_ttamsl 0.8871/0.8144  CVC-ClinicDB 0.9391/0.8917  CVC-ClinicDB_last 0.9310/0.8847  CVC-ClinicDB_ttamsl 0.9298/0.8862  CVC-ColonDB 0.8137/0.7353  CVC-ColonDB_last 0.8182/0.7403  CVC-ColonDB_ttamsl 0.8192/0.7401  ETIS-LaribPolypDB 0.8437/0.7717  ETIS-LaribPolypDB_last 0.8416/0.7697  ETIS-LaribPolypDB_ttamsl 0.8590/0.7909  Kvasir 0.9222/0.8755  Kvasir_last 0.9233/0.8750  Kvasir_ttamsl 0.9229/0.8771\n"}
+,{"stream_name":"stdout","time":33165.130617108,"data":"training finished in 9h12m\n"}
+,{"stream_name":"stdout","time":33165.323204024,"data":"checkpoint                                           size  epochs\n"}
+,{"stream_name":"stdout","time":33165.323237,"data":"daxnet_pranet_B4-512_seed1.pt                       251MB      80\n"}
+,{"stream_name":"stdout","time":33165.362227263,"data":"daxnet_pranet_B4-512_seed2.pt                       251MB      80\n"}
+,{"stream_name":"stdout","time":33165.460417076,"data":"daxnet_pranet_B4-512_seed42.pt                      251MB      80\n"}
+,{"stream_name":"stdout","time":33165.460446567,"data":"3 checkpoints in /kaggle/working/checkpoints (each with a .json describing how to rebuild the model)\n"}
+,{"stream_name":"stdout","time":33188.285712532,"data":"checkpoint                                  Kvasir        ClinicDB         ColonDB            ETIS         CVC-300   (Dice/IoU, last epoch)\n"}
+,{"stream_name":"stdout","time":34081.987004883,"data":"B4-512_seed1                       0.9308/0.8835 0.9290/0.8838 0.8212/0.7434 0.8265/0.7550 0.8950/0.8274\n"}
+,{"stream_name":"stdout","time":34926.842035312,"data":"B4-512_seed2                       0.9222/0.8756 0.9392/0.8917 0.8137/0.7353 0.8437/0.7718 0.9002/0.8280\n"}
+,{"stream_name":"stdout","time":35778.521482726,"data":"B4-512_seed42                      0.9314/0.8834 0.9434/0.8980 0.8198/0.7393 0.8488/0.7790 0.8795/0.8065\n"}
+,{"stream_name":"stdout","time":35778.582264027,"data":"\n"}
+,{"stream_name":"stdout","time":35778.582290565,"data":"TABLE 1. Every trained model (Dice/IoU)\n"}
+,{"stream_name":"stdout","time":35778.582297116,"data":"+--------+------+--------+---------------+---------------+---------------+---------------+---------------+\n"}
+,{"stream_name":"stdout","time":35778.582303409,"data":"| Config | Seed | Params | Kvasir        | ClinicDB      | ColonDB       | CVC-300       | ETIS          |\n"}
+,{"stream_name":"stdout","time":35778.582309265,"data":"+========+======+========+===============+===============+===============+===============+===============+\n"}
+,{"stream_name":"stdout","time":35778.582315092,"data":"| B4-512 | 1    | 65.8M  | 0.9308/0.8835 | 0.9290/0.8838 | 0.8212/0.7434 | 0.8950/0.8274 | 0.8265/0.7550 |\n"}
+,{"stream_name":"stdout","time":35778.582320778,"data":"| B4-512 | 2    | 65.8M  | 0.9222/0.8756 | 0.9392/0.8917 | 0.8137/0.7353 | 0.9002/0.8280 | 0.8437/0.7718 |\n"}
+,{"stream_name":"stdout","time":35778.58232647,"data":"| B4-512 | 42   | 65.8M  | 0.9314/0.8834 | 0.9434/0.8980 | 0.8198/0.7393 | 0.8795/0.8065 | 0.8488/0.7790 |\n"}
+,{"stream_name":"stdout","time":35778.582332067,"data":"+--------+------+--------+---------------+---------------+---------------+---------------+---------------+\n"}
+,{"stream_name":"stdout","time":35778.582337848,"data":"\n"}
+,{"stream_name":"stdout","time":35778.582343036,"data":"TABLE 2. Mean +- std over seeds (Dice / IoU)\n"}
+,{"stream_name":"stdout","time":35778.582348643,"data":"+--------+-------+-------------------------------+-------------------------------+-------------------------------+-------------------------------+-------------------------------+\n"}
+,{"stream_name":"stdout","time":35778.582354845,"data":"| Config | Seeds | Kvasir                        | ClinicDB                      | ColonDB                       | CVC-300                       | ETIS                          |\n"}
+,{"stream_name":"stdout","time":35778.582361014,"data":"+========+=======+===============================+===============================+===============================+===============================+===============================+\n"}
+,{"stream_name":"stdout","time":35778.582367173,"data":"| B4-512 | 3     | 0.9281+-0.005 / 0.8808+-0.005 | 0.9372+-0.007 / 0.8912+-0.007 | 0.8182+-0.004 / 0.7393+-0.004 | 0.8916+-0.011 / 0.8206+-0.012 | 0.8397+-0.012 / 0.7686+-0.012 |\n"}
+,{"stream_name":"stdout","time":35778.582373387,"data":"+--------+-------+-------------------------------+-------------------------------+-------------------------------+-------------------------------+-------------------------------+\n"}
+,{"stream_name":"stdout","time":35778.58811766,"data":"\n"}
+,{"stream_name":"stdout","time":35778.58814919,"data":"TABLE 3. Comparison, DAXNet scored with LSSNet protocol: epoch with the best test Dice (LSSNet train.py rule), soft Dice/IoU (LSSNet test.py); * = higher than the best other model\n"}
+,{"stream_name":"stdout","time":35778.588157353,"data":"+--------------------------------------------+-------------------+-------------------+-------------------+-------------------+-------------------+\n"}
+,{"stream_name":"stdout","time":35778.588163458,"data":"| Model                                      | Kvasir            | ClinicDB          | ColonDB           | CVC-300           | ETIS              |\n"}
+,{"stream_name":"stdout","time":35778.588169427,"data":"+============================================+===================+===================+===================+===================+===================+\n"}
+,{"stream_name":"stdout","time":35778.588175181,"data":"| CD-PolypNet (benchmark)                    | 0.9330 / 0.8770   | 0.9450 / 0.8980   | 0.8890 / 0.8300   | 0.9130 / 0.8540   | 0.9030 / 0.8770   |\n"}
+,{"stream_name":"stdout","time":35778.588194455,"data":"| Monobox                                    | 0.8557 / 0.7726   | 0.8180 / 0.7306   | 0.7299 / 0.6272   | 0.8493 / 0.7496   | 0.6941 / 0.5968   |\n"}
+,{"stream_name":"stdout","time":35778.588199669,"data":"| Hybrid (ColonNext + CD-PolypNet)           | 0.9120 / 0.8624   | 0.8717 / 0.8229   | 0.7036 / 0.6400   | 0.8829 / 0.8214   | 0.6957 / 0.6337   |\n"}
+,{"stream_name":"stdout","time":35778.588204284,"data":"| Stable-Diffusion-Seg                       | 0.8406 / 0.7658   | 0.7954 / 0.7228   | 0.6617 / 0.5876   | 0.7778 / 0.6970   | 0.4922 / 0.4299   |\n"}
+,{"stream_name":"stdout","time":35778.588208567,"data":"| ColonNeXt                                  | 0.9243 / 0.8761   | 0.9364 / 0.8933   | 0.8002 / 0.7240   | 0.9185 / 0.8584   | 0.8480 / 0.7686   |\n"}
+,{"stream_name":"stdout","time":35778.588213471,"data":"| WBANet                                     | 0.9252 / 0.8742   | 0.9357 / 0.8894   | 0.8000 / 0.7193   | 0.8892 / 0.8180   | 0.7964 / 0.7166   |\n"}
+,{"stream_name":"stdout","time":35778.588218244,"data":"| HGM                                        | 0.8755 / 0.8105   | 0.8999 / 0.8501   | 0.6976 / 0.6105   | 0.8372 / 0.7481   | 0.5674 / 0.4888   |\n"}
+,{"stream_name":"stdout","time":35778.588223097,"data":"| MixMamba TransNet                          | 0.9014 / 0.8548   | 0.9042 / 0.8263   | 0.7899 / 0.7200   | 0.9103 / 0.8125   | 0.7549 / 0.6973   |\n"}
+,{"stream_name":"stdout","time":35778.588230955,"data":"| LSSNet                                     | 0.9204 / 0.8023   | 0.9383 / 0.8902   | 0.8142 / 0.7364   | 0.9089 / 0.8420   | 0.8023 / 0.7267   |\n"}
+,{"stream_name":"stdout","time":35778.588237771,"data":"| HSNet                                      | 0.9195 / 0.8716   | 0.9242 / 0.8798   | 0.8010 / 0.7161   | 0.8894 / 0.8159   | 0.8202 / 0.7396   |\n"}
+,{"stream_name":"stdout","time":35778.588242785,"data":"| CFANet                                     | 0.8903 / 0.8328   | 0.9299 / 0.8767   | 0.6994 / 0.6340   | 0.8775 / 0.8097   | 0.6885 / 0.6143   |\n"}
+,{"stream_name":"stdout","time":35778.588247493,"data":"| SEPNet                                     | 0.9029 / 0.8458   | 0.9142 / 0.8623   | 0.7989 / 0.7186   | 0.9003 / 0.8285   | 0.7649 / 0.6827   |\n"}
+,{"stream_name":"stdout","time":35778.588252457,"data":"| EMCAD                                      | 0.9241 / 0.8753   | 0.9301 / 0.8843   | 0.7967 / 0.7196   | 0.8809 / 0.8058   | 0.8277 / 0.7466   |\n"}
+,{"stream_name":"stdout","time":35778.588257404,"data":"| Polyp-PVT (published)                      | 0.9170 / 0.8640   | 0.9370 / 0.8890   | 0.8080 / 0.7270   | 0.9000 / 0.8330   | 0.7870 / 0.7060   |\n"}
+,{"stream_name":"stdout","time":35778.588262088,"data":"| --------                                   |                   |                   |                   |                   |                   |\n"}
+,{"stream_name":"stdout","time":35778.588266711,"data":"| Best of the models above (excl. benchmark) | 0.9252 / 0.8761   | 0.9383 / 0.8933   | 0.8142 / 0.7364   | 0.9185 / 0.8584   | 0.8480 / 0.7686   |\n"}
+,{"stream_name":"stdout","time":35778.588271813,"data":"| DAXNet B4-512 (mean)                       | 0.9232  / 0.8722  | 0.9319  / 0.8827  | 0.8135  / 0.7317  | 0.8881  / 0.8149  | 0.8337  / 0.7591  |\n"}
+,{"stream_name":"stdout","time":35778.588276695,"data":"| DAXNet B4-512 + flip TTA (mean)            | 0.9244  / 0.8731  | 0.9266  / 0.8773  | 0.8164* / 0.7320  | 0.8877  / 0.8147  | 0.8262  / 0.7476  |\n"}
+,{"stream_name":"stdout","time":35778.588281471,"data":"| DAXNet B4-512 + multi-scale TTA (mean)     | 0.9224  / 0.8699  | 0.9262  / 0.8767  | 0.8108  / 0.7247  | 0.8844  / 0.8099  | 0.8208  / 0.7408  |\n"}
+,{"stream_name":"stdout","time":35778.58828604,"data":"| DAXNet B4-512 + zoom-in TTA (mean)         | 0.9190  / 0.8661  | 0.9256  / 0.8765  | 0.8060  / 0.7193  | 0.8748  / 0.7981  | 0.8215  / 0.7421  |\n"}
+,{"stream_name":"stdout","time":35778.588295839,"data":"+--------------------------------------------+-------------------+-------------------+-------------------+-------------------+-------------------+\n"}
+,{"stream_name":"stdout","time":35778.588300773,"data":"Other models: numbers as reported (LSSNet-lineage code selects the epoch with the best test Dice and scores soft maps). Only the strict table is free of test-set selection.\n"}
+,{"stream_name":"stdout","time":35778.588305606,"data":"\n"}
+,{"stream_name":"stdout","time":35778.588309718,"data":"TABLE 4. Comparison, DAXNet scored with epoch with the best test Dice (LSSNet train.py rule), Dice/IoU at threshold 0.5; * = higher than the best other model\n"}
+,{"stream_name":"stdout","time":35778.588314792,"data":"+--------------------------------------------+-------------------+-------------------+-------------------+-------------------+-------------------+\n"}
+,{"stream_name":"stdout","time":35778.588319387,"data":"| Model                                      | Kvasir            | ClinicDB          | ColonDB           | CVC-300           | ETIS              |\n"}
+,{"stream_name":"stdout","time":35778.588323933,"data":"+============================================+===================+===================+===================+===================+===================+\n"}
+,{"stream_name":"stdout","time":35778.588328398,"data":"| CD-PolypNet (benchmark)                    | 0.9330 / 0.8770   | 0.9450 / 0.8980   | 0.8890 / 0.8300   | 0.9130 / 0.8540   | 0.9030 / 0.8770   |\n"}
+,{"stream_name":"stdout","time":35778.58833279,"data":"| Monobox                                    | 0.8557 / 0.7726   | 0.8180 / 0.7306   | 0.7299 / 0.6272   | 0.8493 / 0.7496   | 0.6941 / 0.5968   |\n"}
+,{"stream_name":"stdout","time":35778.588337576,"data":"| Hybrid (ColonNext + CD-PolypNet)           | 0.9120 / 0.8624   | 0.8717 / 0.8229   | 0.7036 / 0.6400   | 0.8829 / 0.8214   | 0.6957 / 0.6337   |\n"}
+,{"stream_name":"stdout","time":35778.588343075,"data":"| Stable-Diffusion-Seg                       | 0.8406 / 0.7658   | 0.7954 / 0.7228   | 0.6617 / 0.5876   | 0.7778 / 0.6970   | 0.4922 / 0.4299   |\n"}
+,{"stream_name":"stdout","time":35778.588347752,"data":"| ColonNeXt                                  | 0.9243 / 0.8761   | 0.9364 / 0.8933   | 0.8002 / 0.7240   | 0.9185 / 0.8584   | 0.8480 / 0.7686   |\n"}
+,{"stream_name":"stdout","time":35778.588353294,"data":"| WBANet                                     | 0.9252 / 0.8742   | 0.9357 / 0.8894   | 0.8000 / 0.7193   | 0.8892 / 0.8180   | 0.7964 / 0.7166   |\n"}
+,{"stream_name":"stdout","time":35778.588358107,"data":"| HGM                                        | 0.8755 / 0.8105   | 0.8999 / 0.8501   | 0.6976 / 0.6105   | 0.8372 / 0.7481   | 0.5674 / 0.4888   |\n"}
+,{"stream_name":"stdout","time":35778.588362633,"data":"| MixMamba TransNet                          | 0.9014 / 0.8548   | 0.9042 / 0.8263   | 0.7899 / 0.7200   | 0.9103 / 0.8125   | 0.7549 / 0.6973   |\n"}
+,{"stream_name":"stdout","time":35778.588367454,"data":"| LSSNet                                     | 0.9204 / 0.8023   | 0.9383 / 0.8902   | 0.8142 / 0.7364   | 0.9089 / 0.8420   | 0.8023 / 0.7267   |\n"}
+,{"stream_name":"stdout","time":35778.588372162,"data":"| HSNet                                      | 0.9195 / 0.8716   | 0.9242 / 0.8798   | 0.8010 / 0.7161   | 0.8894 / 0.8159   | 0.8202 / 0.7396   |\n"}
+,{"stream_name":"stdout","time":35778.588376893,"data":"| CFANet                                     | 0.8903 / 0.8328   | 0.9299 / 0.8767   | 0.6994 / 0.6340   | 0.8775 / 0.8097   | 0.6885 / 0.6143   |\n"}
+,{"stream_name":"stdout","time":35778.588382538,"data":"| SEPNet                                     | 0.9029 / 0.8458   | 0.9142 / 0.8623   | 0.7989 / 0.7186   | 0.9003 / 0.8285   | 0.7649 / 0.6827   |\n"}
+,{"stream_name":"stdout","time":35778.588392716,"data":"| EMCAD                                      | 0.9241 / 0.8753   | 0.9301 / 0.8843   | 0.7967 / 0.7196   | 0.8809 / 0.8058   | 0.8277 / 0.7466   |\n"}
+,{"stream_name":"stdout","time":35778.588397543,"data":"| Polyp-PVT (published)                      | 0.9170 / 0.8640   | 0.9370 / 0.8890   | 0.8080 / 0.7270   | 0.9000 / 0.8330   | 0.7870 / 0.7060   |\n"}
+,{"stream_name":"stdout","time":35778.588403364,"data":"| --------                                   |                   |                   |                   |                   |                   |\n"}
+,{"stream_name":"stdout","time":35778.588408034,"data":"| Best of the models above (excl. benchmark) | 0.9252 / 0.8761   | 0.9383 / 0.8933   | 0.8142 / 0.7364   | 0.9185 / 0.8584   | 0.8480 / 0.7686   |\n"}
+,{"stream_name":"stdout","time":35778.588413863,"data":"| DAXNet B4-512 (mean)                       | 0.9281* / 0.8808* | 0.9372  / 0.8912  | 0.8182* / 0.7393* | 0.8916  / 0.8206  | 0.8397  / 0.7686  |\n"}
+,{"stream_name":"stdout","time":35778.588418844,"data":"| DAXNet B4-512 + flip TTA (mean)            | 0.9289* / 0.8829* | 0.9334  / 0.8889  | 0.8294* / 0.7513* | 0.8999  / 0.8323  | 0.8556* / 0.7858* |\n"}
+,{"stream_name":"stdout","time":35778.588424004,"data":"| DAXNet B4-512 + multi-scale TTA (mean)     | 0.9285* / 0.8824* | 0.9341  / 0.8900  | 0.8303* / 0.7523* | 0.9011  / 0.8345  | 0.8548* / 0.7858* |\n"}
+,{"stream_name":"stdout","time":35778.588428943,"data":"| DAXNet B4-512 + zoom-in TTA (mean)         | 0.9255* / 0.8791* | 0.9346  / 0.8911  | 0.8221* / 0.7421* | 0.8870  / 0.8160  | 0.8539* / 0.7846* |\n"}
+,{"stream_name":"stdout","time":35778.588433757,"data":"+--------------------------------------------+-------------------+-------------------+-------------------+-------------------+-------------------+\n"}
+,{"stream_name":"stdout","time":35778.588438518,"data":"Other models: numbers as reported (LSSNet-lineage code selects the epoch with the best test Dice and scores soft maps). Only the strict table is free of test-set selection.\n"}
+,{"stream_name":"stdout","time":35778.58844345,"data":"\n"}
+,{"stream_name":"stdout","time":35778.588447593,"data":"TABLE 5. Comparison, DAXNet scored with strict: last epoch, Dice/IoU at threshold 0.5 (no test-set selection); * = higher than the best other model\n"}
+,{"stream_name":"stdout","time":35778.588452302,"data":"+--------------------------------------------+-------------------+-------------------+-------------------+-------------------+-------------------+\n"}
+,{"stream_name":"stdout","time":35778.588457111,"data":"| Model                                      | Kvasir            | ClinicDB          | ColonDB           | CVC-300           | ETIS              |\n"}
+,{"stream_name":"stdout","time":35778.588462308,"data":"+============================================+===================+===================+===================+===================+===================+\n"}
+,{"stream_name":"stdout","time":35778.588467075,"data":"| CD-PolypNet (benchmark)                    | 0.9330 / 0.8770   | 0.9450 / 0.8980   | 0.8890 / 0.8300   | 0.9130 / 0.8540   | 0.9030 / 0.8770   |\n"}
+,{"stream_name":"stdout","time":35778.588471888,"data":"| Monobox                                    | 0.8557 / 0.7726   | 0.8180 / 0.7306   | 0.7299 / 0.6272   | 0.8493 / 0.7496   | 0.6941 / 0.5968   |\n"}
+,{"stream_name":"stdout","time":35778.588478448,"data":"| Hybrid (ColonNext + CD-PolypNet)           | 0.9120 / 0.8624   | 0.8717 / 0.8229   | 0.7036 / 0.6400   | 0.8829 / 0.8214   | 0.6957 / 0.6337   |\n"}
+,{"stream_name":"stdout","time":35778.588483534,"data":"| Stable-Diffusion-Seg                       | 0.8406 / 0.7658   | 0.7954 / 0.7228   | 0.6617 / 0.5876   | 0.7778 / 0.6970   | 0.4922 / 0.4299   |\n"}
+,{"stream_name":"stdout","time":35778.588495228,"data":"| ColonNeXt                                  | 0.9243 / 0.8761   | 0.9364 / 0.8933   | 0.8002 / 0.7240   | 0.9185 / 0.8584   | 0.8480 / 0.7686   |\n"}
+,{"stream_name":"stdout","time":35778.588502464,"data":"| WBANet                                     | 0.9252 / 0.8742   | 0.9357 / 0.8894   | 0.8000 / 0.7193   | 0.8892 / 0.8180   | 0.7964 / 0.7166   |\n"}
+,{"stream_name":"stdout","time":35778.588507509,"data":"| HGM                                        | 0.8755 / 0.8105   | 0.8999 / 0.8501   | 0.6976 / 0.6105   | 0.8372 / 0.7481   | 0.5674 / 0.4888   |\n"}
+,{"stream_name":"stdout","time":35778.58851293,"data":"| MixMamba TransNet                          | 0.9014 / 0.8548   | 0.9042 / 0.8263   | 0.7899 / 0.7200   | 0.9103 / 0.8125   | 0.7549 / 0.6973   |\n"}
+,{"stream_name":"stdout","time":35778.588518303,"data":"| LSSNet                                     | 0.9204 / 0.8023   | 0.9383 / 0.8902   | 0.8142 / 0.7364   | 0.9089 / 0.8420   | 0.8023 / 0.7267   |\n"}
+,{"stream_name":"stdout","time":35778.588524267,"data":"| HSNet                                      | 0.9195 / 0.8716   | 0.9242 / 0.8798   | 0.8010 / 0.7161   | 0.8894 / 0.8159   | 0.8202 / 0.7396   |\n"}
+,{"stream_name":"stdout","time":35778.588529949,"data":"| CFANet                                     | 0.8903 / 0.8328   | 0.9299 / 0.8767   | 0.6994 / 0.6340   | 0.8775 / 0.8097   | 0.6885 / 0.6143   |\n"}
+,{"stream_name":"stdout","time":35778.588534833,"data":"| SEPNet                                     | 0.9029 / 0.8458   | 0.9142 / 0.8623   | 0.7989 / 0.7186   | 0.9003 / 0.8285   | 0.7649 / 0.6827   |\n"}
+,{"stream_name":"stdout","time":35778.588540294,"data":"| EMCAD                                      | 0.9241 / 0.8753   | 0.9301 / 0.8843   | 0.7967 / 0.7196   | 0.8809 / 0.8058   | 0.8277 / 0.7466   |\n"}
+,{"stream_name":"stdout","time":35778.588545899,"data":"| Polyp-PVT (published)                      | 0.9170 / 0.8640   | 0.9370 / 0.8890   | 0.8080 / 0.7270   | 0.9000 / 0.8330   | 0.7870 / 0.7060   |\n"}
+,{"stream_name":"stdout","time":35778.588552258,"data":"| --------                                   |                   |                   |                   |                   |                   |\n"}
+,{"stream_name":"stdout","time":35778.588556585,"data":"| Best of the models above (excl. benchmark) | 0.9252 / 0.8761   | 0.9383 / 0.8933   | 0.8142 / 0.7364   | 0.9185 / 0.8584   | 0.8480 / 0.7686   |\n"}
+,{"stream_name":"stdout","time":35778.588561164,"data":"| DAXNet B4-512 (last epoch) (mean)          | 0.9235  / 0.8740  | 0.9336  / 0.8875  | 0.8173* / 0.7384* | 0.8889  / 0.8182  | 0.8373  / 0.7660  |\n"}
+,{"stream_name":"stdout","time":35778.588566134,"data":"+--------------------------------------------+-------------------+-------------------+-------------------+-------------------+-------------------+\n"}
+,{"stream_name":"stdout","time":35778.588571247,"data":"Other models: numbers as reported (LSSNet-lineage code selects the epoch with the best test Dice and scores soft maps). Only the strict table is free of test-set selection.\n"}
+,{"stream_name":"stdout","time":35778.588576134,"data":"\n"}
+,{"stream_name":"stdout","time":35778.588580228,"data":"VERDICT, LSSNet protocol: epoch with the best test Dice (LSSNet train.py rule), soft Dice/IoU (LSSNet test.py) (mean over seeds):\n"}
+,{"stream_name":"stdout","time":35778.588585012,"data":"  DAXNet B4-512                        : above the best other model on 0/10 numbers, above CD-PolypNet on 0/10\n"}
+,{"stream_name":"stdout","time":35778.588589633,"data":"  DAXNet B4-512 + flip TTA             : above the best other model on 1/10 numbers, above CD-PolypNet on 0/10\n"}
+,{"stream_name":"stdout","time":35778.588594416,"data":"  DAXNet B4-512 + multi-scale TTA      : above the best other model on 0/10 numbers, above CD-PolypNet on 0/10\n"}
+,{"stream_name":"stdout","time":35778.58860391,"data":"  DAXNet B4-512 + zoom-in TTA          : above the best other model on 0/10 numbers, above CD-PolypNet on 0/10\n"}
+,{"stream_name":"stdout","time":35778.588609004,"data":"\n"}
+,{"stream_name":"stdout","time":35778.588613769,"data":"VERDICT, epoch with the best test Dice (LSSNet train.py rule), Dice/IoU at threshold 0.5 (mean over seeds):\n"}
+,{"stream_name":"stdout","time":35778.588619814,"data":"  DAXNet B4-512                        : above the best other model on 4/10 numbers, above CD-PolypNet on 1/10\n"}
+,{"stream_name":"stdout","time":35778.588623984,"data":"  DAXNet B4-512 + flip TTA             : above the best other model on 6/10 numbers, above CD-PolypNet on 1/10\n"}
+,{"stream_name":"stdout","time":35778.588628858,"data":"  DAXNet B4-512 + multi-scale TTA      : above the best other model on 6/10 numbers, above CD-PolypNet on 1/10\n"}
+,{"stream_name":"stdout","time":35778.588633843,"data":"  DAXNet B4-512 + zoom-in TTA          : above the best other model on 6/10 numbers, above CD-PolypNet on 1/10\n"}
+,{"stream_name":"stdout","time":35778.58863832,"data":"\n"}
+,{"stream_name":"stdout","time":35778.588643639,"data":"VERDICT, strict: last epoch, Dice/IoU at threshold 0.5 (no test-set selection) (mean over seeds):\n"}
+,{"stream_name":"stdout","time":35778.588649218,"data":"  DAXNet B4-512 (last epoch)           : above the best other model on 2/10 numbers, above CD-PolypNet on 0/10\n"}
+,{"stream_name":"stdout","time":35778.588653963,"data":"\n"}
+,{"stream_name":"stdout","time":35778.588658752,"data":"saved /kaggle/working/RESULTS.txt and /kaggle/working/results.json\n"}
+,{"stream_name":"stdout","time":35778.780856434,"data":"checkpoints available: {'B4-512': 3}\n"}
+,{"stream_name":"stdout","time":36827.947939163,"data":"\n"}
+,{"stream_name":"stdout","time":36827.947984341,"data":"ENSEMBLES, Dice/IoU at threshold 0.5: + = above CD-PolypNet, * = above the best other model\n"}
+,{"stream_name":"stdout","time":36827.947989563,"data":"+------------------------------------------------+---------------------+---------------------+---------------------+---------------------+---------------------+\n"}
+,{"stream_name":"stdout","time":36827.94799335,"data":"| Model                                          | Kvasir              | ClinicDB            | ColonDB             | CVC-300             | ETIS                |\n"}
+,{"stream_name":"stdout","time":36827.947996875,"data":"+================================================+=====================+=====================+=====================+=====================+=====================+\n"}
+,{"stream_name":"stdout","time":36827.948000515,"data":"| CD-PolypNet (benchmark)                        | 0.9330 / 0.8770     | 0.9450 / 0.8980     | 0.8890 / 0.8300     | 0.9130 / 0.8540     | 0.9030 / 0.8770     |\n"}
+,{"stream_name":"stdout","time":36827.948014892,"data":"| Best of the other models                       | 0.9252 / 0.8761     | 0.9383 / 0.8933     | 0.8142 / 0.7364     | 0.9185 / 0.8584     | 0.8480 / 0.7686     |\n"}
+,{"stream_name":"stdout","time":36827.948018632,"data":"| --------                                       |                     |                     |                     |                     |                     |\n"}
+,{"stream_name":"stdout","time":36827.9480222,"data":"| Ensemble B4-512 seeds (3 models)               | 0.9291*  / 0.8831*+ | 0.9336   / 0.8886   | 0.8367*  / 0.7589*  | 0.8998   / 0.8329   | 0.8593*  / 0.7906*  |\n"}
+,{"stream_name":"stdout","time":36827.948025646,"data":"| Ensemble B4-416 + B4-512 (3 models)            | 0.9291*  / 0.8831*+ | 0.9336   / 0.8886   | 0.8367*  / 0.7589*  | 0.8998   / 0.8329   | 0.8593*  / 0.7906*  |\n"}
+,{"stream_name":"stdout","time":36827.948029255,"data":"| Ensemble B4-416 + B4-512 + S-B2-512 (3 models) | 0.9291*  / 0.8831*+ | 0.9336   / 0.8886   | 0.8367*  / 0.7589*  | 0.8998   / 0.8329   | 0.8593*  / 0.7906*  |\n"}
+,{"stream_name":"stdout","time":36827.94804295,"data":"+------------------------------------------------+---------------------+---------------------+---------------------+---------------------+---------------------+\n"}
+,{"stream_name":"stdout","time":36827.948046001,"data":"\n"}
+,{"stream_name":"stdout","time":36827.948048635,"data":"ENSEMBLES, soft Dice/IoU (LSSNet test.py): + = above CD-PolypNet, * = above the best other model\n"}
+,{"stream_name":"stdout","time":36827.948051486,"data":"+------------------------------------------------+---------------------+---------------------+---------------------+---------------------+---------------------+\n"}
+,{"stream_name":"stdout","time":36827.948055524,"data":"| Model                                          | Kvasir              | ClinicDB            | ColonDB             | CVC-300             | ETIS                |\n"}
+,{"stream_name":"stdout","time":36827.948058394,"data":"+================================================+=====================+=====================+=====================+=====================+=====================+\n"}
+,{"stream_name":"stdout","time":36827.94806127,"data":"| CD-PolypNet (benchmark)                        | 0.9330 / 0.8770     | 0.9450 / 0.8980     | 0.8890 / 0.8300     | 0.9130 / 0.8540     | 0.9030 / 0.8770     |\n"}
+,{"stream_name":"stdout","time":36827.948064131,"data":"| Best of the other models                       | 0.9252 / 0.8761     | 0.9383 / 0.8933     | 0.8142 / 0.7364     | 0.9185 / 0.8584     | 0.8480 / 0.7686     |\n"}
+,{"stream_name":"stdout","time":36827.948066914,"data":"| --------                                       |                     |                     |                     |                     |                     |\n"}
+,{"stream_name":"stdout","time":36827.948069775,"data":"| Ensemble B4-512 seeds (3 models)               | 0.9250   / 0.8730   | 0.9227   / 0.8734   | 0.8164*  / 0.7310   | 0.8860   / 0.8125   | 0.8211   / 0.7410   |\n"}
+,{"stream_name":"stdout","time":36827.948072592,"data":"| Ensemble B4-416 + B4-512 (3 models)            | 0.9250   / 0.8730   | 0.9227   / 0.8734   | 0.8164*  / 0.7310   | 0.8860   / 0.8125   | 0.8211   / 0.7410   |\n"}
+,{"stream_name":"stdout","time":36827.948075381,"data":"| Ensemble B4-416 + B4-512 + S-B2-512 (3 models) | 0.9250   / 0.8730   | 0.9227   / 0.8734   | 0.8164*  / 0.7310   | 0.8860   / 0.8125   | 0.8211   / 0.7410   |\n"}
+,{"stream_name":"stdout","time":36827.948078194,"data":"+------------------------------------------------+---------------------+---------------------+---------------------+---------------------+---------------------+\n"}
+,{"stream_name":"stderr","time":36844.275400075,"data":"/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":36844.27543426,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":36844.489483604,"data":"/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":36844.489509994,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":36845.407667549,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to notebook\n"}
+,{"stream_name":"stderr","time":36845.550528948,"data":"[NbConvertApp] Writing 1493216 bytes to __notebook__.ipynb\n"}
+,{"stream_name":"stderr","time":36848.565801506,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to html\n"}
+,{"stream_name":"stderr","time":36849.601470881,"data":"[NbConvertApp] Support files will be in __results___files/\n"}
+,{"stream_name":"stderr","time":36849.601527217,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":36849.601858442,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":36849.602505035,"data":"[NbConvertApp] Writing 778381 bytes to __results__.html\n"}
+]
