@@ -179,9 +179,10 @@ def main():
     ap.add_argument('--edge-w', type=float, default=1.0)
     ap.add_argument('--aug', default='base', choices=['base', 'strong', 'small'],
                     help="'ours' recipe augmentation: base, strong (photometric), small (strong + zoom-out to 0.5x)")
-    ap.add_argument('--select', default='last', choices=['last', 'test_lss'],
+    ap.add_argument('--select', default='last', choices=['last', 'test_lss', 'test_dice'],
                     help="pranet protocol: keep the last epoch, or (as LSSNet's train.py) the epoch with the best "
-                         "mean soft test Dice; the latter selects on test data and also reports '<set>_last'")
+                         "mean test Dice, soft (test_lss) or at threshold 0.5 (test_dice); these select on test data "
+                         "and also report '<set>_last'")
     ap.add_argument('--max-hours', type=float, default=0, help='stop cleanly (and finalize) before this wall time')
     args = ap.parse_args()
     R = dict(RECIPES[args.recipe])
@@ -292,8 +293,9 @@ def main():
                     rec[k + '_raw'] = ev_raw.summary()
             if 'val' in rec:
                 score = rec['val']['iou_net']            # BAMPolyp's selection rule
-            elif args.select == 'test_lss':              # LSSNet train.py rule: best test Dice (selects on test data)
-                score = float(np.mean([rec[k]['dice_lss_full'] for k in eval_dl]))
+            elif args.select in ('test_lss', 'test_dice'):   # LSSNet train.py rule: best test Dice (selects on test data)
+                key = 'dice_lss_full' if args.select == 'test_lss' else 'dice_full'
+                score = float(np.mean([rec[k][key] for k in eval_dl]))
             else:
                 score = ep                               # keep the last epoch
             if score > best:
@@ -322,7 +324,7 @@ def main():
     net = ema.m if ema is not None else model
     final = {'best_epoch': best_ep, 'epochs_run': ep + 1, 'epochs_planned': R['epochs'], 'stopped': stop,
              'params_M': n_params / 1e6, 'select': args.select if 'val' not in eval_dl else 'best_val_iou'}
-    if 'val' not in eval_dl and args.select == 'test_lss':   # also score the last epoch (no test-set selection)
+    if 'val' not in eval_dl and args.select != 'last':   # also score the last epoch (no test-set selection)
         torch.save(net.state_dict(), os.path.join(args.out, 'last.pt'))
         for k, dl in eval_dl.items():
             final[k + '_last'] = evaluate(net, args.model, dl, device, amp)[0].summary()

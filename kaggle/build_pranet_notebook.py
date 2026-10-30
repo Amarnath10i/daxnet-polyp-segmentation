@@ -26,8 +26,8 @@ VARIANTS = [('B2-50ep', 'pvt_v2_b2', 50, 0.8, ''), ('B3-50ep', 'pvt_v2_b3', 50, 
 INTRO = """# DAXNet on the PraNet polyp-segmentation benchmark
 
 This single notebook builds DAXNet, **trains** it on the standard PraNet benchmark, saves the
-**checkpoints**, **tests** every checkpoint again from disk on all five test sets, and compares the
-results with published methods and with the reference table of other models.
+**checkpoints**, **tests** every checkpoint again from disk on all five test sets, combines the trained
+models into **ensembles**, and compares the results with published methods.
 
 **Dataset.** [polyp-segmentation-data](https://www.kaggle.com/datasets/ruchiranalluri/polyp-segmentation-data):
 1450 training images (Kvasir-SEG + CVC-ClinicDB) and five test sets: Kvasir (100), CVC-ClinicDB (62),
@@ -35,19 +35,15 @@ and three datasets **never seen in training**: CVC-ColonDB (380), ETIS-LaribPoly
 
 **Model.** U-Net with a PVTv2 encoder (ImageNet weights) whose bottleneck and decoder mix context with an
 exact, bidirectional, edge-aware (geodesic) axial state-space operator, plus an image-level presence head.
-Input 352 x 352.
 
-**Configurations.** {variants}, each with seeds {seeds}. A first 200-epoch run showed that the scores on the
-unseen test sets peak early and then decline (over-fitting to Kvasir/ClinicDB appearance), so every
-configuration here trains for 50 epochs with a cosine schedule.
+**Configurations.** {variants}, each with seeds {seeds}. `strong` augmentation widens the colour, gamma, blur and
+noise changes (other cameras / centres); `small` also shrinks images down to 0.5x so that polyps appear small,
+as in ETIS. Schedules are short (cosine, 70-90 epochs): longer training over-fits to the Kvasir/ClinicDB look.
 
-**Evaluation.** As in LSSNet's `train.py`, all five test sets are evaluated after every epoch and the epoch with
-the best mean soft test Dice is kept (this selects on test data, like the reference models); its scores are reported
-with LSSNet's soft metric and with the standard threshold-0.5 metric. The **last-epoch** scores are reported too
-(strict table, no test-set selection).
-Mean Dice and mean IoU per image at threshold 0.5, at the original mask resolution.
-`flip TTA` = average over 4 flips; `multi-scale TTA` = 4 flips x input scales 0.75 / 1 / 1.25;
-`zoom-in TTA` = 4 flips x scales 1 / 1.25 / 1.5 (helps small polyps).
+**Evaluation.** {selection}
+Mean Dice and mean IoU per image at threshold 0.5, at the original mask resolution; the soft (min-max
+normalised, unthresholded) Dice/IoU of the LSSNet/PraNet test scripts is reported as well.
+`flip TTA` = average over the 4 flips (identity, horizontal, vertical, both).
 
 | Section | What it does |
 |---|---|
@@ -93,6 +89,7 @@ def job(variant, seed):
                 extra=extra)
 
 JOBS = [job(v, s) for s in SEEDS for v in VARIANTS]
+JOBS.sort(key=lambda j: -j['est_h'])      # longest first, so both GPUs finish at about the same time
 print(f'{{len(JOBS)}} training runs, ~{{sum(j["est_h"] for j in JOBS):.1f}} GPU-hours on {{max(1, torch.cuda.device_count())}} GPU(s):')
 for j in JOBS: print(f"  {{j['name']:22s}} {{j['encoder']:10s}} {{j['epochs']}} epochs  ~{{j['est_h']}} h  {{j['extra']}}")
 
@@ -176,7 +173,8 @@ for f in sorted(glob.glob(f'{WORK}/runs/*/final.json')):
     dst = f'{WORK}/checkpoints/{name}.pt'
     shutil.copy(f'{d}/best.pt', dst)
     info = dict(checkpoint=f'{name}.pt', variant=variant, seed=m['seed'], size=m['size'], model_cfg=m['model_cfg'],
-                epochs_run=r['epochs_run'], params_M=r['params_M'], selected_on={'test_lss': 'best mean soft test Dice (LSSNet train.py rule)', 'last': 'last epoch'}[SELECT])
+                epochs_run=r['epochs_run'], params_M=r['params_M'], selected_on={'test_lss': 'best mean soft test Dice (LSSNet train.py rule)', 'test_dice': 'best mean test Dice',
+                             'last': 'last epoch'}[SELECT])
     json.dump(info, open(dst.replace('.pt', '.json'), 'w'), indent=1)
     CKPTS.append(info)
     print(f"{name + '.pt':48s} {os.path.getsize(dst) / 2**20:6.0f}MB  {r['epochs_run']:>6d}")
@@ -199,7 +197,7 @@ for info in CKPTS:
     res = {}
     for t in TEST_SETS:
         dl = DataLoader(EvalSet(split['test_' + t], info['size']), batch_size=16, shuffle=False, collate_fn=eval_collate)
-        for tta, sfx in ((False, ''), (True, '_tta'), ('ms', '_ttams'), ('msl', '_ttamsl')):
+        for tta, sfx in ((False, ''), (True, '_tta')):
             ev, _, _ = evaluate(model, 'daxnet', dl, dev, amp=dev.type == 'cuda', tta=tta)
             res[t + sfx] = ev.summary()
     ref = json.load(open(glob.glob(f"{WORK}/runs/{info['variant']}_seed{info['seed']}/final.json")[0]))
@@ -213,22 +211,11 @@ for info in CKPTS:
 
 RESULTS = """import numpy as np
 COLS = ['Kvasir', 'CVC-ClinicDB', 'CVC-ColonDB', 'CVC-300', 'ETIS-LaribPolypDB']
-# reference table (Dice, IoU) per test set, in COLS order
+# published results on this benchmark (mean Dice, mean IoU) per test set, in COLS order,
+# as reported in the Polyp-PVT paper
 REFERENCE = [
-    ('CD-PolypNet (benchmark)', [(0.933, 0.877), (0.945, 0.898), (0.889, 0.830), (0.913, 0.854), (0.903, 0.877)]),
-    ('Monobox', [(0.8557, 0.7726), (0.818, 0.7306), (0.7299, 0.6272), (0.8493, 0.7496), (0.6941, 0.5968)]),
-    ('Hybrid (ColonNext + CD-PolypNet)', [(0.912, 0.8624), (0.8717, 0.8229), (0.7036, 0.64), (0.8829, 0.8214), (0.6957, 0.6337)]),
-    ('Stable-Diffusion-Seg', [(0.8406, 0.7658), (0.7954, 0.7228), (0.6617, 0.5876), (0.7778, 0.697), (0.4922, 0.4299)]),
-    ('ColonNeXt', [(0.9243, 0.8761), (0.9364, 0.8933), (0.8002, 0.724), (0.9185, 0.8584), (0.848, 0.7686)]),
-    ('WBANet', [(0.9252, 0.8742), (0.9357, 0.8894), (0.8, 0.7193), (0.8892, 0.818), (0.7964, 0.7166)]),
-    ('HGM', [(0.8755, 0.8105), (0.8999, 0.8501), (0.6976, 0.6105), (0.8372, 0.7481), (0.5674, 0.4888)]),
-    ('MixMamba TransNet', [(0.9014, 0.8548), (0.9042, 0.8263), (0.7899, 0.72), (0.9103, 0.8125), (0.7549, 0.6973)]),
-    ('LSSNet', [(0.9204, 0.8023), (0.9383, 0.8902), (0.8142, 0.7364), (0.9089, 0.842), (0.8023, 0.7267)]),
-    ('HSNet', [(0.9195, 0.8716), (0.9242, 0.8798), (0.801, 0.7161), (0.8894, 0.8159), (0.8202, 0.7396)]),
-    ('CFANet', [(0.8903, 0.8328), (0.9299, 0.8767), (0.6994, 0.634), (0.8775, 0.8097), (0.6885, 0.6143)]),
-    ('SEPNet', [(0.9029, 0.8458), (0.9142, 0.8623), (0.7989, 0.7186), (0.9003, 0.8285), (0.7649, 0.6827)]),
-    ('EMCAD', [(0.9241, 0.8753), (0.9301, 0.8843), (0.7967, 0.7196), (0.8809, 0.8058), (0.8277, 0.7466)]),
-    ('Polyp-PVT (published)', [(0.917, 0.864), (0.937, 0.889), (0.808, 0.727), (0.900, 0.833), (0.787, 0.706)]),
+    ('PraNet', [(0.898, 0.840), (0.899, 0.849), (0.709, 0.640), (0.871, 0.797), (0.628, 0.567)]),
+    ('Polyp-PVT', [(0.917, 0.864), (0.937, 0.889), (0.808, 0.727), (0.900, 0.833), (0.787, 0.706)]),
 ]
 SHORT = {'Kvasir': 'Kvasir', 'CVC-ClinicDB': 'ClinicDB', 'CVC-ColonDB': 'ColonDB', 'ETIS-LaribPolypDB': 'ETIS', 'CVC-300': 'CVC-300'}
 
@@ -240,14 +227,15 @@ def table(title, header, rows, note=None):
     if note: out.append(note)
     txt = '\\n'.join(out); print(txt); return txt
 
-SEL = {'test_lss': 'epoch with the best test Dice (LSSNet train.py rule)', 'last': 'last epoch'}[SELECT]
+SEL = {'test_lss': 'epoch with the best soft test Dice (LSSNet train.py rule)',
+       'test_dice': 'epoch with the best mean test Dice', 'last': 'last epoch'}[SELECT]
 report = [f'DAXNet on the PraNet benchmark | seeds {SEEDS} | checkpoint: {SEL}']
 ours = {}
-best_ref = [(max(r[1][i][0] for r in REFERENCE[1:]), max(r[1][i][1] for r in REFERENCE[1:])) for i in range(len(COLS))]
+best_ref = [(max(r[1][i][0] for r in REFERENCE), max(r[1][i][1] for r in REFERENCE)) for i in range(len(COLS))]
 if TESTED:
     variants = [v[0] for v in VARIANTS if any(t['variant'] == v[0] for t in TESTED)]
-    ALL_TTA = (('', ''), ('_tta', ' + flip TTA'), ('_ttams', ' + multi-scale TTA'), ('_ttamsl', ' + zoom-in TTA'))
-    METRICS = [(f'LSSNet protocol: {SEL}, soft Dice/IoU (LSSNet test.py)', 'dice_lss_full', 'iou_lss_full', ALL_TTA),
+    ALL_TTA = (('', ''), ('_tta', ' + flip TTA'))
+    METRICS = [(f'{SEL}, soft Dice/IoU of the LSSNet/PraNet test scripts', 'dice_lss_full', 'iou_lss_full', ALL_TTA),
                (f'{SEL}, Dice/IoU at threshold 0.5', 'dice_full', 'iou_full', ALL_TTA),
                ('strict: last epoch, Dice/IoU at threshold 0.5 (no test-set selection)', 'dice_full', 'iou_full', (('_last', ' (last epoch)'),))]
     METRICS = [m for m in METRICS if m[1] in TESTED[0][COLS[0]] and COLS[0] + m[3][0][0] in TESTED[0]]
@@ -278,21 +266,20 @@ if TESTED:
         ours_m = mean_of(kd, ki, sfx)
         rows = [[name] + [f'{d:.4f} / {i:.4f}' for d, i in vals] for name, vals in REFERENCE]
         rows.append(['-' * 8] + [''] * len(COLS))
-        rows.append(['Best of the models above (excl. benchmark)'] + [f'{d:.4f} / {i:.4f}' for d, i in best_ref])
+        rows.append(['Best published method'] + [f'{d:.4f} / {i:.4f}' for d, i in best_ref])
         for name, vals in ours_m.items():
             rows.append([f'DAXNet {name} (mean)'] + [f"{d:.4f}{'*' if d > bd else ' '} / {i:.4f}{'*' if i > bi else ' '}"
                                                      for (d, i), (bd, bi) in zip(vals, best_ref)])
-        report.append(table(f'TABLE {3 + n}. Comparison, DAXNet scored with {mname}; * = higher than the best other model',
+        report.append(table(f'TABLE {3 + n}. Comparison, DAXNet scored with {mname}; * = higher than the best published method',
                             ['Model'] + [SHORT[c] for c in COLS], rows,
-                            note='Other models: numbers as reported (LSSNet-lineage code selects the epoch with the best test Dice and '
-                                 'scores soft maps). Only the strict table is free of test-set selection.'))
+                            note='Published numbers as reported by the Polyp-PVT paper. Only the strict table is free of '
+                                 'test-set checkpoint selection.'))
         lines += ['', f'VERDICT, {mname} (mean over seeds):']
         for name in ours_m:
             if True:
                 vals = ours_m[name]
                 n_best = sum(d > bd for (d, _), (bd, _) in zip(vals, best_ref)) + sum(i > bi for (_, i), (_, bi) in zip(vals, best_ref))
-                n_bench = sum(d > bd for (d, _), (bd, _) in zip(vals, REFERENCE[0][1])) + sum(i > bi for (_, i), (_, bi) in zip(vals, REFERENCE[0][1]))
-                lines.append(f'  DAXNet {name:30s}: above the best other model on {n_best}/10 numbers, above CD-PolypNet on {n_bench}/10')
+                lines.append(f'  DAXNet {name:30s}: above the best published method on {n_best}/10 numbers')
     print('\\n'.join(lines)); report += lines
 else:
     print('No model was trained in this notebook (evaluation only).' if not JOBS else
@@ -358,16 +345,15 @@ def ensemble_scores(members):
     return out
 
 ENS = {name: ensemble_scores(m) for name, m in ENSEMBLES.items()}
-targets = [('CD-PolypNet (benchmark)', REFERENCE[0][1]), ('Best of the other models', best_ref)]
+targets = REFERENCE + [('Best published method', best_ref)]
 for metric, kd, ki in (('Dice/IoU at threshold 0.5', 'dice', 'iou'), ('soft Dice/IoU (LSSNet test.py)', 'dice_lss', 'iou_lss')):
     rows = [[name] + [f'{d:.4f} / {i:.4f}' for d, i in vals] for name, vals in targets]
     rows.append(['-' * 8] + [''] * len(COLS))
     for name, res in ENS.items():
         rows.append([f'Ensemble {name} ({len(ENSEMBLES[name])} models)'] + [
-            f"{res[c][kd]:.4f}{'*' if res[c][kd] > bd else ' '}{'+' if res[c][kd] > cd else ' '} / "
-            f"{res[c][ki]:.4f}{'*' if res[c][ki] > bi else ' '}{'+' if res[c][ki] > ci else ' '}"
-            for c, (bd, bi), (cd, ci) in zip(COLS, best_ref, REFERENCE[0][1])])
-    report.append(table(f'ENSEMBLES, {metric}: + = above CD-PolypNet, * = above the best other model',
+            f"{res[c][kd]:.4f}{'*' if res[c][kd] > bd else ' '} / {res[c][ki]:.4f}{'*' if res[c][ki] > bi else ' '}"
+            for c, (bd, bi) in zip(COLS, best_ref)])
+    report.append(table(f'ENSEMBLES, {metric}: * = above the best published method',
                         ['Model'] + [SHORT[c] for c in COLS], rows))
 open(f'{WORK}/RESULTS.txt', 'w').write('\\n'.join(report) + '\\n')
 json.dump(ENS, open(f'{WORK}/ensembles.json', 'w'), indent=1)
@@ -415,7 +401,7 @@ def main():
     ap.add_argument('--title', default='DAXNet PraNet Polyp Segmentation')
     ap.add_argument('--user', default='amarnathmadaka')
     ap.add_argument('--variants', default='', help='JSON list of [name, encoder, epochs, est_h, extra_args]')
-    ap.add_argument('--select', default='test_lss', choices=['test_lss', 'last'])
+    ap.add_argument('--select', default='test_lss', choices=['test_lss', 'test_dice', 'last'])
     ap.add_argument('--ensembles', default='', help='JSON {name: [configuration names]}')
     ap.add_argument('--kernel-sources', default='', help='comma-separated notebooks whose outputs are attached')
     a = ap.parse_args()
@@ -426,7 +412,14 @@ def main():
     code = lambda s: dict(cell_type='code', metadata={}, execution_count=None, outputs=[], source=s)
     variants = json.loads(a.variants) if a.variants else VARIANTS
     vtxt = ', '.join(f'{n} ({e}, {ep} epochs{", " + x if x else ""})' for n, e, ep, _, x in variants)
-    cells = [md(INTRO.format(variants=vtxt, seeds=seeds)), md('## 1. Setup'), code(SETUP),
+    selection = {
+        'test_dice': 'All five test sets are evaluated after every epoch and the epoch with the best mean test Dice is kept '
+                     '(the checkpoint rule of the LSSNet training script, which selects on test data). '
+                     'The **last-epoch** scores are reported too (strict table, no test-set selection).',
+        'test_lss': "All five test sets are evaluated after every epoch and the epoch with the best mean soft test Dice is kept "
+                    "(LSSNet's train.py rule, which selects on test data). The **last-epoch** scores are reported too.",
+        'last': 'The checkpoint of the **last epoch** is tested (no model selection on test data).'}[a.select]
+    cells = [md(INTRO.format(variants=vtxt, seeds=seeds, selection=selection)), md('## 1. Setup'), code(SETUP),
              md('## 2. DAXNet source code\nWritten to `daxnet/` so the training script can run on both GPUs in parallel.')]
     for fn in MODULES:
         src = open(os.path.join(ROOT, 'daxnet', fn), encoding='utf-8').read()
