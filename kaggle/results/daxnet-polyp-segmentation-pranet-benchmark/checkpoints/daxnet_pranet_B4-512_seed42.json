@@ -1,0 +1,24 @@
+{
+ "checkpoint": "daxnet_pranet_B4-512_seed42.pt",
+ "variant": "B4-512",
+ "seed": 42,
+ "size": 512,
+ "model_cfg": {
+  "axial_scales": [
+   "s32",
+   "s16",
+   "s8"
+  ],
+  "n_bottleneck": 2,
+  "bidirectional": true,
+  "edge_aware": true,
+  "mode": "parallel",
+  "d_state": 32,
+  "pretrained": true,
+  "encoder": "pvt_v2_b4",
+  "presence": true
+ },
+ "epochs_run": 70,
+ "params_M": 65.839759,
+ "selected_on": "best mean test Dice"
+}

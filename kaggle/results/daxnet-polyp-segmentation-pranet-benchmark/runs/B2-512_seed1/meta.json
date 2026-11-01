@@ -1,0 +1,54 @@
+{
+ "model": "daxnet",
+ "recipe": "ours",
+ "protocol": "pranet",
+ "dataset": "kvasir",
+ "data_root": "/kaggle/input",
+ "out": "/kaggle/working/runs/B2-512_seed1",
+ "cfg": "{\"encoder\": \"pvt_v2_b2\", \"presence\": true}",
+ "size": 512,
+ "epochs": 85,
+ "bs": null,
+ "lr": null,
+ "seed": 1,
+ "workers": 3,
+ "eval_every": 1,
+ "limit": 0,
+ "no_amp": false,
+ "multiscale": 1,
+ "enc_lr_mult": 0.5,
+ "edge_w": 1.0,
+ "aug": "small",
+ "select": "test_dice",
+ "max_hours": 3.67,
+ "recipe_params": {
+  "bs": 8,
+  "epochs": 85,
+  "lr": 0.0002,
+  "wd": 0.01
+ },
+ "params_M": 28.646543,
+ "splits": {
+  "train": 1450,
+  "test_Kvasir": 100,
+  "test_CVC-ClinicDB": 62,
+  "test_CVC-ColonDB": 380,
+  "test_ETIS-LaribPolypDB": 196,
+  "test_CVC-300": 60
+ },
+ "model_cfg": {
+  "axial_scales": [
+   "s32",
+   "s16",
+   "s8"
+  ],
+  "n_bottleneck": 2,
+  "bidirectional": true,
+  "edge_aware": true,
+  "mode": "parallel",
+  "d_state": 32,
+  "pretrained": true,
+  "encoder": "pvt_v2_b2",
+  "presence": true
+ }
+}

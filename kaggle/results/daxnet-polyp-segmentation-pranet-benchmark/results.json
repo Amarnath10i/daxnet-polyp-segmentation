@@ -1,0 +1,1452 @@
+{
+ "per_checkpoint": [
+  {
+   "checkpoint": "daxnet_pranet_B2-512_seed1.pt",
+   "variant": "B2-512",
+   "seed": 1,
+   "size": 512,
+   "model_cfg": {
+    "axial_scales": [
+     "s32",
+     "s16",
+     "s8"
+    ],
+    "n_bottleneck": 2,
+    "bidirectional": true,
+    "edge_aware": true,
+    "mode": "parallel",
+    "d_state": 32,
+    "pretrained": true,
+    "encoder": "pvt_v2_b2",
+    "presence": true
+   },
+   "epochs_run": 85,
+   "params_M": 28.646543,
+   "selected_on": "best mean test Dice",
+   "Kvasir": {
+    "dice_net": 0.9243086721188384,
+    "iou_net": 0.8745637168504673,
+    "precision_net": 0.9489133293876856,
+    "recall_net": 0.9182072915556152,
+    "dice_full": 0.9244999418047063,
+    "iou_full": 0.8749265021082289,
+    "precision_full": 0.9493899193443265,
+    "recall_full": 0.9181690487009149,
+    "dice_lss_full": 0.9167542148876915,
+    "iou_lss_full": 0.860881567755031,
+    "mae_full": 0.025350515715545044
+   },
+   "Kvasir_tta": {
+    "dice_net": 0.9251279315277217,
+    "iou_net": 0.8754657958665407,
+    "precision_net": 0.950717293276779,
+    "recall_net": 0.917844886554196,
+    "dice_full": 0.9252547349381799,
+    "iou_full": 0.8756990487755387,
+    "precision_full": 0.9510117184502722,
+    "recall_full": 0.917850024395152,
+    "dice_lss_full": 0.9176270260486735,
+    "iou_lss_full": 0.8605925137074151,
+    "mae_full": 0.025214930830989035
+   },
+   "CVC-ClinicDB": {
+    "dice_net": 0.9173203110623683,
+    "iou_net": 0.8682849403297452,
+    "precision_net": 0.9079004548411143,
+    "recall_net": 0.952974050720972,
+    "dice_full": 0.9179090006136131,
+    "iou_full": 0.8692903881398258,
+    "precision_full": 0.9086273499838475,
+    "recall_full": 0.9533505861424888,
+    "dice_lss_full": 0.9108778439270326,
+    "iou_lss_full": 0.8570211883001125,
+    "mae_full": 0.009381698277373347
+   },
+   "CVC-ClinicDB_tta": {
+    "dice_net": 0.9179863221756447,
+    "iou_net": 0.8701220221099994,
+    "precision_net": 0.9081954376083031,
+    "recall_net": 0.9555706474960531,
+    "dice_full": 0.9186319135080286,
+    "iou_full": 0.8712254071814569,
+    "precision_full": 0.9088464478039975,
+    "recall_full": 0.9561439061218383,
+    "dice_lss_full": 0.9106450254905821,
+    "iou_lss_full": 0.8571271311834014,
+    "mae_full": 0.009817658613751373
+   },
+   "CVC-ColonDB": {
+    "dice_net": 0.8227667135654868,
+    "iou_net": 0.7457704881425334,
+    "precision_net": 0.8460738554036453,
+    "recall_net": 0.8512455597687648,
+    "dice_full": 0.823017683577265,
+    "iou_full": 0.7461798406612917,
+    "precision_full": 0.8465761408094992,
+    "recall_full": 0.8513303324090864,
+    "dice_lss_full": 0.8130568844958577,
+    "iou_lss_full": 0.7307034118708573,
+    "mae_full": 0.0328280654598003
+   },
+   "CVC-ColonDB_tta": {
+    "dice_net": 0.8224433641427589,
+    "iou_net": 0.7460107184505076,
+    "precision_net": 0.8482898354621909,
+    "recall_net": 0.8471310210616504,
+    "dice_full": 0.8226971810228253,
+    "iou_full": 0.7464469961832095,
+    "precision_full": 0.8487901673915155,
+    "recall_full": 0.8471812437584073,
+    "dice_lss_full": 0.8091220707764277,
+    "iou_lss_full": 0.7240686202827172,
+    "mae_full": 0.03266582756615734
+   },
+   "ETIS-LaribPolypDB": {
+    "dice_net": 0.8288567485808065,
+    "iou_net": 0.7518047856182551,
+    "precision_net": 0.7709313820724484,
+    "recall_net": 0.9317448660273214,
+    "dice_full": 0.829014641134771,
+    "iou_full": 0.7520582406635461,
+    "precision_full": 0.7713876773878185,
+    "recall_full": 0.9313490518283047,
+    "dice_lss_full": 0.8124420382806311,
+    "iou_lss_full": 0.7286180148082623,
+    "mae_full": 0.016583516401754293
+   },
+   "ETIS-LaribPolypDB_tta": {
+    "dice_net": 0.8417392519674942,
+    "iou_net": 0.7705292660243012,
+    "precision_net": 0.7911987209940119,
+    "recall_net": 0.9271825626779316,
+    "dice_full": 0.8416999595088575,
+    "iou_full": 0.7704709134863962,
+    "precision_full": 0.7912946245589642,
+    "recall_full": 0.9269348099055207,
+    "dice_lss_full": 0.8006597321426265,
+    "iou_lss_full": 0.7156995096354485,
+    "mae_full": 0.017264122172491625
+   },
+   "CVC-300": {
+    "dice_net": 0.9141794360650594,
+    "iou_net": 0.8481567861660843,
+    "precision_net": 0.8895126627243152,
+    "recall_net": 0.9492919893550683,
+    "dice_full": 0.9145061776929665,
+    "iou_full": 0.8487387704142911,
+    "precision_full": 0.8900838714352727,
+    "recall_full": 0.9493241740254191,
+    "dice_lss_full": 0.9053440684661249,
+    "iou_lss_full": 0.8335199035648528,
+    "mae_full": 0.006082349293865264
+   },
+   "CVC-300_tta": {
+    "dice_net": 0.9005894453704653,
+    "iou_net": 0.8346052553742733,
+    "precision_net": 0.8663491257974091,
+    "recall_net": 0.9588699011190818,
+    "dice_full": 0.9009239041020808,
+    "iou_full": 0.8351419246028033,
+    "precision_full": 0.8667757485541537,
+    "recall_full": 0.9588724359896516,
+    "dice_lss_full": 0.8861193237449533,
+    "iou_lss_full": 0.8119388621493734,
+    "mae_full": 0.008152606369306644
+   },
+   "Kvasir_last": {
+    "dice_net": 0.935205487155409,
+    "iou_net": 0.8896848961740916,
+    "precision_net": 0.9541015088003602,
+    "recall_net": 0.9290408081216479,
+    "dice_full": 0.9353581845683361,
+    "iou_full": 0.8899668163725903,
+    "precision_full": 0.9544796276814875,
+    "recall_full": 0.9289927119794932,
+    "dice_lss_full": 0.9301837055165479,
+    "iou_lss_full": 0.8808691700151258,
+    "mae_full": 0.01887522350996733
+   },
+   "CVC-ClinicDB_last": {
+    "dice_net": 0.9266416175621364,
+    "iou_net": 0.8799032429397803,
+    "precision_net": 0.9176527667466593,
+    "recall_net": 0.9559226244837913,
+    "dice_full": 0.9273475513123175,
+    "iou_full": 0.8810858275361088,
+    "precision_full": 0.9184033093234882,
+    "recall_full": 0.9564961829093829,
+    "dice_lss_full": 0.921042205872063,
+    "iou_lss_full": 0.8716000593739764,
+    "mae_full": 0.00793636958828316
+   },
+   "CVC-ColonDB_last": {
+    "dice_net": 0.8094605492468618,
+    "iou_net": 0.7282710194652551,
+    "precision_net": 0.8288741227788227,
+    "recall_net": 0.8502558584923031,
+    "dice_full": 0.8097177674970151,
+    "iou_full": 0.728699823412662,
+    "precision_full": 0.8292972255919777,
+    "recall_full": 0.8503419152295134,
+    "dice_lss_full": 0.805721688484137,
+    "iou_lss_full": 0.7220351969593201,
+    "mae_full": 0.035095734141558706
+   },
+   "ETIS-LaribPolypDB_last": {
+    "dice_net": 0.8123224057101377,
+    "iou_net": 0.7394908138150212,
+    "precision_net": 0.7679217402719649,
+    "recall_net": 0.9145730918742966,
+    "dice_full": 0.8123825199650777,
+    "iou_full": 0.7396010980816323,
+    "precision_full": 0.7682540651208853,
+    "recall_full": 0.9143579229224841,
+    "dice_lss_full": 0.799488505115795,
+    "iou_lss_full": 0.7221151071016858,
+    "mae_full": 0.020731189376995328
+   },
+   "CVC-300_last": {
+    "dice_net": 0.8503813178046616,
+    "iou_net": 0.768429212805578,
+    "precision_net": 0.7967883188575188,
+    "recall_net": 0.9585781540541064,
+    "dice_full": 0.8507341448898031,
+    "iou_full": 0.7689537912996491,
+    "precision_full": 0.797071369426905,
+    "recall_full": 0.9586848415646049,
+    "dice_lss_full": 0.8488947909810939,
+    "iou_lss_full": 0.7656823890662475,
+    "mae_full": 0.015203237273575117
+   }
+  },
+  {
+   "checkpoint": "daxnet_pranet_B2-512_seed42.pt",
+   "variant": "B2-512",
+   "seed": 42,
+   "size": 512,
+   "model_cfg": {
+    "axial_scales": [
+     "s32",
+     "s16",
+     "s8"
+    ],
+    "n_bottleneck": 2,
+    "bidirectional": true,
+    "edge_aware": true,
+    "mode": "parallel",
+    "d_state": 32,
+    "pretrained": true,
+    "encoder": "pvt_v2_b2",
+    "presence": true
+   },
+   "epochs_run": 85,
+   "params_M": 28.646543,
+   "selected_on": "best mean test Dice",
+   "Kvasir": {
+    "dice_net": 0.9215553940194835,
+    "iou_net": 0.8707537300072355,
+    "precision_net": 0.9376160717005514,
+    "recall_net": 0.9271004917311242,
+    "dice_full": 0.9217134657978397,
+    "iou_full": 0.8710384030569621,
+    "precision_full": 0.937990727864596,
+    "recall_full": 0.9270736315988838,
+    "dice_lss_full": 0.9039561409806032,
+    "iou_lss_full": 0.8401534296249159,
+    "mae_full": 0.02989372864132747
+   },
+   "Kvasir_tta": {
+    "dice_net": 0.9284099093951206,
+    "iou_net": 0.8809169504295188,
+    "precision_net": 0.9439303523561378,
+    "recall_net": 0.931403748483696,
+    "dice_full": 0.9285415112376811,
+    "iou_full": 0.8811566961458931,
+    "precision_full": 0.9442798094236257,
+    "recall_full": 0.9313364984878474,
+    "dice_lss_full": 0.9082974861069358,
+    "iou_lss_full": 0.8454155547841754,
+    "mae_full": 0.029266316234134136
+   },
+   "CVC-ClinicDB": {
+    "dice_net": 0.9371744884509918,
+    "iou_net": 0.8856812717587286,
+    "precision_net": 0.9223115056972666,
+    "recall_net": 0.9576280267440955,
+    "dice_full": 0.9378655208325103,
+    "iou_full": 0.8868416691350024,
+    "precision_full": 0.9231324723269748,
+    "recall_full": 0.9581092763514102,
+    "dice_lss_full": 0.9128708050537729,
+    "iou_lss_full": 0.8478625918174505,
+    "mae_full": 0.01043641562723825
+   },
+   "CVC-ClinicDB_tta": {
+    "dice_net": 0.9374798577043122,
+    "iou_net": 0.8865943642878071,
+    "precision_net": 0.9263271484516441,
+    "recall_net": 0.9540283868979785,
+    "dice_full": 0.9381840401653959,
+    "iou_full": 0.8877880186775909,
+    "precision_full": 0.927098904304818,
+    "recall_full": 0.954568740263465,
+    "dice_lss_full": 0.9119485453060047,
+    "iou_lss_full": 0.8480181880319998,
+    "mae_full": 0.010829710671978613
+   },
+   "CVC-ColonDB": {
+    "dice_net": 0.8165940052747342,
+    "iou_net": 0.7356159683907265,
+    "precision_net": 0.8315565609443867,
+    "recall_net": 0.858565480061059,
+    "dice_full": 0.81692337083083,
+    "iou_full": 0.7361755877543694,
+    "precision_full": 0.8320980010045455,
+    "recall_full": 0.8587559137668808,
+    "dice_lss_full": 0.7941087566138175,
+    "iou_lss_full": 0.7016810572204545,
+    "mae_full": 0.034009272357645004
+   },
+   "CVC-ColonDB_tta": {
+    "dice_net": 0.8185546935808873,
+    "iou_net": 0.7408102550658776,
+    "precision_net": 0.835266674415266,
+    "recall_net": 0.8581615721162339,
+    "dice_full": 0.8189077001033885,
+    "iou_full": 0.741375842730292,
+    "precision_full": 0.835694079283652,
+    "recall_full": 0.8584966698827884,
+    "dice_lss_full": 0.7939813476717431,
+    "iou_lss_full": 0.7008008886546029,
+    "mae_full": 0.035378263406700604
+   },
+   "ETIS-LaribPolypDB": {
+    "dice_net": 0.8369995080155046,
+    "iou_net": 0.760761080122271,
+    "precision_net": 0.7868989062847271,
+    "recall_net": 0.9432989735538246,
+    "dice_full": 0.8371483661652084,
+    "iou_full": 0.7610345796933747,
+    "precision_full": 0.7872367190770125,
+    "recall_full": 0.9431579894064823,
+    "dice_lss_full": 0.7954067400604757,
+    "iou_lss_full": 0.7023094728254351,
+    "mae_full": 0.01692359303528139
+   },
+   "ETIS-LaribPolypDB_tta": {
+    "dice_net": 0.8300971991558601,
+    "iou_net": 0.7556440941110342,
+    "precision_net": 0.7784463415291005,
+    "recall_net": 0.9348784560278788,
+    "dice_full": 0.8301917225034482,
+    "iou_full": 0.7557969127832697,
+    "precision_full": 0.7787366966341341,
+    "recall_full": 0.9345871516676202,
+    "dice_lss_full": 0.7764749393009485,
+    "iou_lss_full": 0.6823061784144481,
+    "mae_full": 0.019780705401992272
+   },
+   "CVC-300": {
+    "dice_net": 0.8899643899273764,
+    "iou_net": 0.8191966510155423,
+    "precision_net": 0.8499027527198414,
+    "recall_net": 0.9577735954803915,
+    "dice_full": 0.8903030544394922,
+    "iou_full": 0.8197518839072002,
+    "precision_full": 0.8503858946969559,
+    "recall_full": 0.9578787954909715,
+    "dice_lss_full": 0.8704817301356762,
+    "iou_lss_full": 0.7874129876240116,
+    "mae_full": 0.011503786267712712
+   },
+   "CVC-300_tta": {
+    "dice_net": 0.8904448143627125,
+    "iou_net": 0.8223001628115226,
+    "precision_net": 0.8499104859389989,
+    "recall_net": 0.962301436415564,
+    "dice_full": 0.8907997670873586,
+    "iou_full": 0.8228619388346732,
+    "precision_full": 0.850189370098225,
+    "recall_full": 0.9625493415811242,
+    "dice_lss_full": 0.8655065809164062,
+    "iou_lss_full": 0.7835137795538036,
+    "mae_full": 0.01157105912376816
+   },
+   "Kvasir_last": {
+    "dice_net": 0.9264987392395884,
+    "iou_net": 0.8793405063180021,
+    "precision_net": 0.9536775128330056,
+    "recall_net": 0.9191445458417397,
+    "dice_full": 0.9266483185532576,
+    "iou_full": 0.8796232727510501,
+    "precision_full": 0.9540565570559082,
+    "recall_full": 0.9190850827620541,
+    "dice_lss_full": 0.9221108769658565,
+    "iou_lss_full": 0.8710562494730013,
+    "mae_full": 0.024166934837121515
+   },
+   "CVC-ClinicDB_last": {
+    "dice_net": 0.9286923911272985,
+    "iou_net": 0.8820864777850809,
+    "precision_net": 0.9162130081672585,
+    "recall_net": 0.96107405564677,
+    "dice_full": 0.9295300817519407,
+    "iou_full": 0.883543001299252,
+    "precision_full": 0.9171341336757358,
+    "recall_full": 0.9618346313683442,
+    "dice_lss_full": 0.9248100254909218,
+    "iou_lss_full": 0.8753040207120155,
+    "mae_full": 0.008799574707799981
+   },
+   "CVC-ColonDB_last": {
+    "dice_net": 0.8139943314146376,
+    "iou_net": 0.7347159173981417,
+    "precision_net": 0.8328132442769732,
+    "recall_net": 0.856389670474674,
+    "dice_full": 0.8142951512792657,
+    "iou_full": 0.7352110309992708,
+    "precision_full": 0.8332855241913941,
+    "recall_full": 0.8565891786721229,
+    "dice_lss_full": 0.8084727784041137,
+    "iou_lss_full": 0.7271635000442993,
+    "mae_full": 0.0320285843429462
+   },
+   "ETIS-LaribPolypDB_last": {
+    "dice_net": 0.8214193458644885,
+    "iou_net": 0.74935338243774,
+    "precision_net": 0.7790610730521139,
+    "recall_net": 0.9192753972415639,
+    "dice_full": 0.8214765122209797,
+    "iou_full": 0.7494715350146374,
+    "precision_full": 0.7792894078398503,
+    "recall_full": 0.9190498721002163,
+    "dice_lss_full": 0.8160109430765932,
+    "iou_lss_full": 0.7404463847589996,
+    "mae_full": 0.016316482765488423
+   },
+   "CVC-300_last": {
+    "dice_net": 0.8539542859625244,
+    "iou_net": 0.7747704577358897,
+    "precision_net": 0.8024465445559307,
+    "recall_net": 0.9590248630918999,
+    "dice_full": 0.8543782212347503,
+    "iou_full": 0.7754111588880277,
+    "precision_full": 0.8029462000085502,
+    "recall_full": 0.9591099320108734,
+    "dice_lss_full": 0.8518347402810192,
+    "iou_lss_full": 0.7712006127334988,
+    "mae_full": 0.015915467200102285
+   }
+  },
+  {
+   "checkpoint": "daxnet_pranet_B4-416_seed1.pt",
+   "variant": "B4-416",
+   "seed": 1,
+   "size": 416,
+   "model_cfg": {
+    "axial_scales": [
+     "s32",
+     "s16",
+     "s8"
+    ],
+    "n_bottleneck": 2,
+    "bidirectional": true,
+    "edge_aware": true,
+    "mode": "parallel",
+    "d_state": 32,
+    "pretrained": true,
+    "encoder": "pvt_v2_b4",
+    "presence": true
+   },
+   "epochs_run": 85,
+   "params_M": 65.839759,
+   "selected_on": "best mean test Dice",
+   "Kvasir": {
+    "dice_net": 0.92261732870128,
+    "iou_net": 0.8742704090204185,
+    "precision_net": 0.9385716118183166,
+    "recall_net": 0.9282374719157221,
+    "dice_full": 0.922856187185942,
+    "iou_full": 0.8747183441951762,
+    "precision_full": 0.9388724441755886,
+    "recall_full": 0.928385184758059,
+    "dice_lss_full": 0.9127357224875726,
+    "iou_lss_full": 0.8563748041165699,
+    "mae_full": 0.025571277120616288
+   },
+   "Kvasir_tta": {
+    "dice_net": 0.9327304760769495,
+    "iou_net": 0.8875676668152501,
+    "precision_net": 0.9484733737912944,
+    "recall_net": 0.9322819327734406,
+    "dice_full": 0.9329660704916705,
+    "iou_full": 0.8880009325857133,
+    "precision_full": 0.9486333558614897,
+    "recall_full": 0.9325736806198079,
+    "dice_lss_full": 0.9177410418440176,
+    "iou_lss_full": 0.8621586171595902,
+    "mae_full": 0.023267338327132167
+   },
+   "CVC-ClinicDB": {
+    "dice_net": 0.9353645075375178,
+    "iou_net": 0.8878393044754906,
+    "precision_net": 0.9224876791417123,
+    "recall_net": 0.9597996421041508,
+    "dice_full": 0.9359757865174695,
+    "iou_full": 0.8889203171217042,
+    "precision_full": 0.9233212012930416,
+    "recall_full": 0.9602204385955909,
+    "dice_lss_full": 0.9232229439206329,
+    "iou_lss_full": 0.8673818733843052,
+    "mae_full": 0.008156161255864125
+   },
+   "CVC-ClinicDB_tta": {
+    "dice_net": 0.9287696035097185,
+    "iou_net": 0.8827068622418449,
+    "precision_net": 0.9150306979698279,
+    "recall_net": 0.9624011285360261,
+    "dice_full": 0.9294083319594373,
+    "iou_full": 0.8838230469039619,
+    "precision_full": 0.9155119655074168,
+    "recall_full": 0.9632161434104354,
+    "dice_lss_full": 0.9149962948038731,
+    "iou_lss_full": 0.8607523947060223,
+    "mae_full": 0.008880105132477419
+   },
+   "CVC-ColonDB": {
+    "dice_net": 0.8231641681778161,
+    "iou_net": 0.7465537007167088,
+    "precision_net": 0.838407191270946,
+    "recall_net": 0.862160977848621,
+    "dice_full": 0.823398866845967,
+    "iou_full": 0.7469363482440198,
+    "precision_full": 0.8388788910505864,
+    "recall_full": 0.8621837698903634,
+    "dice_lss_full": 0.810526581176955,
+    "iou_lss_full": 0.7262889209403676,
+    "mae_full": 0.03234007824365491
+   },
+   "CVC-ColonDB_tta": {
+    "dice_net": 0.8283619571925352,
+    "iou_net": 0.751941066115255,
+    "precision_net": 0.8535595230829129,
+    "recall_net": 0.8608179791336145,
+    "dice_full": 0.8284116607584403,
+    "iou_full": 0.7520319379176318,
+    "precision_full": 0.8537297177595331,
+    "recall_full": 0.8608628045392247,
+    "dice_lss_full": 0.8088216837789446,
+    "iou_lss_full": 0.7224191174621722,
+    "mae_full": 0.03246232141452646
+   },
+   "ETIS-LaribPolypDB": {
+    "dice_net": 0.8225083645021541,
+    "iou_net": 0.7461228076111703,
+    "precision_net": 0.7665660029379217,
+    "recall_net": 0.9303564319015176,
+    "dice_full": 0.8228882571174903,
+    "iou_full": 0.7466646210452865,
+    "precision_full": 0.767167449340893,
+    "recall_full": 0.9302826103896672,
+    "dice_lss_full": 0.8026741096117828,
+    "iou_lss_full": 0.7168026840680553,
+    "mae_full": 0.015569739203486706
+   },
+   "ETIS-LaribPolypDB_tta": {
+    "dice_net": 0.8474257817613325,
+    "iou_net": 0.7743828497042288,
+    "precision_net": 0.7937036692584296,
+    "recall_net": 0.9333974941937053,
+    "dice_full": 0.8476269578214375,
+    "iou_full": 0.7747006416387838,
+    "precision_full": 0.7939098170082725,
+    "recall_full": 0.9335518823208147,
+    "dice_lss_full": 0.8077014547095221,
+    "iou_lss_full": 0.7211500853097119,
+    "mae_full": 0.014812502016940591
+   },
+   "CVC-300": {
+    "dice_net": 0.9066025277471645,
+    "iou_net": 0.8384305215114419,
+    "precision_net": 0.8697853763202548,
+    "recall_net": 0.9589022238397447,
+    "dice_full": 0.9068976508641599,
+    "iou_full": 0.8388849405785173,
+    "precision_full": 0.8703552068275304,
+    "recall_full": 0.9587912590020982,
+    "dice_lss_full": 0.8942059701435718,
+    "iou_lss_full": 0.8180816473235861,
+    "mae_full": 0.007405578100588173
+   },
+   "CVC-300_tta": {
+    "dice_net": 0.9061602178403451,
+    "iou_net": 0.838584225530697,
+    "precision_net": 0.8687442841272824,
+    "recall_net": 0.9612778009444527,
+    "dice_full": 0.9064529382399524,
+    "iou_full": 0.839044691590699,
+    "precision_full": 0.8690241737903535,
+    "recall_full": 0.9615380857822419,
+    "dice_lss_full": 0.8857295680535127,
+    "iou_lss_full": 0.8095641608898833,
+    "mae_full": 0.00801143362186849
+   },
+   "Kvasir_last": {
+    "dice_net": 0.9248993194157857,
+    "iou_net": 0.8765180829378074,
+    "precision_net": 0.9462831274916037,
+    "recall_net": 0.9229771614621007,
+    "dice_full": 0.9250851804633864,
+    "iou_full": 0.8768667518694734,
+    "precision_full": 0.9465395472227826,
+    "recall_full": 0.9230722593925117,
+    "dice_lss_full": 0.9203375512658171,
+    "iou_lss_full": 0.8688522111251715,
+    "mae_full": 0.023834144907305017
+   },
+   "CVC-ClinicDB_last": {
+    "dice_net": 0.9287852306925439,
+    "iou_net": 0.8845016031265899,
+    "precision_net": 0.9187934109665901,
+    "recall_net": 0.9600843387519514,
+    "dice_full": 0.9293548547739723,
+    "iou_full": 0.885553795076158,
+    "precision_full": 0.9194381030442595,
+    "recall_full": 0.9607532487043662,
+    "dice_lss_full": 0.9253350182878325,
+    "iou_lss_full": 0.8784364616078559,
+    "mae_full": 0.008912027541232565
+   },
+   "CVC-ColonDB_last": {
+    "dice_net": 0.8221929630212532,
+    "iou_net": 0.7450038853227062,
+    "precision_net": 0.8332059884274494,
+    "recall_net": 0.8619908928649838,
+    "dice_full": 0.8223175635135613,
+    "iou_full": 0.7452170616622114,
+    "precision_full": 0.8334428208934013,
+    "recall_full": 0.8620849961662492,
+    "dice_lss_full": 0.8185991313571498,
+    "iou_lss_full": 0.7389909226574485,
+    "mae_full": 0.03118186545800295
+   },
+   "ETIS-LaribPolypDB_last": {
+    "dice_net": 0.8279376452153078,
+    "iou_net": 0.7583242895392303,
+    "precision_net": 0.7838681027616161,
+    "recall_net": 0.9113469507524503,
+    "dice_full": 0.8281796001738685,
+    "iou_full": 0.7587214245314057,
+    "precision_full": 0.7843108006443464,
+    "recall_full": 0.9112603009595045,
+    "dice_lss_full": 0.8213612812147587,
+    "iou_lss_full": 0.7481223304038637,
+    "mae_full": 0.014375331323078302
+   },
+   "CVC-300_last": {
+    "dice_net": 0.8991660297155015,
+    "iou_net": 0.8319957705988288,
+    "precision_net": 0.8632916208591486,
+    "recall_net": 0.9598279800842199,
+    "dice_full": 0.8994704901914023,
+    "iou_full": 0.8324730589361172,
+    "precision_full": 0.8636942292066798,
+    "recall_full": 0.9599043611164754,
+    "dice_lss_full": 0.8965800250898679,
+    "iou_lss_full": 0.8274546341379442,
+    "mae_full": 0.006801681530972322
+   }
+  },
+  {
+   "checkpoint": "daxnet_pranet_B4-416_seed42.pt",
+   "variant": "B4-416",
+   "seed": 42,
+   "size": 416,
+   "model_cfg": {
+    "axial_scales": [
+     "s32",
+     "s16",
+     "s8"
+    ],
+    "n_bottleneck": 2,
+    "bidirectional": true,
+    "edge_aware": true,
+    "mode": "parallel",
+    "d_state": 32,
+    "pretrained": true,
+    "encoder": "pvt_v2_b4",
+    "presence": true
+   },
+   "epochs_run": 85,
+   "params_M": 65.839759,
+   "selected_on": "best mean test Dice",
+   "Kvasir": {
+    "dice_net": 0.930472826037829,
+    "iou_net": 0.8851892521520707,
+    "precision_net": 0.9495849301354748,
+    "recall_net": 0.9292313053560859,
+    "dice_full": 0.9306648922784763,
+    "iou_full": 0.8855618611283925,
+    "precision_full": 0.9498819213379154,
+    "recall_full": 0.9292961392868381,
+    "dice_lss_full": 0.923537637679972,
+    "iou_lss_full": 0.8726515531159095,
+    "mae_full": 0.023788183194119482
+   },
+   "Kvasir_tta": {
+    "dice_net": 0.932627862319659,
+    "iou_net": 0.88853206062326,
+    "precision_net": 0.9522717375373613,
+    "recall_net": 0.9304847456680396,
+    "dice_full": 0.9328864769367184,
+    "iou_full": 0.8890051972354379,
+    "precision_full": 0.9525189459466668,
+    "recall_full": 0.9307189618446268,
+    "dice_lss_full": 0.92225641652806,
+    "iou_lss_full": 0.8704363396646767,
+    "mae_full": 0.024719833903945984
+   },
+   "CVC-ClinicDB": {
+    "dice_net": 0.9394445186714833,
+    "iou_net": 0.8940180955562435,
+    "precision_net": 0.929021227695918,
+    "recall_net": 0.9598946231033315,
+    "dice_full": 0.9400069989168954,
+    "iou_full": 0.895027894078121,
+    "precision_full": 0.9296363677409479,
+    "recall_full": 0.9604436882039419,
+    "dice_lss_full": 0.9323252600385828,
+    "iou_lss_full": 0.8813536069341773,
+    "mae_full": 0.007034867134455952
+   },
+   "CVC-ClinicDB_tta": {
+    "dice_net": 0.9391640805802526,
+    "iou_net": 0.8942674447476616,
+    "precision_net": 0.9311477256540689,
+    "recall_net": 0.9579724746831689,
+    "dice_full": 0.9398370986330948,
+    "iou_full": 0.8954621475081662,
+    "precision_full": 0.931687387179984,
+    "recall_full": 0.9587665295209821,
+    "dice_lss_full": 0.9203781160539241,
+    "iou_lss_full": 0.8686844014035954,
+    "mae_full": 0.007668850147315572
+   },
+   "CVC-ColonDB": {
+    "dice_net": 0.809172191339566,
+    "iou_net": 0.7339577018901596,
+    "precision_net": 0.8227865626414314,
+    "recall_net": 0.8441940031291006,
+    "dice_full": 0.8093641735322166,
+    "iou_full": 0.7342695922401686,
+    "precision_full": 0.8231875388298434,
+    "recall_full": 0.8441790713310446,
+    "dice_lss_full": 0.8016267247354838,
+    "iou_lss_full": 0.721653515020023,
+    "mae_full": 0.033251935876078755
+   },
+   "CVC-ColonDB_tta": {
+    "dice_net": 0.8277165351739572,
+    "iou_net": 0.7525577006744721,
+    "precision_net": 0.8449738907886474,
+    "recall_net": 0.8551973938962951,
+    "dice_full": 0.8278789108462687,
+    "iou_full": 0.7528176337969357,
+    "precision_full": 0.8451034506116479,
+    "recall_full": 0.8553920424448987,
+    "dice_lss_full": 0.8067915581990067,
+    "iou_lss_full": 0.7248166637218988,
+    "mae_full": 0.03229673742010307
+   },
+   "ETIS-LaribPolypDB": {
+    "dice_net": 0.8336017457863116,
+    "iou_net": 0.7561828131047003,
+    "precision_net": 0.7782640684166675,
+    "recall_net": 0.9430153175943943,
+    "dice_full": 0.833932517179126,
+    "iou_full": 0.7566794803751085,
+    "precision_full": 0.7787868396797373,
+    "recall_full": 0.9429695948534272,
+    "dice_lss_full": 0.8201602256956098,
+    "iou_lss_full": 0.7362290539772264,
+    "mae_full": 0.015480558901112907
+   },
+   "ETIS-LaribPolypDB_tta": {
+    "dice_net": 0.8430042953643516,
+    "iou_net": 0.7705240759050866,
+    "precision_net": 0.7900919431710237,
+    "recall_net": 0.9327235942481735,
+    "dice_full": 0.843066345207968,
+    "iou_full": 0.7706308383575361,
+    "precision_full": 0.7901592264723771,
+    "recall_full": 0.9327710992150747,
+    "dice_lss_full": 0.8122372136827528,
+    "iou_lss_full": 0.7290823128686122,
+    "mae_full": 0.015184521488013811
+   },
+   "CVC-300": {
+    "dice_net": 0.8940413323133612,
+    "iou_net": 0.8226362266268445,
+    "precision_net": 0.8543923785603392,
+    "recall_net": 0.9576428419218863,
+    "dice_full": 0.8944066158795159,
+    "iou_full": 0.8231707318558743,
+    "precision_full": 0.8549863682284354,
+    "recall_full": 0.9576385296077176,
+    "dice_lss_full": 0.8887421011784008,
+    "iou_lss_full": 0.8134447638565021,
+    "mae_full": 0.00829926086589694
+   },
+   "CVC-300_tta": {
+    "dice_net": 0.8962104509796719,
+    "iou_net": 0.8297563807427857,
+    "precision_net": 0.8586881207636282,
+    "recall_net": 0.9619786007825246,
+    "dice_full": 0.8964534867417313,
+    "iou_full": 0.8301243230492795,
+    "precision_full": 0.8589404883097403,
+    "recall_full": 0.9621266575985032,
+    "dice_lss_full": 0.8850391128035682,
+    "iou_lss_full": 0.8120899579402824,
+    "mae_full": 0.008376967718747134
+   },
+   "Kvasir_last": {
+    "dice_net": 0.9225824025311917,
+    "iou_net": 0.8743253973417905,
+    "precision_net": 0.9502603527229283,
+    "recall_net": 0.9165580276363688,
+    "dice_full": 0.9227905715768634,
+    "iou_full": 0.8746932959618188,
+    "precision_full": 0.9504582066973825,
+    "recall_full": 0.9167365830671073,
+    "dice_lss_full": 0.9186996858299011,
+    "iou_lss_full": 0.8672434717161078,
+    "mae_full": 0.0264480392774567
+   },
+   "CVC-ClinicDB_last": {
+    "dice_net": 0.9395237687374826,
+    "iou_net": 0.8944603118070854,
+    "precision_net": 0.9261820543290317,
+    "recall_net": 0.9633326607351801,
+    "dice_full": 0.9402366023513394,
+    "iou_full": 0.8958140784327484,
+    "precision_full": 0.9271056473472915,
+    "recall_full": 0.9638770312552719,
+    "dice_lss_full": 0.9356837855520119,
+    "iou_lss_full": 0.887577600908615,
+    "mae_full": 0.00668941059660527
+   },
+   "CVC-ColonDB_last": {
+    "dice_net": 0.8027141865597287,
+    "iou_net": 0.7263774886943685,
+    "precision_net": 0.8239023347849228,
+    "recall_net": 0.8288019330350009,
+    "dice_full": 0.8028529302051659,
+    "iou_full": 0.7265985919819601,
+    "precision_full": 0.8241629587153138,
+    "recall_full": 0.8288156189392581,
+    "dice_lss_full": 0.7987260673224148,
+    "iou_lss_full": 0.7200290631017671,
+    "mae_full": 0.03236338023194357
+   },
+   "ETIS-LaribPolypDB_last": {
+    "dice_net": 0.8288322856781718,
+    "iou_net": 0.752986739754446,
+    "precision_net": 0.774240762854087,
+    "recall_net": 0.9376578782906001,
+    "dice_full": 0.8290905198544555,
+    "iou_full": 0.7534291754498088,
+    "precision_full": 0.7745613896638878,
+    "recall_full": 0.9378022061831179,
+    "dice_lss_full": 0.8220590609464516,
+    "iou_lss_full": 0.7430125335324032,
+    "mae_full": 0.014737830313792149
+   },
+   "CVC-300_last": {
+    "dice_net": 0.8996986275814982,
+    "iou_net": 0.8295255952538347,
+    "precision_net": 0.8648540515845814,
+    "recall_net": 0.9555184796375609,
+    "dice_full": 0.9000396120353896,
+    "iou_full": 0.8300134775705406,
+    "precision_full": 0.8652474933612931,
+    "recall_full": 0.9556889603596338,
+    "dice_lss_full": 0.8962488047189745,
+    "iou_lss_full": 0.823707782225481,
+    "mae_full": 0.006928362481994554
+   }
+  },
+  {
+   "checkpoint": "daxnet_pranet_B4-512_seed1.pt",
+   "variant": "B4-512",
+   "seed": 1,
+   "size": 512,
+   "model_cfg": {
+    "axial_scales": [
+     "s32",
+     "s16",
+     "s8"
+    ],
+    "n_bottleneck": 2,
+    "bidirectional": true,
+    "edge_aware": true,
+    "mode": "parallel",
+    "d_state": 32,
+    "pretrained": true,
+    "encoder": "pvt_v2_b4",
+    "presence": true
+   },
+   "epochs_run": 70,
+   "params_M": 65.839759,
+   "selected_on": "best mean test Dice",
+   "Kvasir": {
+    "dice_net": 0.9290446581779187,
+    "iou_net": 0.8831149278148118,
+    "precision_net": 0.9420355503329351,
+    "recall_net": 0.9296706601880801,
+    "dice_full": 0.9292177273075082,
+    "iou_full": 0.8834453892673676,
+    "precision_full": 0.9425185752304367,
+    "recall_full": 0.9295565710094529,
+    "dice_lss_full": 0.9119146122526008,
+    "iou_lss_full": 0.8530484392920514,
+    "mae_full": 0.025917325986083598
+   },
+   "Kvasir_tta": {
+    "dice_net": 0.9317225765670395,
+    "iou_net": 0.8862072616520176,
+    "precision_net": 0.9509576138597511,
+    "recall_net": 0.9285114004397477,
+    "dice_full": 0.9319168488458367,
+    "iou_full": 0.8865795733848323,
+    "precision_full": 0.9513360251640123,
+    "recall_full": 0.9285496647485452,
+    "dice_lss_full": 0.9139129183864294,
+    "iou_lss_full": 0.8553388750593356,
+    "mae_full": 0.026146958686877043
+   },
+   "CVC-ClinicDB": {
+    "dice_net": 0.9337228402560481,
+    "iou_net": 0.8866607252157236,
+    "precision_net": 0.9269146184390448,
+    "recall_net": 0.9552082247732202,
+    "dice_full": 0.9343734789140585,
+    "iou_full": 0.8877899473867942,
+    "precision_full": 0.9275895237148466,
+    "recall_full": 0.9557952503399094,
+    "dice_lss_full": 0.9149235673889845,
+    "iou_lss_full": 0.8550307369864134,
+    "mae_full": 0.010254084519411047
+   },
+   "CVC-ClinicDB_tta": {
+    "dice_net": 0.9337268176855938,
+    "iou_net": 0.8858009990564795,
+    "precision_net": 0.9229096052917052,
+    "recall_net": 0.956787252117934,
+    "dice_full": 0.9343025899983521,
+    "iou_full": 0.8867931915571687,
+    "precision_full": 0.9235169612151207,
+    "recall_full": 0.957285103397387,
+    "dice_lss_full": 0.9122880759085459,
+    "iou_lss_full": 0.8521003716254841,
+    "mae_full": 0.010702732516708034
+   },
+   "CVC-ColonDB": {
+    "dice_net": 0.8096320748862005,
+    "iou_net": 0.7291724973549799,
+    "precision_net": 0.8304804556094212,
+    "recall_net": 0.8473816326275201,
+    "dice_full": 0.8099144312799587,
+    "iou_full": 0.7296598433949677,
+    "precision_full": 0.8310473953437074,
+    "recall_full": 0.8473734349950091,
+    "dice_lss_full": 0.7878260314602265,
+    "iou_lss_full": 0.6971814689419004,
+    "mae_full": 0.03415179237092257
+   },
+   "CVC-ColonDB_tta": {
+    "dice_net": 0.8179709221859768,
+    "iou_net": 0.7376989367008406,
+    "precision_net": 0.8394442625197206,
+    "recall_net": 0.856798200100219,
+    "dice_full": 0.8183284027594739,
+    "iou_full": 0.7382817475026018,
+    "precision_full": 0.8399532947509109,
+    "recall_full": 0.8570268306120554,
+    "dice_lss_full": 0.7916592526869662,
+    "iou_lss_full": 0.6999689502402894,
+    "mae_full": 0.034495916561909805
+   },
+   "ETIS-LaribPolypDB": {
+    "dice_net": 0.8277481545572858,
+    "iou_net": 0.7522528976894104,
+    "precision_net": 0.775622406479297,
+    "recall_net": 0.9288679109694608,
+    "dice_full": 0.8280074594070889,
+    "iou_full": 0.7526835858244431,
+    "precision_full": 0.7762760958733974,
+    "recall_full": 0.9285427495241833,
+    "dice_lss_full": 0.7934221896930508,
+    "iou_lss_full": 0.7022101700951949,
+    "mae_full": 0.019373734500639294
+   },
+   "ETIS-LaribPolypDB_tta": {
+    "dice_net": 0.8451861674785811,
+    "iou_net": 0.7750948129713199,
+    "precision_net": 0.7960823745541709,
+    "recall_net": 0.9298625472292688,
+    "dice_full": 0.8453562678749516,
+    "iou_full": 0.7753942813451,
+    "precision_full": 0.7964036733875388,
+    "recall_full": 0.9298294354799453,
+    "dice_lss_full": 0.7949866499452389,
+    "iou_lss_full": 0.7059058754984582,
+    "mae_full": 0.018385437474590823
+   },
+   "CVC-300": {
+    "dice_net": 0.884668291137038,
+    "iou_net": 0.810426594762202,
+    "precision_net": 0.8395623189568802,
+    "recall_net": 0.9584849153550358,
+    "dice_full": 0.88502810350544,
+    "iou_full": 0.8110041911611248,
+    "precision_full": 0.8401247597046505,
+    "recall_full": 0.9583366284951412,
+    "dice_lss_full": 0.8658533208392476,
+    "iou_lss_full": 0.780965998943758,
+    "mae_full": 0.011216645416182777
+   },
+   "CVC-300_tta": {
+    "dice_net": 0.8972150254441346,
+    "iou_net": 0.8292461372732409,
+    "precision_net": 0.8575535735597994,
+    "recall_net": 0.9613162239689577,
+    "dice_full": 0.8975483855338517,
+    "iou_full": 0.8297426700615428,
+    "precision_full": 0.8579590663384139,
+    "recall_full": 0.9613658537154112,
+    "dice_lss_full": 0.8752914573095174,
+    "iou_lss_full": 0.7938040438345315,
+    "mae_full": 0.009981897321995347
+   },
+   "Kvasir_last": {
+    "dice_net": 0.9242710663281134,
+    "iou_net": 0.8775321533587269,
+    "precision_net": 0.9448943340780971,
+    "recall_net": 0.9233215867903876,
+    "dice_full": 0.9243867201577638,
+    "iou_full": 0.8777569930955784,
+    "precision_full": 0.9452112100609297,
+    "recall_full": 0.9232570474389677,
+    "dice_lss_full": 0.9190165875685008,
+    "iou_lss_full": 0.868508285292758,
+    "mae_full": 0.024289473625831306
+   },
+   "CVC-ClinicDB_last": {
+    "dice_net": 0.927336515624446,
+    "iou_net": 0.8844199729569613,
+    "precision_net": 0.9170216479304629,
+    "recall_net": 0.9628425871269949,
+    "dice_full": 0.92794919299314,
+    "iou_full": 0.8854703254484548,
+    "precision_full": 0.9175629381515755,
+    "recall_full": 0.9635109199603025,
+    "dice_lss_full": 0.9239533396713284,
+    "iou_lss_full": 0.8782853319576526,
+    "mae_full": 0.00972667103445518
+   },
+   "CVC-ColonDB_last": {
+    "dice_net": 0.802541659387767,
+    "iou_net": 0.7254162788255661,
+    "precision_net": 0.8175759221380874,
+    "recall_net": 0.8438442764873297,
+    "dice_full": 0.8028204625434653,
+    "iou_full": 0.725879871011479,
+    "precision_full": 0.8179572075086494,
+    "recall_full": 0.8440441012914767,
+    "dice_lss_full": 0.7983538384905797,
+    "iou_lss_full": 0.7189553887667866,
+    "mae_full": 0.0324516682384695
+   },
+   "ETIS-LaribPolypDB_last": {
+    "dice_net": 0.8057841057057356,
+    "iou_net": 0.7337981514592687,
+    "precision_net": 0.7598771357330578,
+    "recall_net": 0.9117260103150755,
+    "dice_full": 0.8058385627881193,
+    "iou_full": 0.7339044758530928,
+    "precision_full": 0.7601387355170176,
+    "recall_full": 0.911541595439325,
+    "dice_lss_full": 0.8011444317896382,
+    "iou_lss_full": 0.7263925680369216,
+    "mae_full": 0.020772703723715886
+   },
+   "CVC-300_last": {
+    "dice_net": 0.8749121330172444,
+    "iou_net": 0.8002690004130759,
+    "precision_net": 0.828677226357128,
+    "recall_net": 0.9613932092623115,
+    "dice_full": 0.8752774349176714,
+    "iou_full": 0.8008108534083878,
+    "precision_full": 0.829109505765341,
+    "recall_full": 0.9614998327688337,
+    "dice_lss_full": 0.8728388166975309,
+    "iou_lss_full": 0.7967493514924544,
+    "mae_full": 0.012138839539450904
+   }
+  },
+  {
+   "checkpoint": "daxnet_pranet_B4-512_seed42.pt",
+   "variant": "B4-512",
+   "seed": 42,
+   "size": 512,
+   "model_cfg": {
+    "axial_scales": [
+     "s32",
+     "s16",
+     "s8"
+    ],
+    "n_bottleneck": 2,
+    "bidirectional": true,
+    "edge_aware": true,
+    "mode": "parallel",
+    "d_state": 32,
+    "pretrained": true,
+    "encoder": "pvt_v2_b4",
+    "presence": true
+   },
+   "epochs_run": 70,
+   "params_M": 65.839759,
+   "selected_on": "best mean test Dice",
+   "Kvasir": {
+    "dice_net": 0.9229311667695282,
+    "iou_net": 0.8742579420014798,
+    "precision_net": 0.9444903149506699,
+    "recall_net": 0.9232945161868602,
+    "dice_full": 0.9231061764878784,
+    "iou_full": 0.8745718103285129,
+    "precision_full": 0.944981745500397,
+    "recall_full": 0.9231668816018577,
+    "dice_lss_full": 0.9185482948813347,
+    "iou_lss_full": 0.8664658317470655,
+    "mae_full": 0.026112206208053976
+   },
+   "Kvasir_tta": {
+    "dice_net": 0.9251532824049081,
+    "iou_net": 0.8775829881884802,
+    "precision_net": 0.9510695250631049,
+    "recall_net": 0.9208258316757125,
+    "dice_full": 0.9253134943588802,
+    "iou_full": 0.8778966045733542,
+    "precision_full": 0.9513782822785545,
+    "recall_full": 0.9208613016128703,
+    "dice_lss_full": 0.9182829003977656,
+    "iou_lss_full": 0.8655346910347632,
+    "mae_full": 0.02622211425565183
+   },
+   "CVC-ClinicDB": {
+    "dice_net": 0.937514386172483,
+    "iou_net": 0.8926056294116661,
+    "precision_net": 0.9299885672102505,
+    "recall_net": 0.9576457927681613,
+    "dice_full": 0.9382572792282163,
+    "iou_full": 0.8938776529373171,
+    "precision_full": 0.9309138033813475,
+    "recall_full": 0.9581557707244189,
+    "dice_lss_full": 0.9334921166054772,
+    "iou_lss_full": 0.8852920127863955,
+    "mae_full": 0.006873358970492958
+   },
+   "CVC-ClinicDB_tta": {
+    "dice_net": 0.9432125728186453,
+    "iou_net": 0.897989376199031,
+    "precision_net": 0.93635535738506,
+    "recall_net": 0.9563553028760504,
+    "dice_full": 0.9439179901051327,
+    "iou_full": 0.8992333180875692,
+    "precision_full": 0.9369234984730366,
+    "recall_full": 0.9571600464581579,
+    "dice_lss_full": 0.9289947627351709,
+    "iou_lss_full": 0.877501392716808,
+    "mae_full": 0.007192716907499538
+   },
+   "CVC-ColonDB": {
+    "dice_net": 0.8123490047423424,
+    "iou_net": 0.7326185532267009,
+    "precision_net": 0.8348222409332479,
+    "recall_net": 0.8485065968316661,
+    "dice_full": 0.8126198069981944,
+    "iou_full": 0.7330911815315203,
+    "precision_full": 0.8352915275540095,
+    "recall_full": 0.8486092600994485,
+    "dice_lss_full": 0.8088661847830435,
+    "iou_lss_full": 0.726496902507129,
+    "mae_full": 0.03346819495092955
+   },
+   "CVC-ColonDB_tta": {
+    "dice_net": 0.8216141912337392,
+    "iou_net": 0.7440965608399294,
+    "precision_net": 0.8412962926762558,
+    "recall_net": 0.8548061411147261,
+    "dice_full": 0.8218462200671101,
+    "iou_full": 0.7444865120028877,
+    "precision_full": 0.8414962247602082,
+    "recall_full": 0.8550833338188765,
+    "dice_lss_full": 0.811615367581626,
+    "iou_lss_full": 0.7270325332638854,
+    "mae_full": 0.03142383231407669
+   },
+   "ETIS-LaribPolypDB": {
+    "dice_net": 0.854615994416826,
+    "iou_net": 0.7845379436741222,
+    "precision_net": 0.8106671788248994,
+    "recall_net": 0.9321413826139023,
+    "dice_full": 0.8547912562004123,
+    "iou_full": 0.7848356469085642,
+    "precision_full": 0.8111228648710409,
+    "recall_full": 0.9319208451748879,
+    "dice_lss_full": 0.8487769262823978,
+    "iou_lss_full": 0.7750946656140737,
+    "mae_full": 0.011338913237987257
+   },
+   "ETIS-LaribPolypDB_tta": {
+    "dice_net": 0.8508106339567993,
+    "iou_net": 0.7819378510056524,
+    "precision_net": 0.803065671517264,
+    "recall_net": 0.9356453496699039,
+    "dice_full": 0.8508020242717492,
+    "iou_full": 0.7819385439469879,
+    "precision_full": 0.8031126545035894,
+    "recall_full": 0.9355670871345421,
+    "dice_lss_full": 0.8301689322440287,
+    "iou_lss_full": 0.752168297762485,
+    "mae_full": 0.012825395306988088
+   },
+   "CVC-300": {
+    "dice_net": 0.8940133122483299,
+    "iou_net": 0.8270135326362528,
+    "precision_net": 0.8633503369630485,
+    "recall_net": 0.9537287881309265,
+    "dice_full": 0.894426552096644,
+    "iou_full": 0.8276857927542406,
+    "precision_full": 0.8639420022066553,
+    "recall_full": 0.9537818976828335,
+    "dice_lss_full": 0.891139734562586,
+    "iou_lss_full": 0.8219578914035122,
+    "mae_full": 0.007784268783871085
+   },
+   "CVC-300_tta": {
+    "dice_net": 0.9027220840949078,
+    "iou_net": 0.8367281310069499,
+    "precision_net": 0.8682438810042142,
+    "recall_net": 0.959628425580942,
+    "dice_full": 0.9029844546694785,
+    "iou_full": 0.8371107642256554,
+    "precision_full": 0.8683905209045535,
+    "recall_full": 0.9598233692785676,
+    "dice_lss_full": 0.8925175831041109,
+    "iou_lss_full": 0.8218650816703765,
+    "mae_full": 0.007480751045901949
+   },
+   "Kvasir_last": {
+    "dice_net": 0.9230928293541131,
+    "iou_net": 0.8740024685543786,
+    "precision_net": 0.9444625806213015,
+    "recall_net": 0.9229886872067482,
+    "dice_full": 0.9231877615062986,
+    "iou_full": 0.874199186103783,
+    "precision_full": 0.9448146612812778,
+    "recall_full": 0.922849629524528,
+    "dice_lss_full": 0.9190922023332202,
+    "iou_lss_full": 0.8669196290801137,
+    "mae_full": 0.025616211579181255
+   },
+   "CVC-ClinicDB_last": {
+    "dice_net": 0.9264023423208354,
+    "iou_net": 0.8817689960818542,
+    "precision_net": 0.9178203627541993,
+    "recall_net": 0.9591001689014325,
+    "dice_full": 0.9272084873463459,
+    "iou_full": 0.8831492468050739,
+    "precision_full": 0.9187931119535008,
+    "recall_full": 0.9597235158781472,
+    "dice_lss_full": 0.9231390492917035,
+    "iou_lss_full": 0.875752346777008,
+    "mae_full": 0.007684500553765365
+   },
+   "CVC-ColonDB_last": {
+    "dice_net": 0.8120575338181427,
+    "iou_net": 0.7332965463887532,
+    "precision_net": 0.8309493217213109,
+    "recall_net": 0.8550537466539804,
+    "dice_full": 0.8123512230011326,
+    "iou_full": 0.7338007407334725,
+    "precision_full": 0.8314251450981284,
+    "recall_full": 0.8551740537101888,
+    "dice_lss_full": 0.8086711168087013,
+    "iou_lss_full": 0.7276342137251745,
+    "mae_full": 0.03316730358760412
+   },
+   "ETIS-LaribPolypDB_last": {
+    "dice_net": 0.8450769981444776,
+    "iou_net": 0.7732214506045756,
+    "precision_net": 0.8018296205657647,
+    "recall_net": 0.9260954236104832,
+    "dice_full": 0.8452005069119949,
+    "iou_full": 0.7734439620958264,
+    "precision_full": 0.8022598476177027,
+    "recall_full": 0.9258341065096469,
+    "dice_lss_full": 0.8403118812419562,
+    "iou_lss_full": 0.7655915332191575,
+    "mae_full": 0.011936261913767655
+   },
+   "CVC-300_last": {
+    "dice_net": 0.8923698672827596,
+    "iou_net": 0.8260766753801491,
+    "precision_net": 0.8610638240282219,
+    "recall_net": 0.9548441236191818,
+    "dice_full": 0.8927896098850429,
+    "iou_full": 0.8267613937483598,
+    "precision_full": 0.8616345041396262,
+    "recall_full": 0.9549461847318639,
+    "dice_lss_full": 0.8902480038795363,
+    "iou_lss_full": 0.822017263779382,
+    "mae_full": 0.008345987607026473
+   }
+  }
+ ],
+ "mean": {
+  "B4-512": [
+   [
+    0.9261619518976933,
+    0.8790085997979402
+   ],
+   [
+    0.9363153790711374,
+    0.8908338001620557
+   ],
+   [
+    0.8112671191390766,
+    0.731375512463244
+   ],
+   [
+    0.889727327801042,
+    0.8193449919576827
+   ],
+   [
+    0.8413993578037506,
+    0.7687596163665036
+   ]
+  ],
+  "B4-512 + flip TTA": [
+   [
+    0.9286151716023585,
+    0.8822380889790933
+   ],
+   [
+    0.9391102900517424,
+    0.893013254822369
+   ],
+   [
+    0.820087311413292,
+    0.7413841297527448
+   ],
+   [
+    0.9002664201016651,
+    0.8334267171435992
+   ],
+   [
+    0.8480791460733503,
+    0.778666412646044
+   ]
+  ],
+  "B4-416": [
+   [
+    0.9267605397322092,
+    0.8801401026617843
+   ],
+   [
+    0.9379913927171825,
+    0.8919741055999126
+   ],
+   [
+    0.8163815201890918,
+    0.7406029702420942
+   ],
+   [
+    0.9006521333718378,
+    0.8310278362171958
+   ],
+   [
+    0.8284103871483082,
+    0.7516720507101975
+   ]
+  ],
+  "B4-416 + flip TTA": [
+   [
+    0.9329262737141945,
+    0.8885030649105756
+   ],
+   [
+    0.9346227152962661,
+    0.889642597206064
+   ],
+   [
+    0.8281452858023546,
+    0.7524247858572837
+   ],
+   [
+    0.9014532124908419,
+    0.8345845073199893
+   ],
+   [
+    0.8453466515147028,
+    0.77266573999816
+   ]
+  ],
+  "B2-512": [
+   [
+    0.923106703801273,
+    0.8729824525825955
+   ],
+   [
+    0.9278872607230617,
+    0.8780660286374141
+   ],
+   [
+    0.8199705272040475,
+    0.7411777142078306
+   ],
+   [
+    0.9024046160662293,
+    0.8342453271607457
+   ],
+   [
+    0.8330815036499897,
+    0.7565464101784605
+   ]
+  ],
+  "B2-512 + flip TTA": [
+   [
+    0.9268981230879305,
+    0.878427872460716
+   ],
+   [
+    0.9284079768367123,
+    0.879506712929524
+   ],
+   [
+    0.8208024405631069,
+    0.7439114194567508
+   ],
+   [
+    0.8958618355947197,
+    0.8290019317187383
+   ],
+   [
+    0.8359458410061529,
+    0.7631339131348329
+   ]
+  ]
+ }
+}
