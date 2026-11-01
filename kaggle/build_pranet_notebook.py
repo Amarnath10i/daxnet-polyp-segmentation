@@ -22,6 +22,8 @@ MODULES = ['__init__.py', 'ssd_axial.py', 'data.py', 'losses.py', 'metrics.py', 
 DATASET_SOURCES = ["ruchiranalluri/polyp-segmentation-data"]
 # (name, timm encoder, epochs, estimated hours per run on one T4, extra train.py arguments)
 VARIANTS = [('B2-50ep', 'pvt_v2_b2', 50, 0.8, ''), ('B3-50ep', 'pvt_v2_b3', 50, 1.2, ''), ('B4-50ep', 'pvt_v2_b4', 50, 1.5, '')]
+ENCODER_NAMES = {'pvt_v2_b2': 'PVTv2-B2 (ImageNet-1k weights)', 'pvt_v2_b3': 'PVTv2-B3 (ImageNet-1k weights)',
+                 'pvt_v2_b4': 'PVTv2-B4 (ImageNet-1k weights)', 'convnext_small.fb_in22k_ft_in1k': 'ConvNeXt-S (ImageNet-22k weights)'}
 
 INTRO = """# DAXNet on the PraNet polyp-segmentation benchmark
 
@@ -33,7 +35,7 @@ models into **ensembles**, and compares the results with published methods.
 1450 training images (Kvasir-SEG + CVC-ClinicDB) and five test sets: Kvasir (100), CVC-ClinicDB (62),
 and three datasets **never seen in training**: CVC-ColonDB (380), ETIS-LaribPolypDB (196), CVC-300 (60).
 
-**Model.** U-Net with a PVTv2 encoder (ImageNet weights) whose bottleneck and decoder mix context with an
+**Model.** U-Net with a pretrained encoder, {encoders}, whose bottleneck and decoder mix context with an
 exact, bidirectional, edge-aware (geodesic) axial state-space operator, plus an image-level presence head.
 
 **Configurations.** {variants}, each with seeds {seeds}. `strong` augmentation widens the colour, gamma, blur and
@@ -76,7 +78,7 @@ SIZE = 352
 SEEDS = {seeds}
 VARIANTS = {variants}   # (name, encoder, epochs, estimated hours per run, extra train.py arguments)
 TEST_SETS = ['Kvasir', 'CVC-ClinicDB', 'CVC-ColonDB', 'ETIS-LaribPolypDB', 'CVC-300']
-START_BY_H, FINISH_BY_H = 10.5, 11.5    # no job starts after 10.5 h; running jobs finalize before 11.5 h
+START_BY_H, FINISH_BY_H = {start_by}, {finish_by}    # no job starts after {start_by} h; running jobs finalize before {finish_by} h
 ENSEMBLE_SPECS = {ensembles}   # ensemble name -> list of configurations whose checkpoints are averaged
 SELECT = '{select}'   # 'test_lss' = keep the epoch with the best mean soft test Dice (LSSNet train.py rule); 'last' = last epoch
 
@@ -404,6 +406,8 @@ def main():
     ap.add_argument('--select', default='test_lss', choices=['test_lss', 'test_dice', 'last'])
     ap.add_argument('--ensembles', default='', help='JSON {name: [configuration names]}')
     ap.add_argument('--kernel-sources', default='', help='comma-separated notebooks whose outputs are attached')
+    ap.add_argument('--start-by', type=float, default=10.5, help='no training job starts after this many hours')
+    ap.add_argument('--finish-by', type=float, default=11.5, help='running jobs finalize before this many hours')
     a = ap.parse_args()
     seeds = [int(s) for s in a.seeds.split(',') if s.strip()]
     ensembles = json.loads(a.ensembles) if a.ensembles else {}
@@ -419,12 +423,14 @@ def main():
         'test_lss': "All five test sets are evaluated after every epoch and the epoch with the best mean soft test Dice is kept "
                     "(LSSNet's train.py rule, which selects on test data). The **last-epoch** scores are reported too.",
         'last': 'The checkpoint of the **last epoch** is tested (no model selection on test data).'}[a.select]
-    cells = [md(INTRO.format(variants=vtxt, seeds=seeds, selection=selection)), md('## 1. Setup'), code(SETUP),
+    encoders = ' or '.join(dict.fromkeys(ENCODER_NAMES.get(e, e) for _, e, *_ in variants))
+    cells = [md(INTRO.format(variants=vtxt, seeds=seeds, selection=selection, encoders=encoders)), md('## 1. Setup'), code(SETUP),
              md('## 2. DAXNet source code\nWritten to `daxnet/` so the training script can run on both GPUs in parallel.')]
     for fn in MODULES:
         src = open(os.path.join(ROOT, 'daxnet', fn), encoding='utf-8').read()
         cells.append(code(f'%%writefile daxnet/{fn}\n' + src))
-    cells += [md('## 3. Configurations'), code(CONFIG.format(seeds=seeds, variants=[tuple(v) for v in variants], select=a.select, ensembles=ensembles)),
+    cells += [md('## 3. Configurations'), code(CONFIG.format(seeds=seeds, variants=[tuple(v) for v in variants], select=a.select, ensembles=ensembles,
+                                                 start_by=a.start_by, finish_by=a.finish_by)),
               md('## 4. Training (2 GPUs in parallel)\nProgress (epoch, loss, current test Dice) is printed every 30 minutes.'),
               code(RUNNER),
               md('## 5. Checkpoints\nEvery model is saved as `checkpoints/daxnet_pranet_<config>_seed<seed>.pt` '
