@@ -1,10 +1,11 @@
 """Poll a kernel until it stops, then download its outputs to kaggle/results/<slug>/.
-    python kaggle/watch.py daxnet-smoke [--every 60]"""
+    python kaggle/watch.py daxnet-smoke [--every 60]
+    python kaggle/watch.py <owner>/<slug>     (another account; saved to kaggle/results/<owner>-<slug>/)"""
 import sys, time, os, json  # run with PYTHONUTF8=1 on Windows (kernel logs contain non-cp1252 chars)
 from kaggle.api.kaggle_api_extended import KaggleApi
 slug = sys.argv[1]; every = int(sys.argv[3]) if len(sys.argv) > 3 else 60
 api = KaggleApi(); api.authenticate()
-ref = f"amarnathmadaka/{slug}"
+ref = slug if '/' in slug else f"amarnathmadaka/{slug}"
 last = None
 while True:
     try:
@@ -17,7 +18,7 @@ while True:
     if not s.startswith('poll-failed') and any(k in s for k in ('complete', 'error', 'cancel')):
         break
     time.sleep(every)
-out = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'results', slug)
+out = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'results', slug.replace('/', '-'))
 os.makedirs(out, exist_ok=True)
 # everything except checkpoints (*.pt: up to ~115 MB each), all pages
 token, n = None, 0

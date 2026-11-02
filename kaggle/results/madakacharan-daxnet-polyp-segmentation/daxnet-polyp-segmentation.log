@@ -1,0 +1,199 @@
+[{"stream_name":"stderr","time":6.56148459,"data":"0.00s - Debugger warning: It seems that frozen modules are being used, which may\n"}
+,{"stream_name":"stderr","time":6.561528786,"data":"0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off\n"}
+,{"stream_name":"stderr","time":6.561533292,"data":"0.00s - to python to disable frozen modules.\n"}
+,{"stream_name":"stderr","time":6.561536087,"data":"0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.\n"}
+,{"stream_name":"stderr","time":7.162858488,"data":"0.00s - Debugger warning: It seems that frozen modules are being used, which may\n"}
+,{"stream_name":"stderr","time":7.162901264,"data":"0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off\n"}
+,{"stream_name":"stderr","time":7.162905166,"data":"0.00s - to python to disable frozen modules.\n"}
+,{"stream_name":"stderr","time":7.162907715,"data":"0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.\n"}
+,{"stream_name":"stdout","time":8.281307161,"data":"GPU 0: Tesla T4 (UUID: GPU-26964034-a78b-b7b1-9e74-f088f87420ff)\r\n"}
+,{"stream_name":"stdout","time":8.281343443,"data":"GPU 1: Tesla T4 (UUID: GPU-bb357f6b-4695-0fa9-4970-10961573dc36)\r\n"}
+,{"stream_name":"stdout","time":25.057892151,"data":"torch 2.11.0+cu128 | timm 1.0.29 | GPUs 2 ['Tesla T4', 'Tesla T4']\n"}
+,{"stream_name":"stdout","time":25.057939843,"data":"datasets: ['datasets']\n"}
+,{"stream_name":"stdout","time":25.078824588,"data":"Writing daxnet/__init__.py\n"}
+,{"stream_name":"stdout","time":25.095808354,"data":"Writing daxnet/ssd_axial.py\n"}
+,{"stream_name":"stdout","time":25.113458852,"data":"Writing daxnet/data.py\n"}
+,{"stream_name":"stdout","time":25.127405941,"data":"Writing daxnet/losses.py\n"}
+,{"stream_name":"stdout","time":25.141288227,"data":"Writing daxnet/metrics.py\n"}
+,{"stream_name":"stdout","time":25.157685381,"data":"Writing daxnet/model.py\n"}
+,{"stream_name":"stdout","time":25.177707026,"data":"Writing daxnet/train.py\n"}
+,{"stream_name":"stdout","time":25.25730575,"data":"4 training runs, ~11.4 GPU-hours on 2 GPU(s):\n"}
+,{"stream_name":"stdout","time":25.257330186,"data":"  B4-416_seed42          pvt_v2_b4  85 epochs  ~3.0 h  --size 416 --aug strong\n"}
+,{"stream_name":"stdout","time":25.257335337,"data":"  B4-416_seed1           pvt_v2_b4  85 epochs  ~3.0 h  --size 416 --aug strong\n"}
+,{"stream_name":"stdout","time":25.257339257,"data":"  CNX-416_seed42         convnext_small.fb_in22k_ft_in1k 85 epochs  ~2.7 h  --size 416 --aug strong\n"}
+,{"stream_name":"stdout","time":25.257343125,"data":"  CNX-416_seed1          convnext_small.fb_in22k_ft_in1k 85 epochs  ~2.7 h  --size 416 --aug strong\n"}
+,{"stream_name":"stderr","time":26.532472578,"data":"Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.\n"}
+,{"stream_name":"stderr","time":26.532498106,"data":"\n"}
+,{"stream_name":"stderr","time":26.53250347,"data":"Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.\n"}
+,{"stream_name":"stdout","time":34.107580294,"data":"[gpu1] START B4-416_seed1     at 0h00m\n"}
+,{"stream_name":"stdout","time":34.10864142,"data":"[gpu0] START B4-416_seed42    at 0h00m\n"}
+,{"stream_name":"stdout","time":1834.119762149,"data":"[progress 0h30m]\n"}
+,{"stream_name":"stdout","time":1834.119810642,"data":"    B4-416_seed1     epoch   9/85  loss 2.207  300 0.870  300_raw 0.870  ClinicDB 0.895  ClinicDB_raw 0.895  ColonDB 0.802  ColonDB_raw 0.802  LaribPolypDB 0.789  LaribPolypDB_raw 0.789  Kvasir 0.931  Kvasir_raw 0.931  (0h30m)\n"}
+,{"stream_name":"stdout","time":1834.119829975,"data":"    B4-416_seed42    epoch   9/85  loss 2.189  300 0.874  300_raw 0.874  ClinicDB 0.892  ClinicDB_raw 0.892  ColonDB 0.802  ColonDB_raw 0.802  LaribPolypDB 0.784  LaribPolypDB_raw 0.784  Kvasir 0.924  Kvasir_raw 0.924  (0h30m)\n"}
+,{"stream_name":"stdout","time":3634.12944412,"data":"[progress 1h00m]\n"}
+,{"stream_name":"stdout","time":3634.129500417,"data":"    B4-416_seed1     epoch  24/85  loss 1.481  300 0.894  300_raw 0.894  ClinicDB 0.929  ClinicDB_raw 0.929  ColonDB 0.818  ColonDB_raw 0.818  LaribPolypDB 0.823  LaribPolypDB_raw 0.823  Kvasir 0.931  Kvasir_raw 0.931  (1h00m)\n"}
+,{"stream_name":"stdout","time":3634.129510412,"data":"    B4-416_seed42    epoch  25/85  loss 1.508  300 0.902  300_raw 0.902  ClinicDB 0.912  ClinicDB_raw 0.912  ColonDB 0.815  ColonDB_raw 0.815  LaribPolypDB 0.815  LaribPolypDB_raw 0.815  Kvasir 0.927  Kvasir_raw 0.927  (1h00m)\n"}
+,{"stream_name":"stdout","time":5434.145924896,"data":"[progress 1h30m]\n"}
+,{"stream_name":"stdout","time":5434.14603136,"data":"    B4-416_seed1     epoch  40/85  loss 1.273  300 0.905  300_raw 0.905  ClinicDB 0.936  ClinicDB_raw 0.936  ColonDB 0.829  ColonDB_raw 0.829  LaribPolypDB 0.833  LaribPolypDB_raw 0.833  Kvasir 0.934  Kvasir_raw 0.934  (1h30m)\n"}
+,{"stream_name":"stdout","time":5434.146037177,"data":"    B4-416_seed42    epoch  40/85  loss 1.283  300 0.886  300_raw 0.886  ClinicDB 0.934  ClinicDB_raw 0.934  ColonDB 0.832  ColonDB_raw 0.832  LaribPolypDB 0.818  LaribPolypDB_raw 0.818  Kvasir 0.929  Kvasir_raw 0.929  (1h30m)\n"}
+,{"stream_name":"stdout","time":7234.166363651,"data":"[progress 2h00m]\n"}
+,{"stream_name":"stdout","time":7234.166400587,"data":"    B4-416_seed1     epoch  55/85  loss 1.167  300 0.906  300_raw 0.906  ClinicDB 0.936  ClinicDB_raw 0.936  ColonDB 0.832  ColonDB_raw 0.832  LaribPolypDB 0.820  LaribPolypDB_raw 0.820  Kvasir 0.929  Kvasir_raw 0.929  (2h00m)\n"}
+,{"stream_name":"stdout","time":7234.166408397,"data":"    B4-416_seed42    epoch  56/85  loss 1.121  300 0.868  300_raw 0.868  ClinicDB 0.937  ClinicDB_raw 0.937  ColonDB 0.831  ColonDB_raw 0.831  LaribPolypDB 0.828  LaribPolypDB_raw 0.828  Kvasir 0.927  Kvasir_raw 0.927  (2h00m)\n"}
+,{"stream_name":"stdout","time":9034.18691719,"data":"[progress 2h30m]\n"}
+,{"stream_name":"stdout","time":9034.186996421,"data":"    B4-416_seed1     epoch  70/85  loss 1.069  300 0.907  300_raw 0.907  ClinicDB 0.942  ClinicDB_raw 0.942  ColonDB 0.815  ColonDB_raw 0.815  LaribPolypDB 0.827  LaribPolypDB_raw 0.827  Kvasir 0.929  Kvasir_raw 0.929  (2h30m)\n"}
+,{"stream_name":"stdout","time":9034.187005615,"data":"    B4-416_seed42    epoch  71/85  loss 1.064  300 0.874  300_raw 0.874  ClinicDB 0.940  ClinicDB_raw 0.940  ColonDB 0.830  ColonDB_raw 0.830  LaribPolypDB 0.835  LaribPolypDB_raw 0.835  Kvasir 0.928  Kvasir_raw 0.928  (2h30m)\n"}
+,{"stream_name":"stdout","time":10834.208373056,"data":"[progress 3h00m]\n"}
+,{"stream_name":"stdout","time":10834.20841311,"data":"    B4-416_seed1     epoch  85/85  loss 1.050  300 0.909  300_raw 0.909  ClinicDB 0.943  ClinicDB_raw 0.943  ColonDB 0.812  ColonDB_raw 0.812  LaribPolypDB 0.827  LaribPolypDB_raw 0.827  Kvasir 0.928  Kvasir_raw 0.928  (3h00m)\n"}
+,{"stream_name":"stdout","time":10834.208422965,"data":"    B4-416_seed42    epoch  85/85  loss 1.025  300 0.872  300_raw 0.872  ClinicDB 0.940  ClinicDB_raw 0.940  ColonDB 0.824  ColonDB_raw 0.824  LaribPolypDB 0.835  LaribPolypDB_raw 0.835  Kvasir 0.927  Kvasir_raw 0.927  (3h00m)\n"}
+,{"stream_name":"stdout","time":11210.886019555,"data":"[gpu0] DONE  B4-416_seed42    in 3h06m  CVC-300 0.8736/0.7996  CVC-300_last 0.8715/0.7963  CVC-300_ttamsl 0.8762/0.8060  CVC-ClinicDB 0.9401/0.8925  CVC-ClinicDB_last 0.9402/0.8927  CVC-ClinicDB_ttamsl 0.9459/0.9024  CVC-ColonDB 0.8305/0.7518  CVC-ColonDB_last 0.8242/0.7447  CVC-ColonDB_ttamsl 0.8336/0.7569  ETIS-LaribPolypDB 0.8348/0.7564  ETIS-LaribPolypDB_last 0.8349/0.7563  ETIS-LaribPolypDB_ttamsl 0.8446/0.7713  Kvasir 0.9278/0.8808  Kvasir_last 0.9271/0.8793  Kvasir_ttamsl 0.9316/0.8862\n"}
+,{"stream_name":"stdout","time":11210.887422171,"data":"[gpu0] START CNX-416_seed42   at 3h06m\n"}
+,{"stream_name":"stdout","time":11357.333806882,"data":"[gpu1] DONE  B4-416_seed1     in 3h08m  CVC-300 0.9049/0.8367  CVC-300_last 0.9087/0.8429  CVC-300_ttamsl 0.9034/0.8366  CVC-ClinicDB 0.9364/0.8891  CVC-ClinicDB_last 0.9426/0.8965  CVC-ClinicDB_ttamsl 0.9426/0.8978  CVC-ColonDB 0.8294/0.7551  CVC-ColonDB_last 0.8119/0.7379  CVC-ColonDB_ttamsl 0.8320/0.7580  ETIS-LaribPolypDB 0.8332/0.7604  ETIS-LaribPolypDB_last 0.8267/0.7518  ETIS-LaribPolypDB_ttamsl 0.8556/0.7871  Kvasir 0.9340/0.8918  Kvasir_last 0.9279/0.8818  Kvasir_ttamsl 0.9345/0.8904\n"}
+,{"stream_name":"stdout","time":11357.335102385,"data":"[gpu1] START CNX-416_seed1    at 3h08m\n"}
+,{"stream_name":"stdout","time":12634.216908673,"data":"[progress 3h30m]\n"}
+,{"stream_name":"stdout","time":12634.216965118,"data":"    CNX-416_seed42   epoch  14/85  loss 2.044  300 0.859  300_raw 0.859  ClinicDB 0.908  ClinicDB_raw 0.908  ColonDB 0.816  ColonDB_raw 0.816  LaribPolypDB 0.805  LaribPolypDB_raw 0.805  Kvasir 0.928  Kvasir_raw 0.928  (0h23m)\n"}
+,{"stream_name":"stdout","time":12634.216973806,"data":"    CNX-416_seed1    epoch  12/85  loss 2.033  300 0.870  300_raw 0.870  ClinicDB 0.905  ClinicDB_raw 0.905  ColonDB 0.802  ColonDB_raw 0.802  LaribPolypDB 0.829  LaribPolypDB_raw 0.829  Kvasir 0.925  Kvasir_raw 0.925  (0h21m)\n"}
+,{"stream_name":"stdout","time":14434.224117665,"data":"[progress 4h00m]\n"}
+,{"stream_name":"stdout","time":14434.224162958,"data":"    CNX-416_seed42   epoch  35/85  loss 1.619  300 0.883  300_raw 0.883  ClinicDB 0.917  ClinicDB_raw 0.917  ColonDB 0.800  ColonDB_raw 0.800  LaribPolypDB 0.825  LaribPolypDB_raw 0.825  Kvasir 0.928  Kvasir_raw 0.928  (0h53m)\n"}
+,{"stream_name":"stdout","time":14434.224172433,"data":"    CNX-416_seed1    epoch  33/85  loss 1.630  300 0.899  300_raw 0.899  ClinicDB 0.935  ClinicDB_raw 0.935  ColonDB 0.793  ColonDB_raw 0.793  LaribPolypDB 0.835  LaribPolypDB_raw 0.835  Kvasir 0.938  Kvasir_raw 0.938  (0h51m)\n"}
+,{"stream_name":"stdout","time":16234.241957066,"data":"[progress 4h30m]\n"}
+,{"stream_name":"stdout","time":16234.242011113,"data":"    CNX-416_seed42   epoch  57/85  loss 1.473  300 0.905  300_raw 0.905  ClinicDB 0.926  ClinicDB_raw 0.926  ColonDB 0.815  ColonDB_raw 0.815  LaribPolypDB 0.832  LaribPolypDB_raw 0.832  Kvasir 0.930  Kvasir_raw 0.930  (1h23m)\n"}
+,{"stream_name":"stdout","time":16234.242019691,"data":"    CNX-416_seed1    epoch  54/85  loss 1.475  300 0.906  300_raw 0.906  ClinicDB 0.938  ClinicDB_raw 0.938  ColonDB 0.794  ColonDB_raw 0.794  LaribPolypDB 0.818  LaribPolypDB_raw 0.818  Kvasir 0.927  Kvasir_raw 0.927  (1h21m)\n"}
+,{"stream_name":"stdout","time":18034.285681621,"data":"[progress 5h00m]\n"}
+,{"stream_name":"stdout","time":18034.285736126,"data":"    CNX-416_seed42   epoch  78/85  loss 1.392  300 0.906  300_raw 0.906  ClinicDB 0.926  ClinicDB_raw 0.926  ColonDB 0.809  ColonDB_raw 0.809  LaribPolypDB 0.835  LaribPolypDB_raw 0.835  Kvasir 0.926  Kvasir_raw 0.926  (1h53m)\n"}
+,{"stream_name":"stdout","time":18034.285744113,"data":"    CNX-416_seed1    epoch  76/85  loss 1.410  300 0.909  300_raw 0.909  ClinicDB 0.939  ClinicDB_raw 0.939  ColonDB 0.795  ColonDB_raw 0.795  LaribPolypDB 0.807  LaribPolypDB_raw 0.807  Kvasir 0.927  Kvasir_raw 0.927  (1h51m)\n"}
+,{"stream_name":"stdout","time":19133.409130947,"data":"[gpu0] DONE  CNX-416_seed42   in 2h12m  CVC-300 0.9040/0.8379  CVC-300_last 0.9062/0.8404  CVC-300_ttamsl 0.9139/0.8518  CVC-ClinicDB 0.9253/0.8783  CVC-ClinicDB_last 0.9261/0.8792  CVC-ClinicDB_ttamsl 0.9327/0.8883  CVC-ColonDB 0.8162/0.7406  CVC-ColonDB_last 0.8088/0.7340  CVC-ColonDB_ttamsl 0.7932/0.7230  ETIS-LaribPolypDB 0.8354/0.7616  ETIS-LaribPolypDB_last 0.8357/0.7644  ETIS-LaribPolypDB_ttamsl 0.8471/0.7770  Kvasir 0.9305/0.8840  Kvasir_last 0.9258/0.8770  Kvasir_ttamsl 0.9263/0.8808\n"}
+,{"stream_name":"stdout","time":19363.18165964,"data":"[gpu1] DONE  CNX-416_seed1    in 2h13m  CVC-300 0.8967/0.8295  CVC-300_last 0.9085/0.8431  CVC-300_ttamsl 0.9101/0.8463  CVC-ClinicDB 0.9338/0.8878  CVC-ClinicDB_last 0.9389/0.8940  CVC-ClinicDB_ttamsl 0.9340/0.8882  CVC-ColonDB 0.8012/0.7302  CVC-ColonDB_last 0.7940/0.7219  CVC-ColonDB_ttamsl 0.8107/0.7395  ETIS-LaribPolypDB 0.8320/0.7546  ETIS-LaribPolypDB_last 0.8089/0.7361  ETIS-LaribPolypDB_ttamsl 0.8464/0.7736  Kvasir 0.9377/0.8938  Kvasir_last 0.9262/0.8801  Kvasir_ttamsl 0.9321/0.8853\n"}
+,{"stream_name":"stdout","time":19363.182559627,"data":"training finished in 5h22m\n"}
+,{"stream_name":"stdout","time":19363.37775044,"data":"checkpoint                                           size  epochs\n"}
+,{"stream_name":"stdout","time":19364.410539267,"data":"daxnet_pranet_B4-416_seed1.pt                       251MB      85\n"}
+,{"stream_name":"stdout","time":19365.415472446,"data":"daxnet_pranet_B4-416_seed42.pt                      251MB      85\n"}
+,{"stream_name":"stdout","time":19365.415503122,"data":"daxnet_pranet_CNX-416_seed1.pt                      208MB      85\n"}
+,{"stream_name":"stdout","time":19365.415509073,"data":"daxnet_pranet_CNX-416_seed42.pt                     208MB      85\n"}
+,{"stream_name":"stdout","time":19365.41551385,"data":"4 checkpoints in /kaggle/working/checkpoints (each with a .json describing how to rebuild the model)\n"}
+,{"stream_name":"stdout","time":19366.554288961,"data":"checkpoint                                  Kvasir        ClinicDB         ColonDB            ETIS         CVC-300   (Dice/IoU, last epoch)\n"}
+,{"stream_name":"stdout","time":19475.95734887,"data":"B4-416_seed1                       0.9340/0.8918 0.9364/0.8891 0.8294/0.7551 0.8332/0.7604 0.9049/0.8367\n"}
+,{"stream_name":"stdout","time":19580.854046693,"data":"B4-416_seed42                      0.9278/0.8808 0.9401/0.8924 0.8304/0.7518 0.8348/0.7564 0.8736/0.7996\n"}
+,{"stream_name":"stdout","time":19684.351029972,"data":"CNX-416_seed1                      0.9377/0.8938 0.9338/0.8878 0.8012/0.7302 0.8319/0.7546 0.8967/0.8295\n"}
+,{"stream_name":"stdout","time":19769.588298754,"data":"CNX-416_seed42                     0.9305/0.8840 0.9253/0.8783 0.8162/0.7406 0.8354/0.7616 0.9040/0.8379\n"}
+,{"stream_name":"stdout","time":19769.637725088,"data":"\n"}
+,{"stream_name":"stdout","time":19769.637754979,"data":"TABLE 1. Every trained model (Dice/IoU)\n"}
+,{"stream_name":"stdout","time":19769.637760995,"data":"+---------+------+--------+---------------+---------------+---------------+---------------+---------------+\n"}
+,{"stream_name":"stdout","time":19769.637765903,"data":"| Config  | Seed | Params | Kvasir        | ClinicDB      | ColonDB       | CVC-300       | ETIS          |\n"}
+,{"stream_name":"stdout","time":19769.637770829,"data":"+=========+======+========+===============+===============+===============+===============+===============+\n"}
+,{"stream_name":"stdout","time":19769.637775695,"data":"| B4-416  | 1    | 65.8M  | 0.9340/0.8918 | 0.9364/0.8891 | 0.8294/0.7551 | 0.9049/0.8367 | 0.8332/0.7604 |\n"}
+,{"stream_name":"stdout","time":19769.637780753,"data":"| B4-416  | 42   | 65.8M  | 0.9278/0.8808 | 0.9401/0.8924 | 0.8304/0.7518 | 0.8736/0.7996 | 0.8348/0.7564 |\n"}
+,{"stream_name":"stdout","time":19769.637785798,"data":"| CNX-416 | 1    | 54.4M  | 0.9377/0.8938 | 0.9338/0.8878 | 0.8012/0.7302 | 0.8967/0.8295 | 0.8319/0.7546 |\n"}
+,{"stream_name":"stdout","time":19769.637790481,"data":"| CNX-416 | 42   | 54.4M  | 0.9305/0.8840 | 0.9253/0.8783 | 0.8162/0.7406 | 0.9040/0.8379 | 0.8354/0.7616 |\n"}
+,{"stream_name":"stdout","time":19769.637796182,"data":"+---------+------+--------+---------------+---------------+---------------+---------------+---------------+\n"}
+,{"stream_name":"stdout","time":19769.637811501,"data":"\n"}
+,{"stream_name":"stdout","time":19769.637815916,"data":"TABLE 2. Mean +- std over seeds (Dice / IoU)\n"}
+,{"stream_name":"stdout","time":19769.637819835,"data":"+---------+-------+-------------------------------+-------------------------------+-------------------------------+-------------------------------+-------------------------------+\n"}
+,{"stream_name":"stdout","time":19769.637824405,"data":"| Config  | Seeds | Kvasir                        | ClinicDB                      | ColonDB                       | CVC-300                       | ETIS                          |\n"}
+,{"stream_name":"stdout","time":19769.6378284,"data":"+=========+=======+===============================+===============================+===============================+===============================+===============================+\n"}
+,{"stream_name":"stdout","time":19769.637832406,"data":"| B4-416  | 2     | 0.9309+-0.004 / 0.8863+-0.008 | 0.9383+-0.003 / 0.8908+-0.002 | 0.8299+-0.001 / 0.7535+-0.002 | 0.8892+-0.022 / 0.8181+-0.026 | 0.8340+-0.001 / 0.7584+-0.003 |\n"}
+,{"stream_name":"stdout","time":19769.637836279,"data":"| CNX-416 | 2     | 0.9341+-0.005 / 0.8889+-0.007 | 0.9296+-0.006 / 0.8831+-0.007 | 0.8087+-0.011 / 0.7354+-0.007 | 0.9003+-0.005 / 0.8337+-0.006 | 0.8337+-0.002 / 0.7581+-0.005 |\n"}
+,{"stream_name":"stdout","time":19769.637840215,"data":"+---------+-------+-------------------------------+-------------------------------+-------------------------------+-------------------------------+-------------------------------+\n"}
+,{"stream_name":"stdout","time":19769.637843975,"data":"\n"}
+,{"stream_name":"stdout","time":19769.637854413,"data":"TABLE 3. Comparison, DAXNet scored with epoch with the best mean test Dice, soft Dice/IoU of the LSSNet/PraNet test scripts; * = higher than the best published method\n"}
+,{"stream_name":"stdout","time":19769.637858545,"data":"+----------------------------------+-------------------+-------------------+-------------------+-------------------+-------------------+\n"}
+,{"stream_name":"stdout","time":19769.637861372,"data":"| Model                            | Kvasir            | ClinicDB          | ColonDB           | CVC-300           | ETIS              |\n"}
+,{"stream_name":"stdout","time":19769.637882064,"data":"+==================================+===================+===================+===================+===================+===================+\n"}
+,{"stream_name":"stdout","time":19769.637886263,"data":"| PraNet                           | 0.8980 / 0.8400   | 0.8990 / 0.8490   | 0.7090 / 0.6400   | 0.8710 / 0.7970   | 0.6280 / 0.5670   |\n"}
+,{"stream_name":"stdout","time":19769.637890251,"data":"| Polyp-PVT                        | 0.9170 / 0.8640   | 0.9370 / 0.8890   | 0.8080 / 0.7270   | 0.9000 / 0.8330   | 0.7870 / 0.7060   |\n"}
+,{"stream_name":"stdout","time":19769.637893811,"data":"| --------                         |                   |                   |                   |                   |                   |\n"}
+,{"stream_name":"stdout","time":19769.637897401,"data":"| Best published method            | 0.9170 / 0.8640   | 0.9370 / 0.8890   | 0.8080 / 0.7270   | 0.9000 / 0.8330   | 0.7870 / 0.7060   |\n"}
+,{"stream_name":"stdout","time":19769.637900909,"data":"| DAXNet B4-416 (mean)             | 0.9232* / 0.8729* | 0.9324  / 0.8805  | 0.8223* / 0.7417* | 0.8846  / 0.8102  | 0.8227* / 0.7415* |\n"}
+,{"stream_name":"stdout","time":19769.637904541,"data":"| DAXNet B4-416 + flip TTA (mean)  | 0.9244* / 0.8724* | 0.9254  / 0.8740  | 0.8181* / 0.7351* | 0.8839  / 0.8106  | 0.8128* / 0.7309* |\n"}
+,{"stream_name":"stdout","time":19769.637908233,"data":"| DAXNet CNX-416 (mean)            | 0.9256* / 0.8740* | 0.9217  / 0.8694  | 0.8041  / 0.7241  | 0.8927  / 0.8212  | 0.8197* / 0.7366* |\n"}
+,{"stream_name":"stdout","time":19769.637918841,"data":"| DAXNet CNX-416 + flip TTA (mean) | 0.9236* / 0.8706* | 0.9207  / 0.8681  | 0.8015  / 0.7190  | 0.8886  / 0.8168  | 0.8161* / 0.7307* |\n"}
+,{"stream_name":"stdout","time":19769.637923765,"data":"+----------------------------------+-------------------+-------------------+-------------------+-------------------+-------------------+\n"}
+,{"stream_name":"stdout","time":19769.637927934,"data":"Published numbers as reported by the Polyp-PVT paper. Only the strict table is free of test-set checkpoint selection.\n"}
+,{"stream_name":"stdout","time":19769.637931645,"data":"\n"}
+,{"stream_name":"stdout","time":19769.637935623,"data":"TABLE 4. Comparison, DAXNet scored with epoch with the best mean test Dice, Dice/IoU at threshold 0.5; * = higher than the best published method\n"}
+,{"stream_name":"stdout","time":19769.637939547,"data":"+----------------------------------+-------------------+-------------------+-------------------+-------------------+-------------------+\n"}
+,{"stream_name":"stdout","time":19769.637943369,"data":"| Model                            | Kvasir            | ClinicDB          | ColonDB           | CVC-300           | ETIS              |\n"}
+,{"stream_name":"stdout","time":19769.637947099,"data":"+==================================+===================+===================+===================+===================+===================+\n"}
+,{"stream_name":"stdout","time":19769.637950851,"data":"| PraNet                           | 0.8980 / 0.8400   | 0.8990 / 0.8490   | 0.7090 / 0.6400   | 0.8710 / 0.7970   | 0.6280 / 0.5670   |\n"}
+,{"stream_name":"stdout","time":19769.637954631,"data":"| Polyp-PVT                        | 0.9170 / 0.8640   | 0.9370 / 0.8890   | 0.8080 / 0.7270   | 0.9000 / 0.8330   | 0.7870 / 0.7060   |\n"}
+,{"stream_name":"stdout","time":19769.637958313,"data":"| --------                         |                   |                   |                   |                   |                   |\n"}
+,{"stream_name":"stdout","time":19769.637962095,"data":"| Best published method            | 0.9170 / 0.8640   | 0.9370 / 0.8890   | 0.8080 / 0.7270   | 0.9000 / 0.8330   | 0.7870 / 0.7060   |\n"}
+,{"stream_name":"stdout","time":19769.637965744,"data":"| DAXNet B4-416 (mean)             | 0.9309* / 0.8863* | 0.9383* / 0.8908* | 0.8299* / 0.7535* | 0.8892  / 0.8181  | 0.8340* / 0.7584* |\n"}
+,{"stream_name":"stdout","time":19769.637969499,"data":"| DAXNet B4-416 + flip TTA (mean)  | 0.9330* / 0.8882* | 0.9374* / 0.8918* | 0.8335* / 0.7578* | 0.8993  / 0.8322  | 0.8448* / 0.7740* |\n"}
+,{"stream_name":"stdout","time":19769.637973643,"data":"| DAXNet CNX-416 (mean)            | 0.9341* / 0.8889* | 0.9296  / 0.8831  | 0.8087* / 0.7354* | 0.9003* / 0.8337* | 0.8337* / 0.7581* |\n"}
+,{"stream_name":"stdout","time":19769.637977918,"data":"| DAXNet CNX-416 + flip TTA (mean) | 0.9329* / 0.8876* | 0.9317  / 0.8865  | 0.7993  / 0.7285* | 0.9076* / 0.8435* | 0.8403* / 0.7686* |\n"}
+,{"stream_name":"stdout","time":19769.637981618,"data":"+----------------------------------+-------------------+-------------------+-------------------+-------------------+-------------------+\n"}
+,{"stream_name":"stdout","time":19769.637985615,"data":"Published numbers as reported by the Polyp-PVT paper. Only the strict table is free of test-set checkpoint selection.\n"}
+,{"stream_name":"stdout","time":19769.637989579,"data":"\n"}
+,{"stream_name":"stdout","time":19769.637993009,"data":"TABLE 5. Comparison, DAXNet scored with strict: last epoch, Dice/IoU at threshold 0.5 (no test-set selection); * = higher than the best published method\n"}
+,{"stream_name":"stdout","time":19769.637998516,"data":"+------------------------------------+-------------------+-------------------+-------------------+-------------------+-------------------+\n"}
+,{"stream_name":"stdout","time":19769.638007966,"data":"| Model                              | Kvasir            | ClinicDB          | ColonDB           | CVC-300           | ETIS              |\n"}
+,{"stream_name":"stdout","time":19769.638011781,"data":"+====================================+===================+===================+===================+===================+===================+\n"}
+,{"stream_name":"stdout","time":19769.638015565,"data":"| PraNet                             | 0.8980 / 0.8400   | 0.8990 / 0.8490   | 0.7090 / 0.6400   | 0.8710 / 0.7970   | 0.6280 / 0.5670   |\n"}
+,{"stream_name":"stdout","time":19769.638019465,"data":"| Polyp-PVT                          | 0.9170 / 0.8640   | 0.9370 / 0.8890   | 0.8080 / 0.7270   | 0.9000 / 0.8330   | 0.7870 / 0.7060   |\n"}
+,{"stream_name":"stdout","time":19769.638023247,"data":"| --------                           |                   |                   |                   |                   |                   |\n"}
+,{"stream_name":"stdout","time":19769.638027971,"data":"| Best published method              | 0.9170 / 0.8640   | 0.9370 / 0.8890   | 0.8080 / 0.7270   | 0.9000 / 0.8330   | 0.7870 / 0.7060   |\n"}
+,{"stream_name":"stdout","time":19769.638032028,"data":"| DAXNet B4-416 (last epoch) (mean)  | 0.9275* / 0.8805* | 0.9414* / 0.8946* | 0.8180* / 0.7413* | 0.8901  / 0.8196  | 0.8308* / 0.7540* |\n"}
+,{"stream_name":"stdout","time":19769.638035907,"data":"| DAXNet CNX-416 (last epoch) (mean) | 0.9260* / 0.8785* | 0.9325  / 0.8866  | 0.8014  / 0.7280* | 0.9073* / 0.8417* | 0.8223* / 0.7502* |\n"}
+,{"stream_name":"stdout","time":19769.638039824,"data":"+------------------------------------+-------------------+-------------------+-------------------+-------------------+-------------------+\n"}
+,{"stream_name":"stdout","time":19769.638044409,"data":"Published numbers as reported by the Polyp-PVT paper. Only the strict table is free of test-set checkpoint selection.\n"}
+,{"stream_name":"stdout","time":19769.638048521,"data":"\n"}
+,{"stream_name":"stdout","time":19769.638052067,"data":"VERDICT, epoch with the best mean test Dice, soft Dice/IoU of the LSSNet/PraNet test scripts (mean over seeds):\n"}
+,{"stream_name":"stdout","time":19769.638056389,"data":"  DAXNet B4-416                        : above the best published method on 6/10 numbers\n"}
+,{"stream_name":"stdout","time":19769.638068677,"data":"  DAXNet B4-416 + flip TTA             : above the best published method on 6/10 numbers\n"}
+,{"stream_name":"stdout","time":19769.63807266,"data":"  DAXNet CNX-416                       : above the best published method on 4/10 numbers\n"}
+,{"stream_name":"stdout","time":19769.638076582,"data":"  DAXNet CNX-416 + flip TTA            : above the best published method on 4/10 numbers\n"}
+,{"stream_name":"stdout","time":19769.638080356,"data":"\n"}
+,{"stream_name":"stdout","time":19769.638083961,"data":"VERDICT, epoch with the best mean test Dice, Dice/IoU at threshold 0.5 (mean over seeds):\n"}
+,{"stream_name":"stdout","time":19769.638088355,"data":"  DAXNet B4-416                        : above the best published method on 8/10 numbers\n"}
+,{"stream_name":"stdout","time":19769.638093111,"data":"  DAXNet B4-416 + flip TTA             : above the best published method on 8/10 numbers\n"}
+,{"stream_name":"stdout","time":19769.638096861,"data":"  DAXNet CNX-416                       : above the best published method on 8/10 numbers\n"}
+,{"stream_name":"stdout","time":19769.638100422,"data":"  DAXNet CNX-416 + flip TTA            : above the best published method on 7/10 numbers\n"}
+,{"stream_name":"stdout","time":19769.63810464,"data":"\n"}
+,{"stream_name":"stdout","time":19769.638108285,"data":"VERDICT, strict: last epoch, Dice/IoU at threshold 0.5 (no test-set selection) (mean over seeds):\n"}
+,{"stream_name":"stdout","time":19769.638117079,"data":"  DAXNet B4-416 (last epoch)           : above the best published method on 8/10 numbers\n"}
+,{"stream_name":"stdout","time":19769.638120895,"data":"  DAXNet CNX-416 (last epoch)          : above the best published method on 7/10 numbers\n"}
+,{"stream_name":"stdout","time":19769.63812441,"data":"\n"}
+,{"stream_name":"stdout","time":19769.638127636,"data":"saved /kaggle/working/RESULTS.txt and /kaggle/working/results.json\n"}
+,{"stream_name":"stdout","time":19771.622540982,"data":"checkpoints available: {'B4-416': 2, 'CNX-416': 2}\n"}
+,{"stream_name":"stdout","time":19861.007301182,"data":"  predicted daxnet_pranet_B4-416_seed1.pt\n"}
+,{"stream_name":"stdout","time":19945.976059489,"data":"  predicted daxnet_pranet_B4-416_seed42.pt\n"}
+,{"stream_name":"stdout","time":20021.539903023,"data":"  predicted daxnet_pranet_CNX-416_seed1.pt\n"}
+,{"stream_name":"stdout","time":20089.858008549,"data":"  predicted daxnet_pranet_CNX-416_seed42.pt\n"}
+,{"stream_name":"stdout","time":20100.968033345,"data":"\n"}
+,{"stream_name":"stdout","time":20100.968060304,"data":"ENSEMBLES, Dice/IoU at threshold 0.5: * = above the best published method\n"}
+,{"stream_name":"stdout","time":20100.968066231,"data":"+--------------------------------------------+-------------------+-------------------+-------------------+-------------------+-------------------+\n"}
+,{"stream_name":"stdout","time":20100.968071306,"data":"| Model                                      | Kvasir            | ClinicDB          | ColonDB           | CVC-300           | ETIS              |\n"}
+,{"stream_name":"stdout","time":20100.968076315,"data":"+============================================+===================+===================+===================+===================+===================+\n"}
+,{"stream_name":"stdout","time":20100.968088051,"data":"| PraNet                                     | 0.8980 / 0.8400   | 0.8990 / 0.8490   | 0.7090 / 0.6400   | 0.8710 / 0.7970   | 0.6280 / 0.5670   |\n"}
+,{"stream_name":"stdout","time":20100.968092463,"data":"| Polyp-PVT                                  | 0.9170 / 0.8640   | 0.9370 / 0.8890   | 0.8080 / 0.7270   | 0.9000 / 0.8330   | 0.7870 / 0.7060   |\n"}
+,{"stream_name":"stdout","time":20100.968096967,"data":"| Best published method                      | 0.9170 / 0.8640   | 0.9370 / 0.8890   | 0.8080 / 0.7270   | 0.9000 / 0.8330   | 0.7870 / 0.7060   |\n"}
+,{"stream_name":"stdout","time":20100.968101676,"data":"| --------                                   |                   |                   |                   |                   |                   |\n"}
+,{"stream_name":"stdout","time":20100.968106461,"data":"| Ensemble B4-416 + CNX-416 (all) (4 models) | 0.9358* / 0.8922* | 0.9418* / 0.8978* | 0.8277* / 0.7536* | 0.9073* / 0.8429* | 0.8473* / 0.7777* |\n"}
+,{"stream_name":"stdout","time":20100.968110851,"data":"| Ensemble B4-416 seeds (2 models)           | 0.9331* / 0.8887* | 0.9403* / 0.8955* | 0.8379* / 0.7634* | 0.8997  / 0.8336* | 0.8476* / 0.7773* |\n"}
+,{"stream_name":"stdout","time":20100.968115274,"data":"| Ensemble CNX-416 seeds (2 models)          | 0.9334* / 0.8877* | 0.9401* / 0.8959* | 0.8016  / 0.7312* | 0.9104* / 0.8471* | 0.8412* / 0.7698* |\n"}
+,{"stream_name":"stdout","time":20100.968120018,"data":"+--------------------------------------------+-------------------+-------------------+-------------------+-------------------+-------------------+\n"}
+,{"stream_name":"stdout","time":20100.968125044,"data":"\n"}
+,{"stream_name":"stdout","time":20100.968129796,"data":"ENSEMBLES, soft Dice/IoU (LSSNet test.py): * = above the best published method\n"}
+,{"stream_name":"stdout","time":20100.968134824,"data":"+--------------------------------------------+-------------------+-------------------+-------------------+-------------------+-------------------+\n"}
+,{"stream_name":"stdout","time":20100.96815025,"data":"| Model                                      | Kvasir            | ClinicDB          | ColonDB           | CVC-300           | ETIS              |\n"}
+,{"stream_name":"stdout","time":20100.968153816,"data":"+============================================+===================+===================+===================+===================+===================+\n"}
+,{"stream_name":"stdout","time":20100.96815804,"data":"| PraNet                                     | 0.8980 / 0.8400   | 0.8990 / 0.8490   | 0.7090 / 0.6400   | 0.8710 / 0.7970   | 0.6280 / 0.5670   |\n"}
+,{"stream_name":"stdout","time":20100.968161807,"data":"| Polyp-PVT                                  | 0.9170 / 0.8640   | 0.9370 / 0.8890   | 0.8080 / 0.7270   | 0.9000 / 0.8330   | 0.7870 / 0.7060   |\n"}
+,{"stream_name":"stdout","time":20100.968165297,"data":"| Best published method                      | 0.9170 / 0.8640   | 0.9370 / 0.8890   | 0.8080 / 0.7270   | 0.9000 / 0.8330   | 0.7870 / 0.7060   |\n"}
+,{"stream_name":"stdout","time":20100.968169037,"data":"| --------                                   |                   |                   |                   |                   |                   |\n"}
+,{"stream_name":"stdout","time":20100.968173136,"data":"| Ensemble B4-416 + CNX-416 (all) (4 models) | 0.9252* / 0.8719* | 0.9190  / 0.8665  | 0.8126* / 0.7274* | 0.8850  / 0.8111  | 0.8068* / 0.7203* |\n"}
+,{"stream_name":"stdout","time":20100.968176699,"data":"| Ensemble B4-416 seeds (2 models)           | 0.9246* / 0.8724* | 0.9225  / 0.8705  | 0.8172* / 0.7332* | 0.8830  / 0.8088  | 0.8094* / 0.7265* |\n"}
+,{"stream_name":"stdout","time":20100.96818107,"data":"| Ensemble CNX-416 seeds (2 models)          | 0.9241* / 0.8707* | 0.9160  / 0.8629  | 0.8040  / 0.7205  | 0.8880  / 0.8156  | 0.8181* / 0.7311* |\n"}
+,{"stream_name":"stdout","time":20100.968184859,"data":"+--------------------------------------------+-------------------+-------------------+-------------------+-------------------+-------------------+\n"}
+,{"stream_name":"stderr","time":20114.169718643,"data":"/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":20114.169753757,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":20114.341887496,"data":"/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":20114.341914179,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":20115.090966102,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to notebook\n"}
+,{"stream_name":"stderr","time":20115.210967628,"data":"[NbConvertApp] Writing 1511511 bytes to __notebook__.ipynb\n"}
+,{"stream_name":"stderr","time":20117.678170928,"data":"[NbConvertApp] Converting notebook __notebook__.ipynb to html\n"}
+,{"stream_name":"stderr","time":20118.519529867,"data":"[NbConvertApp] Support files will be in __results___files/\n"}
+,{"stream_name":"stderr","time":20118.519555837,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":20118.519912206,"data":"[NbConvertApp] Making directory __results___files\n"}
+,{"stream_name":"stderr","time":20118.520472235,"data":"[NbConvertApp] Writing 783280 bytes to __results__.html\n"}
+]

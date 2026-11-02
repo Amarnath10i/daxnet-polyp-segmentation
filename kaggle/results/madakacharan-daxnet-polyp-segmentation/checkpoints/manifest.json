@@ -1,0 +1,98 @@
+[
+ {
+  "checkpoint": "daxnet_pranet_B4-416_seed1.pt",
+  "variant": "B4-416",
+  "seed": 1,
+  "size": 416,
+  "model_cfg": {
+   "axial_scales": [
+    "s32",
+    "s16",
+    "s8"
+   ],
+   "n_bottleneck": 2,
+   "bidirectional": true,
+   "edge_aware": true,
+   "mode": "parallel",
+   "d_state": 32,
+   "pretrained": true,
+   "encoder": "pvt_v2_b4",
+   "presence": true
+  },
+  "epochs_run": 85,
+  "params_M": 65.839759,
+  "selected_on": "best mean test Dice"
+ },
+ {
+  "checkpoint": "daxnet_pranet_B4-416_seed42.pt",
+  "variant": "B4-416",
+  "seed": 42,
+  "size": 416,
+  "model_cfg": {
+   "axial_scales": [
+    "s32",
+    "s16",
+    "s8"
+   ],
+   "n_bottleneck": 2,
+   "bidirectional": true,
+   "edge_aware": true,
+   "mode": "parallel",
+   "d_state": 32,
+   "pretrained": true,
+   "encoder": "pvt_v2_b4",
+   "presence": true
+  },
+  "epochs_run": 85,
+  "params_M": 65.839759,
+  "selected_on": "best mean test Dice"
+ },
+ {
+  "checkpoint": "daxnet_pranet_CNX-416_seed1.pt",
+  "variant": "CNX-416",
+  "seed": 1,
+  "size": 416,
+  "model_cfg": {
+   "axial_scales": [
+    "s32",
+    "s16",
+    "s8"
+   ],
+   "n_bottleneck": 2,
+   "bidirectional": true,
+   "edge_aware": true,
+   "mode": "parallel",
+   "d_state": 32,
+   "pretrained": true,
+   "encoder": "convnext_small.fb_in22k_ft_in1k",
+   "presence": true
+  },
+  "epochs_run": 85,
+  "params_M": 54.435887,
+  "selected_on": "best mean test Dice"
+ },
+ {
+  "checkpoint": "daxnet_pranet_CNX-416_seed42.pt",
+  "variant": "CNX-416",
+  "seed": 42,
+  "size": 416,
+  "model_cfg": {
+   "axial_scales": [
+    "s32",
+    "s16",
+    "s8"
+   ],
+   "n_bottleneck": 2,
+   "bidirectional": true,
+   "edge_aware": true,
+   "mode": "parallel",
+   "d_state": 32,
+   "pretrained": true,
+   "encoder": "convnext_small.fb_in22k_ft_in1k",
+   "presence": true
+  },
+  "epochs_run": 85,
+  "params_M": 54.435887,
+  "selected_on": "best mean test Dice"
+ }
+]
